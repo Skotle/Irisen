@@ -10,12 +10,29 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Configuration
 public class DatabaseConfig {
     private static final Logger log = LoggerFactory.getLogger(DatabaseConfig.class);
+    private static final int STARTUP_TIMEOUT_SECONDS = 20;
+    private static final String DEFAULT_MYSQL_HOST = "35.189.189.133";
+    private static final String DEFAULT_MYSQL_PORT = "3306";
+    private static final String DEFAULT_MYSQL_PARAMS = "serverTimezone=Asia/Seoul"
+            + "&characterEncoding=UTF-8"
+            + "&sslMode=REQUIRED"
+            + "&enabledTLSProtocols=TLSv1.2"
+            + "&connectTimeout=20000"
+            + "&socketTimeout=20000";
 
     @Value("${spring.datasource.url}")
     private String datasourceUrl;
@@ -32,9 +49,9 @@ public class DatabaseConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        String configuredUrl = datasourceUrl == null ? "" : datasourceUrl.trim();
+        String configuredUrl = normalizeDatasourceUrl(datasourceUrl);
         if (configuredUrl.isEmpty()) {
-            throw new IllegalStateException("SPRING_DATASOURCE_URL is required when running with MySQL.");
+            throw new IllegalStateException("spring.datasource.url is required when running with MySQL.");
         }
 
         String driverClassName = datasourceDriverClassName == null || datasourceDriverClassName.isBlank()
@@ -42,9 +59,12 @@ public class DatabaseConfig {
                 : datasourceDriverClassName.trim();
         String configuredUsername = datasourceUsername == null ? "" : datasourceUsername.trim();
         if (configuredUsername.isEmpty()) {
-            throw new IllegalStateException("SPRING_DATASOURCE_USERNAME is required when running with MySQL.");
+            throw new IllegalStateException("spring.datasource.username is required when running with MySQL.");
         }
         String configuredPassword = datasourcePassword == null ? "" : datasourcePassword;
+        if (configuredPassword.isEmpty()) {
+            configuredPassword = promptDatabasePassword();
+        }
 
         dataSource.setDriverClassName(driverClassName);
         dataSource.setUrl(configuredUrl);
@@ -60,6 +80,10 @@ public class DatabaseConfig {
             properties.setProperty("connectionTimeZone", "Asia/Seoul");
             properties.setProperty("forceConnectionTimeZoneToSession", "true");
             properties.setProperty("serverTimezone", "Asia/Seoul");
+            properties.setProperty("sslMode", "REQUIRED");
+            properties.setProperty("enabledTLSProtocols", "TLSv1.2");
+            properties.setProperty("connectTimeout", String.valueOf(STARTUP_TIMEOUT_SECONDS * 1000));
+            properties.setProperty("socketTimeout", String.valueOf(STARTUP_TIMEOUT_SECONDS * 1000));
             dataSource.setConnectionProperties(properties);
         }
 
@@ -83,6 +107,70 @@ public class DatabaseConfig {
             return path.substring(1);
         } catch (Exception ignored) {
             return "unknown";
+        }
+    }
+
+    private String normalizeDatasourceUrl(String rawUrl) {
+        String value = rawUrl == null ? "" : rawUrl.trim();
+        if (value.isEmpty()) {
+            return "";
+        }
+        if (value.startsWith("jdbc:")) {
+            return value;
+        }
+        if (value.startsWith("mysql://")) {
+            return "jdbc:" + value;
+        }
+        if (value.matches("[A-Za-z0-9_\\-]+")) {
+            String normalized = "jdbc:mysql://" + DEFAULT_MYSQL_HOST + ":" + DEFAULT_MYSQL_PORT
+                    + "/" + value + "?" + DEFAULT_MYSQL_PARAMS;
+            log.warn("spring.datasource.url was database name only; normalized to JDBC URL for database={}", value);
+            return normalized;
+        }
+        throw new IllegalStateException("spring.datasource.url must be a JDBC URL or database name: " + value);
+    }
+
+    private String promptDatabasePassword() {
+        System.out.print("DB password for " + datasourceUsername + ": ");
+        System.out.flush();
+
+        ThreadFactory daemonFactory = runnable -> {
+            Thread thread = new Thread(runnable, "db-password-input");
+            thread.setDaemon(true);
+            return thread;
+        };
+        var executor = Executors.newSingleThreadExecutor(daemonFactory);
+        try {
+            CompletableFuture<String> input = CompletableFuture.supplyAsync(this::readDatabasePassword, executor);
+            String password = input.get(STARTUP_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            if (password == null || password.isEmpty()) {
+                throw new IllegalStateException("DB password was not provided.");
+            }
+            return password;
+        } catch (TimeoutException e) {
+            throw new IllegalStateException("DB password input timed out after " + STARTUP_TIMEOUT_SECONDS + " seconds.", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("DB password input was interrupted.", e);
+        } catch (Exception e) {
+            throw new IllegalStateException("DB password input failed.", e);
+        } finally {
+            executor.shutdownNow();
+        }
+    }
+
+    private String readDatabasePassword() {
+        if (System.console() != null) {
+            char[] password = System.console().readPassword();
+            return password == null ? "" : new String(password);
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String password = reader.readLine();
+            return password == null ? "" : password;
+        } catch (IOException e) {
+            throw new IllegalStateException("DB password input failed.", e);
         }
     }
 }
