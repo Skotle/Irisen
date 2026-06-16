@@ -418,15 +418,26 @@
         return;
       }
       const now = Date.now();
-      const nextItems = imageFiles.map((file, index) => ({
-        id: `${now}-${index}-${Math.random().toString(36).slice(2, 8)}`,
-        file,
-        name: file.name || `image-${index + 1}`,
-        size: file.size || 0,
-        previewUrl: URL.createObjectURL(file),
-        status: "ready",
-        error: ""
-      }));
+      const nextItems = imageFiles.map((file, index) => {
+        let previewUrl = "";
+        let status = "ready";
+        let error = "";
+        try {
+          previewUrl = URL.createObjectURL(file);
+        } catch (previewError) {
+          status = "preview-error";
+          error = "미리보기 불가";
+        }
+        return {
+          id: `${now}-${index}-${Math.random().toString(36).slice(2, 8)}`,
+          file,
+          name: file.name || `image-${index + 1}`,
+          size: file.size || 0,
+          previewUrl,
+          status,
+          error
+        };
+      });
       setGalleryItems((prev) => [...prev, ...nextItems]);
       setUploadFeedback({ type: "success", message: `${nextItems.length}개 이미지를 갤러리에 담았습니다. 확인 후 업로드하세요.` });
     }
@@ -506,12 +517,20 @@
           insertImage(imageUrl);
           uploaded += 1;
         }
-        setUploadFeedback({ type: "success", message: `${uploaded}개 이미지를 업로드했습니다.` });
+      setUploadFeedback({ type: "success", message: `${uploaded}개 이미지를 업로드했습니다.` });
       } catch (error) {
         setUploadFeedback({ type: "error", message: uploaded ? `${uploaded}개 업로드 후 실패했습니다. ${error.message || ""}`.trim() : (error.message || "이미지 업로드에 실패했습니다.") });
       } finally {
         setImageUploading(false);
       }
+    }
+
+    function markPreviewUnavailable(id) {
+      setGalleryItems((prev) => prev.map((item) => {
+        if (item.id !== id) return item;
+        if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+        return { ...item, previewUrl: "", status: "preview-error", error: "미리보기 불가" };
+      }));
     }
 
     async function handleFileChange(event) {
@@ -555,10 +574,17 @@
           ? h("div", { className: "m-gallery-grid" },
               galleryItems.map((item, index) =>
                 h("article", { className: `m-gallery-item is-${item.status}`, key: item.id },
-                  h("img", { src: item.previewUrl, alt: item.name }),
+                  h("div", { className: "m-gallery-thumb" },
+                    item.previewUrl && item.status !== "preview-error"
+                      ? h("img", { src: item.previewUrl, alt: item.name, onError: () => markPreviewUnavailable(item.id) })
+                      : h("div", { className: "m-gallery-file-fallback" },
+                          h("strong", null, "IMG"),
+                          h("span", null, "미리보기 불가")
+                        )
+                  ),
                   h("div", { className: "m-gallery-item-meta" },
                     h("strong", null, `${index + 1}. ${item.name}`),
-                    h("span", null, item.status === "uploading" ? "업로드 중" : item.status === "error" ? item.error : formatFileSize(item.size))
+                    h("span", null, item.status === "uploading" ? "업로드 중" : item.status === "error" ? item.error : item.status === "preview-error" ? "미리보기 불가 · 업로드 가능" : formatFileSize(item.size))
                   ),
                   h("button", { type: "button", onClick: () => removeGalleryItem(item.id), disabled: imageUploading && item.status === "uploading", "aria-label": `${item.name} 제거` }, "×")
                 )

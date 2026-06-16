@@ -1,5 +1,6 @@
 package org.java.spring_04.common;
 
+import com.google.cloud.storage.StorageException;
 import org.java.spring_04.board.BoardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,16 @@ public class UploadController {
             return ResponseEntity.ok(Map.of("success", true, "url", url));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
+        } catch (StorageException e) {
+            log.warn("Image upload storage failed. actor={} gallId={} code={} reason={}",
+                    uid == null || uid.isBlank() ? "guest" : uid,
+                    normalizedGallId,
+                    e.getCode(),
+                    e.getMessage());
+            String message = e.getCode() == 403
+                    ? "이미지 저장소 권한이 없어 업로드할 수 없습니다. GCS 서비스 계정 권한 또는 접근 범위를 확인하세요."
+                    : "이미지 저장소에 업로드하지 못했습니다.";
+            return ResponseEntity.status(502).body(Map.of("success", false, "message", message));
         } catch (Exception e) {
             log.warn("Image upload failed. actor={} gallId={} reason={}", uid == null || uid.isBlank() ? "guest" : uid, normalizedGallId, e.getMessage());
             return ResponseEntity.internalServerError().body(Map.of("success", false, "message", "이미지 업로드에 실패했습니다."));
