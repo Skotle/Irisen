@@ -363,11 +363,21 @@
     return false;
   }
 
+  function formatFileSize(bytes) {
+    const size = Number(bytes || 0);
+    if (!Number.isFinite(size) || size <= 0) return "0 B";
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+    return `${(size / 1024 / 1024).toFixed(1)} MB`;
+  }
+
   function MHtmlEditor({ id, value, onChange, placeholder, gallId, canUploadImage = window.__mobileWriteCanUploadImage !== false }) {
     const editorRef = useRef(null);
     const fileInputRef = useRef(null);
     const [uploadFeedback, setUploadFeedback] = useState(null);
     const [imageUploading, setImageUploading] = useState(false);
+    const [galleryItems, setGalleryItems] = useState([]);
+    const galleryItemsRef = useRef([]);
     const resolvedGallId = gallId || normalizeMobilePathname(window.location.pathname).split("/")[3] || "";
 
     useEffect(() => {
@@ -375,6 +385,16 @@
         editorRef.current.innerHTML = value || "";
       }
     }, [value]);
+
+    useEffect(() => {
+      galleryItemsRef.current = galleryItems;
+    }, [galleryItems]);
+
+    useEffect(() => () => {
+      galleryItemsRef.current.forEach((item) => {
+        if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+      });
+    }, []);
 
     function insertImage(url) {
       if (!editorRef.current) return;
@@ -385,6 +405,86 @@
           (editorRef.current.innerHTML || "") + imageHtml;
 
       onChange(editorRef.current.innerHTML);
+    }
+
+    function addGalleryFiles(files) {
+      const imageFiles = Array.from(files || []).filter(isLikelyImageFile);
+      if (!canUploadImage) {
+        setUploadFeedback({ type: "error", message: "현재 권한에서는 이미지 첨부를 사용할 수 없습니다." });
+        return;
+      }
+      if (!imageFiles.length) {
+        setUploadFeedback({ type: "error", message: "선택한 파일을 이미지로 인식하지 못했습니다." });
+        return;
+      }
+      const now = Date.now();
+      const nextItems = imageFiles.map((file, index) => ({
+        id: `${now}-${index}-${Math.random().toString(36).slice(2, 8)}`,
+        file,
+        name: file.name || `image-${index + 1}`,
+        size: file.size || 0,
+        previewUrl: URL.createObjectURL(file),
+        status: "ready",
+        error: ""
+      }));
+      setGalleryItems((prev) => [...prev, ...nextItems]);
+      setUploadFeedback({ type: "success", message: `${nextItems.length}개 이미지를 갤러리에 담았습니다. 확인 후 업로드하세요.` });
+    }
+
+    function removeGalleryItem(id) {
+      setGalleryItems((prev) => prev.filter((item) => {
+        if (item.id === id && item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+        return item.id !== id;
+      }));
+    }
+
+    function clearGalleryItems() {
+      setGalleryItems((prev) => {
+        prev.forEach((item) => {
+          if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+        });
+        return [];
+      });
+      setUploadFeedback(null);
+    }
+
+    async function uploadGalleryItems() {
+      const queue = galleryItemsRef.current.filter((item) => item.status !== "uploading");
+      if (!canUploadImage) {
+        setUploadFeedback({ type: "error", message: "현재 권한에서는 이미지 첨부를 사용할 수 없습니다." });
+        return;
+      }
+      if (!queue.length) {
+        setUploadFeedback({ type: "error", message: "업로드할 이미지를 먼저 선택하세요." });
+        return;
+      }
+      setImageUploading(true);
+      setUploadFeedback({ type: "success", message: `${queue.length}개 이미지 업로드를 시작합니다.` });
+      const uploadedIds = new Set();
+      let uploaded = 0;
+      try {
+        for (const item of queue) {
+          setGalleryItems((prev) => prev.map((entry) => entry.id === item.id ? { ...entry, status: "uploading", error: "" } : entry));
+          try {
+            const imageUrl = await uploadImageFile(item.file, resolvedGallId);
+            insertImage(imageUrl);
+            uploadedIds.add(item.id);
+            uploaded += 1;
+            setGalleryItems((prev) => prev.map((entry) => entry.id === item.id ? { ...entry, status: "done" } : entry));
+          } catch (error) {
+            setGalleryItems((prev) => prev.map((entry) => entry.id === item.id ? { ...entry, status: "error", error: error.message || "업로드 실패" } : entry));
+          }
+        }
+        setGalleryItems((prev) => prev.filter((item) => {
+          if (uploadedIds.has(item.id) && item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+          return !uploadedIds.has(item.id);
+        }));
+        setUploadFeedback(uploaded === queue.length
+          ? { type: "success", message: `${uploaded}개 이미지를 본문에 삽입했습니다.` }
+          : { type: "error", message: `${uploaded}/${queue.length}개 업로드 완료. 실패한 이미지는 갤러리에 남겨뒀습니다.` });
+      } finally {
+        setImageUploading(false);
+      }
     }
 
     async function uploadEditorImages(files) {
@@ -417,7 +517,7 @@
     async function handleFileChange(event) {
       const files = event.target.files;
       try {
-        await uploadEditorImages(files);
+        addGalleryFiles(files);
       } finally {
         event.target.value = "";
       }
@@ -438,8 +538,33 @@
       h(MEditorToolbar),
       !canUploadImage ? h("div", { className: "m-feedback-error" }, "이미지 업로드 권한이 비활성화되어 있습니다.") : null,
       h(MFeedback, { feedback: uploadFeedback }),
-      h("div", { className: canUploadImage ? "m-inline-actions" : "m-inline-actions is-upload-disabled" },
-        h("button", { type: "button", className: "m-btn m-btn-secondary", onClick: () => fileInputRef.current?.click(), disabled: imageUploading }, imageUploading ? "업로드 중" : "이미지")
+      h("section", { className: canUploadImage ? "m-gallery-uploader" : "m-gallery-uploader is-disabled" },
+        h("div", { className: "m-gallery-head" },
+          h("div", null,
+            h("strong", null, "갤러리 이미지"),
+            h("span", null, "여러 장을 한 번에 선택하고 확인 후 본문에 삽입합니다.")
+          ),
+          h("span", { className: "m-gallery-count" }, `${galleryItems.length}개 선택`)
+        ),
+        h("div", { className: "m-gallery-actions" },
+          h("button", { type: "button", className: "m-btn m-btn-secondary", onClick: () => fileInputRef.current?.click(), disabled: !canUploadImage || imageUploading }, "갤러리에서 선택"),
+          h("button", { type: "button", className: "m-btn m-btn-primary", onClick: uploadGalleryItems, disabled: !canUploadImage || imageUploading || !galleryItems.length }, imageUploading ? "업로드 중" : "선택 이미지 업로드"),
+          galleryItems.length ? h("button", { type: "button", className: "m-btn m-btn-secondary", onClick: clearGalleryItems, disabled: imageUploading }, "비우기") : null
+        ),
+        galleryItems.length
+          ? h("div", { className: "m-gallery-grid" },
+              galleryItems.map((item, index) =>
+                h("article", { className: `m-gallery-item is-${item.status}`, key: item.id },
+                  h("img", { src: item.previewUrl, alt: item.name }),
+                  h("div", { className: "m-gallery-item-meta" },
+                    h("strong", null, `${index + 1}. ${item.name}`),
+                    h("span", null, item.status === "uploading" ? "업로드 중" : item.status === "error" ? item.error : formatFileSize(item.size))
+                  ),
+                  h("button", { type: "button", onClick: () => removeGalleryItem(item.id), disabled: imageUploading && item.status === "uploading", "aria-label": `${item.name} 제거` }, "×")
+                )
+              )
+            )
+          : h("div", { className: "m-gallery-empty" }, canUploadImage ? "선택된 이미지가 없습니다." : "매니저가 이미지 업로드 권한을 비활성화했습니다.")
       ),
       h("input", { ref: fileInputRef, type: "file", accept: "image/*", multiple: true, hidden: true, disabled: !canUploadImage, onChange: handleFileChange }),
       h("div", {
@@ -460,6 +585,8 @@
 
   function MobileTopbar({ session, onLogout, alarmCount = 0 }) {
     const [searchText, setSearchText] = useState(getSearchQueryFromLocation());
+    const [hiddenByScroll, setHiddenByScroll] = useState(false);
+    const lastScrollYRef = useRef(0);
     const currentPath = normalizeMobilePathname(window.location.pathname);
     const lastBoardPath = window.sessionStorage.getItem("irisen:lastMobileBoard") || "/m/boards";
     const navItems = [
@@ -474,7 +601,23 @@
       setSearchText(getSearchQueryFromLocation());
     }, [window.location.pathname, window.location.search]);
 
-    return h("header", { className: "m-topbar" },
+    useEffect(() => {
+      const handleScroll = () => {
+        const y = window.scrollY || 0;
+        const last = lastScrollYRef.current;
+        if (y < 64 || y < last - 8) {
+          setHiddenByScroll(false);
+        } else if (y > last + 16 && y > 120) {
+          setHiddenByScroll(true);
+        }
+        lastScrollYRef.current = y;
+      };
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    return h(React.Fragment, null,
+      h("header", { className: hiddenByScroll ? "m-topbar is-hidden" : "m-topbar" },
       h("form", {
         className: "m-top-searchbar",
         onSubmit(event) {
@@ -510,6 +653,10 @@
               h(MLink, { href: "/m/nid", className: "m-session-link", key: "signup" }, "가입")
             ]
       )
+      ),
+      hiddenByScroll
+        ? h("button", { type: "button", className: "m-topbar-restore", onClick: () => setHiddenByScroll(false), "aria-label": "상단바 열기" }, "메뉴")
+        : null
     );
   }
 
@@ -803,6 +950,9 @@
   function BoardView({ session, gid, board, posts, page, settings, manageData, listFeedback, onPrev, onNext, onLogout, alarmCount }) {
     const [selectedCategory, setSelectedCategory] = useState("전체");
     const [listMode, setListMode] = useState("all");
+    const [visibleLimit, setVisibleLimit] = useState(15);
+    const boardPersistGidRef = useRef("");
+    const boardListStorageKey = `irisen:mBoard:${gid}`;
     const configuredCategories = categoryOptionsFromSettings(settings);
     const postCategories = posts.map((post) => String(post.category || "").trim()).filter(Boolean);
     const categories = ["전체", ...Array.from(new Set([...configuredCategories, ...postCategories]))];
@@ -815,7 +965,7 @@
       const matchesMode = listMode === "all" || (listMode === "concept" && isConceptPost(post)) || (listMode === "notice" && isNoticePost(post));
       return matchesCategory && matchesMode;
     });
-    const visiblePosts = filteredPosts.slice(0, 15);
+    const visiblePosts = filteredPosts.slice(0, visibleLimit);
     const boardName = board ? board.gall_name : gid;
     const boardInitial = String(board?.gall_name || gid || "I").trim().charAt(0).toUpperCase();
     const permissions = manageData?.permissions || {};
@@ -828,6 +978,10 @@
     const boardSubcopy = settings?.board_notice && settings?.welcome_message
       ? settings.welcome_message
       : "말머리를 선택해서 원하는 글만 빠르게 볼 수 있습니다.";
+    const currentModeLabel = listMode === "concept" ? "개념글" : listMode === "notice" ? "공지" : "전체";
+    const visibleRangeLabel = filteredPosts.length
+      ? `${Math.min(visibleLimit, filteredPosts.length).toLocaleString("ko-KR")} / ${filteredPosts.length.toLocaleString("ko-KR")}`
+      : "0";
     const staffSummaryLines = isMainBoard
       ? [settings?.board_notice || settings?.welcome_message || "등록된 보드 정보가 없습니다."]
       : [
@@ -844,6 +998,25 @@
     useEffect(() => {
       if (!categories.includes(selectedCategory)) setSelectedCategory("전체");
     }, [gid, categories.join("|")]);
+
+    useEffect(() => {
+      boardPersistGidRef.current = "";
+      const savedCategory = window.sessionStorage.getItem(`${boardListStorageKey}:category`);
+      const savedMode = window.sessionStorage.getItem(`${boardListStorageKey}:mode`);
+      if (savedMode && ["all", "concept", "notice"].includes(savedMode)) setListMode(savedMode);
+      if (savedCategory) setSelectedCategory(savedCategory);
+      setVisibleLimit(15);
+    }, [gid]);
+
+    useEffect(() => {
+      if (boardPersistGidRef.current !== gid) {
+        boardPersistGidRef.current = gid;
+        return;
+      }
+      window.sessionStorage.setItem(`${boardListStorageKey}:category`, selectedCategory);
+      window.sessionStorage.setItem(`${boardListStorageKey}:mode`, listMode);
+      setVisibleLimit(15);
+    }, [boardListStorageKey, selectedCategory, listMode, page]);
 
     useEffect(() => {
       window.sessionStorage.setItem("irisen:lastMobileBoard", `/m/board/${encodeURIComponent(gid)}`);
@@ -914,6 +1087,17 @@
             }, category)
           )
         ),
+        h("section", { className: "m-list-tools" },
+          h("div", null,
+            h("strong", null, currentModeLabel),
+            h("span", null, selectedCategory === "전체" ? "전체 말머리" : `[${selectedCategory}]`),
+            h("em", null, visibleRangeLabel)
+          ),
+          h("div", { className: "m-list-tool-actions" },
+            h("button", { type: "button", onClick: () => window.location.reload() }, "새로고침"),
+            h("button", { type: "button", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, "맨위")
+          )
+        ),
         h("section", { className: "m-compact-list" },
           visiblePosts.length
             ? visiblePosts.map((post) =>
@@ -932,7 +1116,12 @@
                 )
               )
             : h("div", { className: "m-empty" }, listMode === "concept" ? "조건에 맞는 개념글이 없습니다." : "게시글이 없습니다."),
-          filteredPosts.length > 15 ? h("div", { className: "m-list-note" }, "모바일 화면에는 현재 페이지에서 15개까지 표시합니다.") : null
+          filteredPosts.length > visibleLimit
+            ? h("button", { type: "button", className: "m-list-more", onClick: () => setVisibleLimit((value) => Math.min(value + 15, filteredPosts.length)) }, `더 보기 (${Math.min(visibleLimit + 15, filteredPosts.length).toLocaleString("ko-KR")} / ${filteredPosts.length.toLocaleString("ko-KR")})`)
+            : null,
+          visibleLimit > 15 && filteredPosts.length > 15
+            ? h("button", { type: "button", className: "m-list-note", onClick: () => setVisibleLimit(15) }, "목록 접기")
+            : null
         ),
         h("section", { className: "m-board-bottom" },
           h("button", { type: "button", className: "m-btn m-btn-secondary", onClick: onPrev }, "이전"),
@@ -1097,6 +1286,7 @@
     const [guestName, setGuestName] = useState("");
     const [guestPassword, setGuestPassword] = useState("");
     const [replyTarget, setReplyTarget] = useState(null);
+    const commentFormRef = useRef(null);
     const writeAccess = boardWriteAccess(session, settings, manageData);
     const canParticipate = writeAccess.canParticipateBoard !== false;
     const canUpvote = canParticipate && voteState?.canUpvote !== false;
@@ -1179,7 +1369,7 @@
                       )
                     : h("div", { className: "m-empty" }, "댓글이 없습니다.")
                 ),
-                h("section", { className: "m-panel m-stack", key: "comment-form" },
+                h("section", { className: "m-panel m-stack", key: "comment-form", ref: commentFormRef },
                   !canParticipate ? h("div", { className: "m-feedback-error" }, writeAccess.label) : null,
                   canParticipate && replyTarget ? h("div", { className: "m-reply-target" }, h("span", null, `${replyTarget.name}에게 답글 작성 중`), h("button", { type: "button", className: "m-btn m-btn-secondary", onClick: () => setReplyTarget(null) }, "취소")) : null,
                   canParticipate && !session?.loggedIn ? h(MGuestFields, { name: guestName, password: guestPassword, setName: setGuestName, setPassword: setGuestPassword, prefix: "m-comment" }) : null,
@@ -1209,7 +1399,17 @@
                 )
               ]
             : h("div", { className: "m-feedback-error" }, "게시글을 불러오지 못했습니다.")
-        )
+        ),
+        post
+          ? h("nav", { className: "m-post-quickbar", "aria-label": "게시글 빠른 조작" },
+              h(MLink, { href: `/m/board/${encodeURIComponent(gid)}`, className: "m-post-quickbar-btn" }, "목록"),
+              h("button", { type: "button", className: "m-post-quickbar-btn", onClick: () => commentFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }) }, "댓글"),
+              writeAccess.canWritePost
+                ? h(MLink, { href: `/m/board/${encodeURIComponent(gid)}/write`, className: "m-post-quickbar-btn is-primary" }, "글쓰기")
+                : h("button", { type: "button", className: "m-post-quickbar-btn", disabled: true, title: writeAccess.label }, "쓰기잠김"),
+              h("button", { type: "button", className: "m-post-quickbar-btn", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, "맨위")
+            )
+          : null
       )
     );
   }
@@ -1220,6 +1420,9 @@
     const [category, setCategory] = useState("");
     const [guestName, setGuestName] = useState("");
     const [guestPassword, setGuestPassword] = useState("");
+    const [draftNotice, setDraftNotice] = useState("");
+    const skipDraftSaveRef = useRef(true);
+    const draftKey = `irisen:mDraft:${gid}`;
     const canUploadImage = session?.loggedIn ? flagEnabled(settings?.allow_member_image) : flagEnabled(settings?.allow_guest_image);
     window.__mobileWriteCanUploadImage = canUploadImage;
     const categoryOptions = categoryOptionsFromSettings(settings);
@@ -1235,6 +1438,65 @@
       if (!category && categoryOptions.length) setCategory(categoryOptions[0]);
       if (category && categoryOptions.length && !categoryOptions.includes(category)) setCategory(categoryOptions[0]);
     }, [settings?.category_options]);
+
+    useEffect(() => {
+      skipDraftSaveRef.current = true;
+      try {
+        const rawDraft = window.localStorage.getItem(draftKey);
+        if (!rawDraft) {
+          setDraftNotice("");
+          return;
+        }
+        const draft = JSON.parse(rawDraft);
+        setTitle(String(draft.title || ""));
+        setContent(String(draft.content || ""));
+        setCategory(String(draft.category || categoryOptions[0] || ""));
+        setGuestName(String(draft.guestName || ""));
+        setDraftNotice("이전에 작성하던 초안을 복구했습니다.");
+      } catch (error) {
+        window.localStorage.removeItem(draftKey);
+        setDraftNotice("");
+      }
+    }, [draftKey]);
+
+    useEffect(() => {
+      if (skipDraftSaveRef.current) {
+        skipDraftSaveRef.current = false;
+        return;
+      }
+      try {
+        const hasDraft = title.trim().length > 0 || plainContent.length > 0 || guestName.trim().length > 0;
+        if (!hasDraft) {
+          window.localStorage.removeItem(draftKey);
+          return;
+        }
+        window.localStorage.setItem(draftKey, JSON.stringify({
+          title,
+          content,
+          category: selectedCategory,
+          guestName,
+          updatedAt: Date.now()
+        }));
+        if (!draftNotice) setDraftNotice("작성 중인 글을 이 기기에 자동 저장합니다.");
+      } catch (error) {
+        setDraftNotice("초안 자동 저장을 사용할 수 없습니다.");
+      }
+    }, [draftKey, title, content, selectedCategory, guestName, plainContent]);
+
+    function discardDraft() {
+      try {
+        window.localStorage.removeItem(draftKey);
+      } catch (error) {
+        // localStorage access can fail in restricted browser contexts.
+      }
+      skipDraftSaveRef.current = true;
+      setTitle("");
+      setContent("");
+      setCategory(categoryOptions[0] || "");
+      setGuestName("");
+      setGuestPassword("");
+      setDraftNotice("");
+    }
 
     return h(React.Fragment, null,
       h(MobileTopbar, { session, onLogout, alarmCount }),
@@ -1252,6 +1514,15 @@
           h("strong", null, session?.loggedIn ? (session.nick || session.uid) : "비회원 작성"),
           h("em", null, session?.loggedIn ? "로그인 계정으로 저장됩니다." : "이름과 비밀번호가 반드시 필요합니다.")
         ),
+        draftNotice
+          ? h("section", { className: "m-draft-bar" },
+              h("div", null,
+                h("strong", null, "초안 저장"),
+                h("span", null, draftNotice)
+              ),
+              h("button", { type: "button", onClick: discardDraft }, "초안 지우기")
+            )
+          : null,
         h("section", { className: "m-compose m-card m-stack m-write-form" },
           h(MSectionHead, { eyebrow: "Compose", title: `${gid} 글쓰기`, action: h(MLink, { href: `/m/board/${encodeURIComponent(gid)}`, className: "m-btn m-btn-secondary" }, "보드") }),
           !writeAccess.canWritePost
@@ -1302,11 +1573,17 @@
                 name: guestName.trim(),
                 password: guestPassword
               }, () => {
+                try {
+                  window.localStorage.removeItem(draftKey);
+                } catch (error) {
+                  // Ignore storage cleanup errors after a successful submit.
+                }
                 setTitle("");
                 setContent("");
                 setCategory(categoryOptions[0] || "");
                 setGuestName("");
                 setGuestPassword("");
+                setDraftNotice("");
               });
             }
           }, "게시")

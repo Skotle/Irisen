@@ -25,14 +25,6 @@ import java.util.concurrent.TimeoutException;
 public class DatabaseConfig {
     private static final Logger log = LoggerFactory.getLogger(DatabaseConfig.class);
     private static final int STARTUP_TIMEOUT_SECONDS = 20;
-    private static final String DEFAULT_MYSQL_HOST = "35.189.189.133";
-    private static final String DEFAULT_MYSQL_PORT = "3306";
-    private static final String DEFAULT_MYSQL_PARAMS = "serverTimezone=Asia/Seoul"
-            + "&characterEncoding=UTF-8"
-            + "&sslMode=REQUIRED"
-            + "&enabledTLSProtocols=TLSv1.2"
-            + "&connectTimeout=20000"
-            + "&socketTimeout=20000";
 
     @Value("${spring.datasource.url}")
     private String datasourceUrl;
@@ -77,13 +69,16 @@ public class DatabaseConfig {
             properties.setProperty("characterEncoding", "UTF-8");
             properties.setProperty("characterSetResults", "utf8mb4");
             properties.setProperty("connectionCollation", "utf8mb4_unicode_ci");
-            properties.setProperty("connectionTimeZone", "Asia/Seoul");
-            properties.setProperty("forceConnectionTimeZoneToSession", "true");
-            properties.setProperty("serverTimezone", "Asia/Seoul");
-            properties.setProperty("sslMode", "REQUIRED");
-            properties.setProperty("enabledTLSProtocols", "TLSv1.2");
+            properties.setProperty("serverTimezone", "+09:00");
             properties.setProperty("connectTimeout", String.valueOf(STARTUP_TIMEOUT_SECONDS * 1000));
             properties.setProperty("socketTimeout", String.valueOf(STARTUP_TIMEOUT_SECONDS * 1000));
+            if (isLocalDatasource(configuredUrl)) {
+                properties.setProperty("useSSL", "false");
+                properties.setProperty("allowPublicKeyRetrieval", "true");
+            } else {
+                properties.setProperty("sslMode", "REQUIRED");
+                properties.setProperty("enabledTLSProtocols", "TLSv1.2");
+            }
             dataSource.setConnectionProperties(properties);
         }
 
@@ -121,13 +116,14 @@ public class DatabaseConfig {
         if (value.startsWith("mysql://")) {
             return "jdbc:" + value;
         }
-        if (value.matches("[A-Za-z0-9_\\-]+")) {
-            String normalized = "jdbc:mysql://" + DEFAULT_MYSQL_HOST + ":" + DEFAULT_MYSQL_PORT
-                    + "/" + value + "?" + DEFAULT_MYSQL_PARAMS;
-            log.warn("spring.datasource.url was database name only; normalized to JDBC URL for database={}", value);
-            return normalized;
-        }
-        throw new IllegalStateException("spring.datasource.url must be a JDBC URL or database name: " + value);
+        throw new IllegalStateException("spring.datasource.url must be a JDBC URL: " + value);
+    }
+
+    private boolean isLocalDatasource(String jdbcUrl) {
+        String normalized = jdbcUrl == null ? "" : jdbcUrl.toLowerCase();
+        return normalized.contains("//localhost:")
+                || normalized.contains("//127.0.0.1:")
+                || normalized.contains("//[::1]:");
     }
 
     private String promptDatabasePassword() {

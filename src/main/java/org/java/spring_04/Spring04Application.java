@@ -1,13 +1,15 @@
 package org.java.spring_04;
 
+import org.java.spring_04.common.StartupInput;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling; // 추가
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableScheduling // 스케줄링 활성화
+@EnableScheduling
 @SpringBootApplication
 public class Spring04Application {
     public static void main(String[] args) {
+        StartupInput.collectAndApply();
         SpringApplication.run(Spring04Application.class, args);
     }
 }
