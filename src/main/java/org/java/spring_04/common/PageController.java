@@ -71,6 +71,13 @@ public class PageController {
         return "index";
     }
 
+    @GetMapping("/feed")
+    public String feed(Model model) {
+        logRequest("FEED");
+        addCrawlerSnapshot(model);
+        return "index";
+    }
+
     @GetMapping("/profile")
     public String profile() {
         logRequest("PROFILE");
@@ -98,6 +105,13 @@ public class PageController {
     @GetMapping("/m/board-request")
     public String mobileBoardRequest() {
         logRequest("MOBILE BOARD REQUEST");
+        return "mobile";
+    }
+
+    @GetMapping("/m/feed")
+    public String mobileFeed(Model model) {
+        logRequest("MOBILE FEED");
+        addCrawlerSnapshot(model);
         return "mobile";
     }
 

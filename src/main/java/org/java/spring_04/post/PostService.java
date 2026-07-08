@@ -42,6 +42,9 @@ public class PostService {
 
     @PostConstruct
     public void initializePostSchema() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         if (!columnExists("post", "recommend_count")) {
             jdbcTemplate.execute("ALTER TABLE post ADD COLUMN recommend_count INT NOT NULL DEFAULT 0");
         }
@@ -96,6 +99,11 @@ public class PostService {
                 """);
         initializePostContentSchema();
         migrateLegacyPostContent();
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 
     private void ensurePostDisplayColumns() {

@@ -68,6 +68,37 @@ public class AdminController {
     }
 
     @ResponseBody
+    @GetMapping("/api/admin/roles")
+    public List<Map<String, Object>> getRoles(HttpSession session) {
+        ensureAdmin(session);
+        return jdbcTemplate.queryForList("""
+                SELECT role_name,
+                       CASE role_name
+                           WHEN 'admin' THEN '관리자 계정'
+                           WHEN 'operator' THEN '운영자 계정'
+                           WHEN 'user' THEN '일반 사용자 계정'
+                           ELSE '기타 계정'
+                       END AS description,
+                       user_count
+                FROM (
+                    SELECT CASE
+                               WHEN LOWER(COALESCE(member_division, '')) = 'admin' THEN 'admin'
+                               WHEN LOWER(COALESCE(member_division, '')) = 'operator' THEN 'operator'
+                               ELSE 'user'
+                           END AS role_name,
+                           COUNT(*) AS user_count
+                    FROM user
+                    GROUP BY CASE
+                                 WHEN LOWER(COALESCE(member_division, '')) = 'admin' THEN 'admin'
+                                 WHEN LOWER(COALESCE(member_division, '')) = 'operator' THEN 'operator'
+                                 ELSE 'user'
+                             END
+                ) roles
+                ORDER BY FIELD(role_name, 'admin', 'operator', 'user')
+                """);
+    }
+
+    @ResponseBody
     @GetMapping("/api/admin/requests")
     public Map<String, Object> getRequests(HttpSession session) {
         ensureAdmin(session);

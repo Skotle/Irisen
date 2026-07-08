@@ -16,11 +16,19 @@ public class FeatureScheduler {
 
     @Scheduled(cron = "0 20 4 * * *")
     public void runDailyMaintenance() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         try {
             featureService.runDormancyCheck();
             jdbcTemplate.update("DELETE FROM alarm WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY)");
         } catch (Exception e) {
             System.err.println("[FeatureScheduler] daily maintenance failed: " + e.getMessage());
         }
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 }

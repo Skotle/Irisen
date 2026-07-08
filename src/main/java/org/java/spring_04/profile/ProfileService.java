@@ -20,6 +20,9 @@ public class ProfileService {
 
     @PostConstruct
     public void initializeProfileSchema() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         ensureUserProfileColumns();
         jdbcTemplate.execute("""
                 CREATE TABLE IF NOT EXISTS user_profile_setting (
@@ -69,6 +72,11 @@ public class ProfileService {
                     INDEX idx_post_scrap_uid_created (uid, created_at)
                 )
                 """);
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 
     private void ensureProfileSettingColumns() {

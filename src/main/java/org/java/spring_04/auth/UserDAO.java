@@ -16,10 +16,18 @@ public class UserDAO {
 
     @PostConstruct
     public void initializeUserSchema() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         try {
             jdbcTemplate.execute("ALTER TABLE user ADD COLUMN nick_type VARCHAR(20) NOT NULL DEFAULT 'variable'");
         } catch (Exception ignored) {
         }
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 
     public Optional<UserEntity> findByIdentifier(String identifier) {

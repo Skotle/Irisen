@@ -269,11 +269,19 @@ public class BoardController {
 
     @Scheduled(fixedRate = 60000)
     public void runSyncTask() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         try {
             boardService.syncGalleryPostCount();
         } catch (Exception e) {
             System.err.println("[Scheduler Error] 동기화 중 오류 발생: " + e.getMessage());
         }
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
     private String extractClientIp(HttpServletRequest request) {
         return requestIpResolver.resolve(request);

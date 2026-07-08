@@ -28,6 +28,9 @@ public class FeatureService {
 
     @PostConstruct
     public void initializeFeatureSchema() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         jdbcTemplate.execute("""
                 CREATE TABLE IF NOT EXISTS gallery_setting (
                     gall_id VARCHAR(50) NOT NULL,
@@ -223,6 +226,11 @@ public class FeatureService {
                     INDEX idx_post_attachment_post (gall_id, post_no)
                 )
                 """);
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 
     public void assertBoardReadable(String gallId, String uid, String memberDivision) {

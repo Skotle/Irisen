@@ -78,6 +78,9 @@ public class BoardService {
 
     @PostConstruct
     public void initializeBoardManagementSchema() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         if (!columnExists("board", "manager_uid")) {
             jdbcTemplate.execute("ALTER TABLE board ADD COLUMN manager_uid VARCHAR(50) NULL");
         }
@@ -282,6 +285,11 @@ public class BoardService {
             jdbcTemplate.execute("ALTER TABLE post ADD COLUMN category VARCHAR(50) NULL");
         }
         ensurePostDisplayColumns();
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 
     private void ensurePostDisplayColumns() {
@@ -566,6 +574,9 @@ public class BoardService {
 
     @Scheduled(fixedRate = 300000)
     public void autoRefreshBoardRankingsOnSchedule() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         try {
             autoRefreshBoardRankingsIfNeeded();
         } catch (Exception e) {

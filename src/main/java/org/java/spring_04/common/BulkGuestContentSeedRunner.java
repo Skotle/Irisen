@@ -35,6 +35,10 @@ public class BulkGuestContentSeedRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        if (isSqliteRuntime()) {
+            System.out.println("[SEED] SQLite runtime detected. Bulk seed skipped.");
+            return;
+        }
         ensureSeedHistoryTable();
         if (isAlreadySeeded()) {
             System.out.println("[SEED] Ordered bulk guest content seed already completed. Skipping.");
@@ -345,5 +349,10 @@ public class BulkGuestContentSeedRunner implements CommandLineRunner {
             String content,
             LocalDateTime writedAt
     ) {
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 }

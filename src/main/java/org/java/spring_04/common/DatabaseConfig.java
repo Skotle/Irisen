@@ -43,25 +43,36 @@ public class DatabaseConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         String configuredUrl = normalizeDatasourceUrl(datasourceUrl);
         if (configuredUrl.isEmpty()) {
-            throw new IllegalStateException("spring.datasource.url is required when running with MySQL.");
+            throw new IllegalStateException("spring.datasource.url is required.");
         }
 
         String driverClassName = datasourceDriverClassName == null || datasourceDriverClassName.isBlank()
-                ? "com.mysql.cj.jdbc.Driver"
+                ? defaultDriverClassName(configuredUrl)
                 : datasourceDriverClassName.trim();
+        boolean sqliteMode = isSqliteDatasource(configuredUrl);
+
         String configuredUsername = datasourceUsername == null ? "" : datasourceUsername.trim();
-        if (configuredUsername.isEmpty()) {
-            throw new IllegalStateException("spring.datasource.username is required when running with MySQL.");
-        }
         String configuredPassword = datasourcePassword == null ? "" : datasourcePassword;
-        if (configuredPassword.isEmpty()) {
-            configuredPassword = promptDatabasePassword();
+        if (!sqliteMode) {
+            if (configuredUsername.isEmpty()) {
+                throw new IllegalStateException("spring.datasource.username is required when running with MySQL.");
+            }
+            if (configuredPassword.isEmpty()) {
+                configuredPassword = promptDatabasePassword();
+            }
         }
 
         dataSource.setDriverClassName(driverClassName);
         dataSource.setUrl(configuredUrl);
-        dataSource.setUsername(configuredUsername);
-        dataSource.setPassword(configuredPassword);
+        if (!sqliteMode) {
+            dataSource.setUsername(configuredUsername);
+            dataSource.setPassword(configuredPassword);
+        }
+
+        if (sqliteMode) {
+            log.info("Datasource configured. driver={} database={}", driverClassName, databaseName(configuredUrl));
+            return dataSource;
+        }
 
         if (driverClassName.contains("mysql")) {
             Properties properties = new Properties();
@@ -116,7 +127,19 @@ public class DatabaseConfig {
         if (value.startsWith("mysql://")) {
             return "jdbc:" + value;
         }
+        if (value.startsWith("sqlite:")) {
+            return "jdbc:" + value;
+        }
         throw new IllegalStateException("spring.datasource.url must be a JDBC URL: " + value);
+    }
+
+    private String defaultDriverClassName(String configuredUrl) {
+        return isSqliteDatasource(configuredUrl) ? "org.sqlite.JDBC" : "com.mysql.cj.jdbc.Driver";
+    }
+
+    private boolean isSqliteDatasource(String jdbcUrl) {
+        String normalized = jdbcUrl == null ? "" : jdbcUrl.toLowerCase();
+        return normalized.startsWith("jdbc:sqlite:");
     }
 
     private boolean isLocalDatasource(String jdbcUrl) {

@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.java</groupId>
     <artifactId>irisen</artifactId>
-    <version>26.2-snapshot-b</version>
+    <version>26.2-snapshot-c</version>
     <name>Spring_04</name>
     <description>Spring_04</description>
     <url/>
@@ -152,6 +152,7 @@
                 </dependencies>
                 <configuration>
                     <jvmTarget>1.8</jvmTarget>
+                    <useDaemon>false</useDaemon>
                     <compilerPlugins>
                         <plugin>spring</plugin>
                     </compilerPlugins>

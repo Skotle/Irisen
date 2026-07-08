@@ -17,6 +17,9 @@ public class SignupVerificationRepository {
 
     @PostConstruct
     public void initialize() {
+        if (isSqliteRuntime()) {
+            return;
+        }
         jdbcTemplate.execute("""
                 CREATE TABLE IF NOT EXISTS signup_verification (
                     request_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -37,6 +40,11 @@ public class SignupVerificationRepository {
             jdbcTemplate.execute("ALTER TABLE signup_verification ADD COLUMN nick_type VARCHAR(20) NOT NULL DEFAULT 'variable'");
         } catch (Exception ignored) {
         }
+    }
+
+    private boolean isSqliteRuntime() {
+        String datasourceUrl = System.getProperty("spring.datasource.url", "");
+        return datasourceUrl.toLowerCase().startsWith("jdbc:sqlite:");
     }
 
     public void upsertPendingSignup(String uid, String nick, String email, String passwordHash, String nickType, String code, LocalDateTime expiresAt) {

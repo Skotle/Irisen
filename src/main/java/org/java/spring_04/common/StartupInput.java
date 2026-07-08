@@ -31,6 +31,16 @@ public final class StartupInput {
     }
 
     public static void collectAndApply() {
+        String dbMode = firstPresent(
+                System.getProperty("app.db.mode"),
+                System.getenv("APP_DB_MODE"),
+                System.getProperty("APP_DB_MODE")
+        ).trim().toLowerCase();
+        if ("sqlite".equals(dbMode)) {
+            applySqliteRuntime();
+            return;
+        }
+
         String serverPort = promptRequired("Server port", false);
         validatePort(serverPort);
 
@@ -47,6 +57,66 @@ public final class StartupInput {
         System.setProperty("spring.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver");
         System.setProperty("spring.mail.username", smtpEmail);
         System.setProperty("spring.mail.password", smtpPassword);
+    }
+
+    private static void applySqliteRuntime() {
+        String sqlitePath = firstPresent(
+                System.getProperty("app.sqlite.path"),
+                System.getenv("APP_SQLITE_DB_PATH"),
+                "mydb.db"
+        ).trim();
+        if (sqlitePath.isEmpty()) {
+            sqlitePath = "mydb.db";
+        }
+
+        String existingPort = System.getProperty("server.port", "");
+        if (existingPort == null || existingPort.isBlank()) {
+            System.setProperty("server.port", "8080");
+        }
+
+        System.setProperty("spring.profiles.active", appendProfile(System.getProperty("spring.profiles.active"), "sqlite"));
+        System.setProperty("spring.datasource.url", sqliteJdbcUrl(sqlitePath));
+        System.setProperty("spring.datasource.username", "");
+        System.setProperty("spring.datasource.password", "");
+        System.setProperty("spring.datasource.driver-class-name", "org.sqlite.JDBC");
+    }
+
+    private static String sqliteJdbcUrl(String path) {
+        String normalized = path.trim().replace('\\', '/');
+        return normalized.startsWith("jdbc:sqlite:") ? normalized : "jdbc:sqlite:" + normalized;
+    }
+
+    private static String appendProfile(String current, String profile) {
+        String normalizedProfile = profile == null ? "" : profile.trim();
+        if (normalizedProfile.isEmpty()) {
+            return current == null ? "" : current.trim();
+        }
+        String normalizedCurrent = current == null ? "" : current.trim();
+        if (normalizedCurrent.isEmpty()) {
+            return normalizedProfile;
+        }
+        if (containsProfile(normalizedCurrent, normalizedProfile)) {
+            return normalizedCurrent;
+        }
+        return normalizedCurrent + "," + normalizedProfile;
+    }
+
+    private static boolean containsProfile(String current, String profile) {
+        for (String token : current.split(",")) {
+            if (token != null && token.trim().equalsIgnoreCase(profile)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String firstPresent(String... values) {
+        for (String value : values) {
+            if (value != null && !value.isBlank()) {
+                return value.trim();
+            }
+        }
+        return "";
     }
 
     private static String buildJdbcUrl(String dbIp) {
