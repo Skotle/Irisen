@@ -1,6 +1,4 @@
 @echo off
 setlocal
-set APP_DB_MODE=sqlite
-set APP_SQLITE_DB_PATH=mydb.db
-call mvnw.cmd spring-boot:run
+call mvnw.cmd -Dapp.db.mode=sqlite -Dapp.sqlite.path=mydb.db spring-boot:run
 endlocal
