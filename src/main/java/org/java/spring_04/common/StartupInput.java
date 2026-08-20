@@ -41,14 +41,22 @@ public final class StartupInput {
             return;
         }
 
-        String serverPort = promptRequired("Server port", false);
+        String serverPort = valueOrPrompt("Server port", false,
+                System.getProperty("server.port"),
+                System.getenv("APP_SERVER_PORT"),
+                System.getProperty("APP_SERVER_PORT"));
         validatePort(serverPort);
 
-        String dbIp = promptRequired("DB IP address", false);
-        String dbUser = promptRequired("DB user", false);
-        String dbPassword = promptRequired("DB password", true);
-        String smtpEmail = promptRequired("SMTP email", false);
-        String smtpPassword = promptRequired("SMTP password", true);
+        String dbIp = valueOrPrompt("DB IP address", false,
+                System.getenv("APP_DB_HOST"), System.getProperty("APP_DB_HOST"));
+        String dbUser = valueOrPrompt("DB user", false,
+                System.getenv("APP_DB_USER"), System.getProperty("APP_DB_USER"));
+        String dbPassword = valueOrPrompt("DB password", true,
+                System.getenv("APP_DB_PASSWORD"), System.getProperty("APP_DB_PASSWORD"));
+        String smtpEmail = valueOrPrompt("SMTP email", false,
+                System.getenv("APP_SMTP_EMAIL"), System.getProperty("APP_SMTP_EMAIL"));
+        String smtpPassword = valueOrPrompt("SMTP password", true,
+                System.getenv("APP_SMTP_PASSWORD"), System.getProperty("APP_SMTP_PASSWORD"));
 
         System.setProperty("server.port", serverPort);
         System.setProperty("spring.datasource.url", buildJdbcUrl(dbIp));
@@ -139,6 +147,11 @@ public final class StartupInput {
             throw new IllegalStateException(label + " is required.");
         }
         return value.trim();
+    }
+
+    private static String valueOrPrompt(String label, boolean secret, String... configuredValues) {
+        String value = firstPresent(configuredValues);
+        return value.isEmpty() ? promptRequired(label, secret) : value;
     }
 
     private static String readWithTimeout(String prompt, boolean secret) {

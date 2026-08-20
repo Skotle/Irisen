@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Local MySQL runtime credentials
+.mysql-runtime.env
