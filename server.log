@@ -1,0 +1,1362 @@
+2026-08-20 00:05:58 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 1927 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 00:05:58 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 00:05:59 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-20 00:05:59 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 00:05:59 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 00:05:59 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1025 ms
+2026-08-20 00:05:59 [main] INFO  o.j.spring_04.common.DatabaseConfig - Datasource configured. driver=org.sqlite.JDBC database=home/united/web/mydb.db
+2026-08-20 00:06:00 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-08-20 00:06:00 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-20 00:06:00 [main] INFO  o.java.spring_04.Spring04Application - Started Spring04Application in 2.518 seconds (process running for 3.275)
+2026-08-20 00:06:00 [main] INFO  o.j.s.common.ServiceStartupLogger - SERVICE_READY application=Spring_04 port=8081 database=mydb.db mailConfigured=false gcsConfigured=true adminAddressCount=1 sessionSecure=false
+2026-08-20 02:56:15 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-20 02:56:15 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-20 02:56:27 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 6557 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 02:56:27 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 02:56:28 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-20 02:56:28 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 02:56:28 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 02:56:29 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1608 ms
+2026-08-20 02:56:29 [main] INFO  o.j.spring_04.common.DatabaseConfig - Datasource configured. driver=org.sqlite.JDBC database=home/united/web/mydb.db
+2026-08-20 02:56:30 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-08-20 02:56:31 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-20 02:56:31 [main] INFO  o.java.spring_04.Spring04Application - Started Spring04Application in 4.518 seconds (process running for 5.503)
+2026-08-20 02:56:31 [main] INFO  o.j.s.common.ServiceStartupLogger - SERVICE_READY application=Spring_04 port=8081 database=mydb.db mailConfigured=false gcsConfigured=true adminAddressCount=1 sessionSecure=false
+2026-08-20 02:56:39 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-20 02:56:39 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-20 02:57:30 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 6638 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 02:57:30 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 02:57:31 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-08-20 02:57:31 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 02:57:31 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 02:57:31 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 992 ms
+2026-08-20 02:57:31 [main] INFO  o.j.spring_04.common.DatabaseConfig - Datasource configured. driver=org.sqlite.JDBC database=home/united/web/mydb.db
+2026-08-20 02:57:31 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-08-20 02:57:32 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-08-20 02:57:32 [main] INFO  o.java.spring_04.Spring04Application - Started Spring04Application in 2.878 seconds (process running for 3.434)
+2026-08-20 02:57:32 [main] INFO  o.j.s.common.ServiceStartupLogger - SERVICE_READY application=Spring_04 port=8080 database=mydb.db mailConfigured=false gcsConfigured=true adminAddressCount=1 sessionSecure=false
+2026-08-20 02:58:53 [http-nio-127.0.0.1-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-20 02:58:53 [http-nio-127.0.0.1-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-20 02:58:53 [http-nio-127.0.0.1-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-20 02:58:53 [http-nio-127.0.0.1-8080-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=1dfade70-d4ac-44c5-aca3-deea6848d149 method=GET path=/ query= ip=127.0.0.1 location=unknown ua=curl/8.14.1 session=none referer=
+2026-08-20 03:00:56 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-20 03:00:56 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-20 03:02:24 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 6828 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 03:02:24 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 03:02:25 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-20 03:02:25 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 03:02:25 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 03:02:25 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1224 ms
+2026-08-20 03:02:25 [main] INFO  o.j.spring_04.common.DatabaseConfig - Datasource configured. driver=org.sqlite.JDBC database=home/united/web/mydb.db
+2026-08-20 03:02:26 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-08-20 03:02:26 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-20 03:02:26 [main] INFO  o.java.spring_04.Spring04Application - Started Spring04Application in 2.967 seconds (process running for 3.363)
+2026-08-20 03:02:26 [main] INFO  o.j.s.common.ServiceStartupLogger - SERVICE_READY application=Spring_04 port=8081 database=mydb.db mailConfigured=false gcsConfigured=true adminAddressCount=1 sessionSecure=false
+2026-08-20 03:02:38 [http-nio-0.0.0.0-8081-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-20 03:02:38 [http-nio-0.0.0.0-8081-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-20 03:02:38 [http-nio-0.0.0.0-8081-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-20 03:02:39 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=8c077695-80e6-46e7-a0ba-5ff60c4a99ce method=GET path=/ query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=
+2026-08-20 03:02:40 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=e212b100-d76e-4b0d-8a59-c3439e04e171 method=GET path=/webjars/react/18.2.0/umd/react.production.min.js query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://100.121.144.28:8081/
+2026-08-20 03:02:40 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=7b5dafdd-7448-44e4-9cb4-0ea902825d8a method=GET path=/webjars/react-dom/18.2.0/umd/react-dom.production.min.js query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://100.121.144.28:8081/
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=5ce3bfe3-7362-43c2-9371-22010358b509 method=GET path=/api/check-login query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://100.121.144.28:8081/
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=0d46b786-37ba-40bf-a7c7-8f4f5919c55a method=GET path=/api/board/list query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://100.121.144.28:8081/
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=19b62de2-573d-4864-b8d6-984aaf7524de method=GET path=/api/board/rankings query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://100.121.144.28:8081/
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=1f1bbd3b-98af-4e61-9f9e-130857a07a4b method=GET path=/api/posts/recommend query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://100.121.144.28:8081/
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=5ce3bfe3-7362-43c2-9371-22010358b509 status=200 elapsedMs=36 method=GET path=/api/check-login
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=19b62de2-573d-4864-b8d6-984aaf7524de status=200 elapsedMs=35 method=GET path=/api/board/rankings
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=mt0xqjht-08o4mdw0xk2n method=POST path=/api/log-ip query= ip=100.96.200.94 location=unknown ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://100.121.144.28:8081/
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-4] WARN  o.j.s.common.GlobalExceptionHandler - SERVICE_NOT_FOUND id=none method=GET path=/favicon.ico ip=100.96.200.94
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=0d46b786-37ba-40bf-a7c7-8f4f5919c55a status=200 elapsedMs=119 method=GET path=/api/board/list
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=1f1bbd3b-98af-4e61-9f9e-130857a07a4b status=200 elapsedMs=103 method=GET path=/api/posts/recommend
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.spring_04.common.IpLogController - Client activity logged. ip=100.96.200.*** userAgent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36
+2026-08-20 03:02:44 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=mt0xqjht-08o4mdw0xk2n status=200 elapsedMs=66 method=POST path=/api/log-ip
+2026-08-20 03:02:51 [http-nio-0.0.0.0-8081-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=5394d426-6bbb-475c-899f-c410019c4ee7 method=GET path=/ query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=
+2026-08-20 03:02:51 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=6b16d455-eaa2-43b2-8597-a35f0c114c17 method=GET path=/webjars/react-dom/18.2.0/umd/react-dom.production.min.js query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://34.1.195.210:8081/
+2026-08-20 03:02:51 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=51d53337-eb97-4669-bfda-243d53d0edc5 method=GET path=/webjars/react/18.2.0/umd/react.production.min.js query= ip=104.28.255.11 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://34.1.195.210:8081/
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=bf2d6435-ef4f-4aa8-aea7-338881f4f3c0 method=GET path=/api/board/list query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://34.1.195.210:8081/
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=d56fa6b3-c325-467f-8b61-6c4c4238112a method=GET path=/api/posts/recommend query= ip=104.28.255.11 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://34.1.195.210:8081/
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=bf2d6435-ef4f-4aa8-aea7-338881f4f3c0 status=200 elapsedMs=19 method=GET path=/api/board/list
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=d56fa6b3-c325-467f-8b61-6c4c4238112a status=200 elapsedMs=25 method=GET path=/api/posts/recommend
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=625e1693-f35d-4096-962d-30f68e8f08b5 method=GET path=/api/board/rankings query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://34.1.195.210:8081/
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=625e1693-f35d-4096-962d-30f68e8f08b5 status=200 elapsedMs=3 method=GET path=/api/board/rankings
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=mt0xqpng-4xkpw3c706c method=POST path=/api/log-ip query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://34.1.195.210:8081/
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.spring_04.common.IpLogController - Client activity logged. ip=104.28.223.*** userAgent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=mt0xqpng-4xkpw3c706c status=200 elapsedMs=2 method=POST path=/api/log-ip
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=cb19b017-c1b4-4b67-8c93-d9546e88e253 method=GET path=/api/check-login query= ip=104.28.255.11 location=Suwon/Gyeonggi-do/South Korea ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 session=none referer=http://34.1.195.210:8081/
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=cb19b017-c1b4-4b67-8c93-d9546e88e253 status=200 elapsedMs=1 method=GET path=/api/check-login
+2026-08-20 03:02:52 [http-nio-0.0.0.0-8081-exec-3] WARN  o.j.s.common.GlobalExceptionHandler - SERVICE_NOT_FOUND id=none method=GET path=/favicon.ico ip=104.28.223.10
+2026-08-20 03:03:06 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=08bfc8b0-218b-4459-80fb-1ec243b37168 method=GET path=/ query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=
+2026-08-20 03:03:07 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=c9099c49-d8cf-46c3-92ae-7301016d9b23 method=GET path=/m query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=
+2026-08-20 03:03:08 [http-nio-0.0.0.0-8081-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=90bec9f4-833b-4e19-82de-dbe52c5a7bc3 method=GET path=/webjars/react-dom/18.2.0/umd/react-dom.production.min.js query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210:8081/m
+2026-08-20 03:03:08 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=28e7fcd6-bb07-49f0-9633-a16cac45b2e6 method=GET path=/webjars/react/18.2.0/umd/react.production.min.js query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210:8081/m
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=0db756f1-a5d6-4315-bf4f-8b075298e3ab method=GET path=/api/board/list query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210:8081/m
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=a7125db5-9ab6-470f-a3a2-dfcb23421650 method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210:8081/m
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=29df3c5f-402f-49f9-bf3d-7611279b04b6 method=GET path=/api/check-login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210:8081/m
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=29df3c5f-402f-49f9-bf3d-7611279b04b6 status=200 elapsedMs=1 method=GET path=/api/check-login
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=0db756f1-a5d6-4315-bf4f-8b075298e3ab status=200 elapsedMs=34 method=GET path=/api/board/list
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=a7125db5-9ab6-470f-a3a2-dfcb23421650 status=200 elapsedMs=54 method=GET path=/api/posts/recommend
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-3] WARN  o.j.s.common.GlobalExceptionHandler - SERVICE_NOT_FOUND id=none method=GET path=/favicon.ico ip=122.38.33.23
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=58379384-9d34-4481-80a4-2102cc1da2b5 method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210:8081/m
+2026-08-20 03:03:09 [http-nio-0.0.0.0-8081-exec-5] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=58379384-9d34-4481-80a4-2102cc1da2b5 status=200 elapsedMs=30 method=GET path=/api/posts/recommend
+2026-08-20 03:03:19 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-20 03:03:19 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-20 03:03:33 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 6905 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 03:03:33 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 03:03:35 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-08-20 03:03:35 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 03:03:35 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 03:03:35 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1535 ms
+2026-08-20 03:03:35 [main] INFO  o.j.spring_04.common.DatabaseConfig - Datasource configured. driver=org.sqlite.JDBC database=home/united/web/mydb.db
+2026-08-20 03:03:36 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-08-20 03:03:36 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-08-20 03:03:36 [main] INFO  o.java.spring_04.Spring04Application - Started Spring04Application in 3.293 seconds (process running for 3.765)
+2026-08-20 03:03:36 [main] INFO  o.j.s.common.ServiceStartupLogger - SERVICE_READY application=Spring_04 port=8080 database=mydb.db mailConfigured=false gcsConfigured=true adminAddressCount=1 sessionSecure=false
+2026-08-20 03:03:40 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-20 03:03:40 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-20 03:03:45 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 6953 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 03:03:45 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 03:03:46 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 80 (http)
+2026-08-20 03:03:46 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 03:03:46 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 03:03:46 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1514 ms
+2026-08-20 03:03:47 [main] INFO  o.j.spring_04.common.DatabaseConfig - Datasource configured. driver=org.sqlite.JDBC database=home/united/web/mydb.db
+2026-08-20 03:03:47 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-08-20 03:03:47 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 80 (http) with context path '/'
+2026-08-20 03:03:47 [main] INFO  o.java.spring_04.Spring04Application - Started Spring04Application in 3.158 seconds (process running for 3.63)
+2026-08-20 03:03:47 [main] INFO  o.j.s.common.ServiceStartupLogger - SERVICE_READY application=Spring_04 port=80 database=mydb.db mailConfigured=false gcsConfigured=true adminAddressCount=1 sessionSecure=false
+2026-08-20 03:04:13 [http-nio-0.0.0.0-80-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-20 03:04:13 [http-nio-0.0.0.0-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-20 03:04:13 [http-nio-0.0.0.0-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-20 03:04:13 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=b5d8f7e9-e300-4de7-92b3-57c8d64c5dc4 method=GET path=/ query= ip=104.28.255.11 location=Suwon/Gyeonggi-do/South Korea ua=curl/8.13.0 session=none referer=
+2026-08-20 03:04:49 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=8499c77e-692c-4ee3-bc40-6dfbe13de865 method=GET path=/uspolitics query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=curl/8.13.0 session=none referer=
+2026-08-20 03:04:49 [http-nio-0.0.0.0-80-exec-3] WARN  o.j.s.common.GlobalExceptionHandler - SERVICE_NOT_FOUND id=8499c77e-692c-4ee3-bc40-6dfbe13de865 method=GET path=/uspolitics ip=104.28.223.10
+2026-08-20 03:04:49 [http-nio-0.0.0.0-80-exec-3] WARN  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=8499c77e-692c-4ee3-bc40-6dfbe13de865 status=404 elapsedMs=208 method=GET path=/uspolitics
+2026-08-20 03:05:05 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=6274e0ed-7d4d-42c5-9476-9816c4b3573b method=GET path=/ query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=
+2026-08-20 03:05:06 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=5f234738-99e1-4a0b-817c-14a9f4db8f74 method=GET path=/m query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=
+2026-08-20 03:05:06 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=31b24c03-fa6a-4fd8-a54a-c1bffc228b09 method=GET path=/webjars/react/18.2.0/umd/react.production.min.js query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:05:07 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=7013a3c0-407d-4dd0-aaed-3d1571cdf3b2 method=GET path=/webjars/react-dom/18.2.0/umd/react-dom.production.min.js query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=7fc0d9d4-82d5-4c6c-bd42-b741b8888dbb method=GET path=/api/board/list query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=a15da8a3-377e-41de-a851-6ad71e845c1f method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=e50e2a63-b42d-4366-8c7f-d73ee1949942 method=GET path=/api/check-login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=e50e2a63-b42d-4366-8c7f-d73ee1949942 status=200 elapsedMs=1 method=GET path=/api/check-login
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=7fc0d9d4-82d5-4c6c-bd42-b741b8888dbb status=200 elapsedMs=32 method=GET path=/api/board/list
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=a15da8a3-377e-41de-a851-6ad71e845c1f status=200 elapsedMs=33 method=GET path=/api/posts/recommend
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-3] WARN  o.j.s.common.GlobalExceptionHandler - SERVICE_NOT_FOUND id=none method=GET path=/favicon.ico ip=122.38.33.23
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=e5b0e953-ef73-48c5-8d9f-3ac537eefabb method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:05:08 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=e5b0e953-ef73-48c5-8d9f-3ac537eefabb status=200 elapsedMs=42 method=GET path=/api/posts/recommend
+2026-08-20 03:05:09 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=af78c259-794f-47ab-b034-01c82e31885c method=GET path=/m/boards query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:05:09 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=af78c259-794f-47ab-b034-01c82e31885c status=200 elapsedMs=80 method=GET path=/m/boards
+2026-08-20 03:05:15 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=cbb2fdb6-b6f0-43fc-a3a9-79cae4403fa4 method=GET path=/m/board/genderdiscrimination query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/boards
+2026-08-20 03:05:15 [http-nio-0.0.0.0-80-exec-3] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=cbb2fdb6-b6f0-43fc-a3a9-79cae4403fa4 method=GET path=/m/board/genderdiscrimination ip=122.38.33.23 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:893)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:912)
+	at org.java.spring_04.board.BoardService.columnExists(BoardService.java:373)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:596)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:588)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.board.BoardService$$SpringCGLIB$$0.getPostsByGallery(<generated>)
+	at org.java.spring_04.BoardRouter.mobileBoardDetail(BoardRouter.kt:169)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:59)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 85 common frames omitted
+2026-08-20 03:05:15 [http-nio-0.0.0.0-80-exec-3] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=cbb2fdb6-b6f0-43fc-a3a9-79cae4403fa4 status=500 elapsedMs=71 method=GET path=/m/board/genderdiscrimination
+2026-08-20 03:05:19 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=6b7ea46e-ea1e-4934-be0d-a35439c0a545 method=GET path=/m/board/genderdiscrimination query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/boards
+2026-08-20 03:05:19 [http-nio-0.0.0.0-80-exec-2] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=6b7ea46e-ea1e-4934-be0d-a35439c0a545 method=GET path=/m/board/genderdiscrimination ip=122.38.33.23 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:893)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:912)
+	at org.java.spring_04.board.BoardService.columnExists(BoardService.java:373)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:596)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:588)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.board.BoardService$$SpringCGLIB$$0.getPostsByGallery(<generated>)
+	at org.java.spring_04.BoardRouter.mobileBoardDetail(BoardRouter.kt:169)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:59)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 85 common frames omitted
+2026-08-20 03:05:19 [http-nio-0.0.0.0-80-exec-2] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=6b7ea46e-ea1e-4934-be0d-a35439c0a545 status=500 elapsedMs=22 method=GET path=/m/board/genderdiscrimination
+2026-08-20 03:05:22 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=b8cccdd9-da38-47c2-a9fa-18d3fcbd2221 method=GET path=/m/board/pigmonster query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/boards
+2026-08-20 03:05:22 [http-nio-0.0.0.0-80-exec-1] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=b8cccdd9-da38-47c2-a9fa-18d3fcbd2221 method=GET path=/m/board/pigmonster ip=122.38.33.23 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:893)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:912)
+	at org.java.spring_04.board.BoardService.columnExists(BoardService.java:373)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:596)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:588)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.board.BoardService$$SpringCGLIB$$0.getPostsByGallery(<generated>)
+	at org.java.spring_04.BoardRouter.mobileBoardDetail(BoardRouter.kt:169)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:59)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 85 common frames omitted
+2026-08-20 03:05:22 [http-nio-0.0.0.0-80-exec-1] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=b8cccdd9-da38-47c2-a9fa-18d3fcbd2221 status=500 elapsedMs=40 method=GET path=/m/board/pigmonster
+2026-08-20 03:05:23 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=a65ea9cd-7e82-4cae-a1d0-8b87fcf1e6b9 method=GET path=/m/signin query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/boards
+2026-08-20 03:05:24 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=39824c04-6fe6-4e61-a78f-b5075e46fd3a method=GET path=/api/check-login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:05:24 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=39824c04-6fe6-4e61-a78f-b5075e46fd3a status=200 elapsedMs=1 method=GET path=/api/check-login
+2026-08-20 03:05:24 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=beed9666-2dd1-4b5d-81a2-7aefeac3f04d method=GET path=/api/board/list query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:05:24 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=beed9666-2dd1-4b5d-81a2-7aefeac3f04d status=200 elapsedMs=41 method=GET path=/api/board/list
+2026-08-20 03:05:31 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=mt0xu4un-6f1vau068po method=POST path=/login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:05:31 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=mt0xu4un-6f1vau068po status=200 elapsedMs=118 method=POST path=/login
+2026-08-20 03:05:32 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=mt0xu5uo-tuzvpbzs92 method=POST path=/login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:05:32 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=mt0xu5uo-tuzvpbzs92 status=200 elapsedMs=101 method=POST path=/login
+2026-08-20 03:05:45 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=d5e7a8ef-915c-4626-b5a6-0c28e1a5ef5f method=GET path=/board/uspolitics query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=curl/8.13.0 session=none referer=
+2026-08-20 03:05:45 [http-nio-0.0.0.0-80-exec-3] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=d5e7a8ef-915c-4626-b5a6-0c28e1a5ef5f method=GET path=/board/uspolitics ip=104.28.223.10 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:893)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:912)
+	at org.java.spring_04.board.BoardService.columnExists(BoardService.java:373)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:596)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.board.BoardService$$SpringCGLIB$$0.getPostsByGallery(<generated>)
+	at org.java.spring_04.BoardRouter.boardDetail(BoardRouter.kt:124)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:59)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 84 common frames omitted
+2026-08-20 03:05:45 [http-nio-0.0.0.0-80-exec-3] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=d5e7a8ef-915c-4626-b5a6-0c28e1a5ef5f status=500 elapsedMs=59 method=GET path=/board/uspolitics
+2026-08-20 03:06:53 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=e12e3947-71ee-429d-8bea-56b0723bfe76 method=GET path=/m/signin query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/boards
+2026-08-20 03:06:53 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=b45c5381-5d3c-404b-9433-98953f7c40dc method=GET path=/api/check-login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:06:53 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=b45c5381-5d3c-404b-9433-98953f7c40dc status=200 elapsedMs=4 method=GET path=/api/check-login
+2026-08-20 03:06:54 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=7fbce7de-109d-4e83-8ea9-44c44ceef719 method=GET path=/api/board/list query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:06:54 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=7fbce7de-109d-4e83-8ea9-44c44ceef719 status=200 elapsedMs=30 method=GET path=/api/board/list
+2026-08-20 03:07:06 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=mt0xw6a8-o1fmpams6xa method=POST path=/login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:07:06 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=mt0xw6a8-o1fmpams6xa status=200 elapsedMs=61 method=POST path=/login
+2026-08-20 03:07:12 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=mt0xwb03-lbvv9vv7yjs method=POST path=/login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/signin
+2026-08-20 03:07:12 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=mt0xwb03-lbvv9vv7yjs status=200 elapsedMs=59 method=POST path=/login
+2026-08-20 03:07:13 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=0902adcc-0093-4579-a01e-88e3351a2665 method=GET path=/api/alarms/my query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m
+2026-08-20 03:07:13 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=f0d8cd61-416f-4e6d-b70f-115c29a4aca9 method=GET path=/api/check-login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m
+2026-08-20 03:07:13 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=f0d8cd61-416f-4e6d-b70f-115c29a4aca9 status=200 elapsedMs=1 method=GET path=/api/check-login
+2026-08-20 03:07:13 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=0902adcc-0093-4579-a01e-88e3351a2665 status=200 elapsedMs=8 method=GET path=/api/alarms/my
+2026-08-20 03:07:13 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=bb48ce48-ec85-4816-8f7e-3ef9902957a1 method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m
+2026-08-20 03:07:13 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=bb48ce48-ec85-4816-8f7e-3ef9902957a1 status=200 elapsedMs=31 method=GET path=/api/posts/recommend
+2026-08-20 03:07:38 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=fc668e38-342c-40da-8256-14a5ac69e394 method=GET path=/board/furryjoa query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=curl/8.13.0 session=none referer=
+2026-08-20 03:07:38 [http-nio-0.0.0.0-80-exec-3] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=fc668e38-342c-40da-8256-14a5ac69e394 method=GET path=/board/furryjoa ip=104.28.223.10 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:893)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:912)
+	at org.java.spring_04.board.BoardService.columnExists(BoardService.java:373)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:596)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.board.BoardService$$SpringCGLIB$$0.getPostsByGallery(<generated>)
+	at org.java.spring_04.BoardRouter.boardDetail(BoardRouter.kt:124)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:59)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 84 common frames omitted
+2026-08-20 03:07:38 [http-nio-0.0.0.0-80-exec-3] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=fc668e38-342c-40da-8256-14a5ac69e394 status=500 elapsedMs=57 method=GET path=/board/furryjoa
+2026-08-20 03:09:20 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=0120343b-a6b1-49b3-9d38-a4e1c0444f76 method=GET path=/board/furryjoa query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=curl/8.13.0 session=none referer=
+2026-08-20 03:09:20 [http-nio-0.0.0.0-80-exec-2] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=0120343b-a6b1-49b3-9d38-a4e1c0444f76 method=GET path=/board/furryjoa ip=104.28.223.10 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:893)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:912)
+	at org.java.spring_04.board.BoardService.columnExists(BoardService.java:373)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:596)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.board.BoardService$$SpringCGLIB$$0.getPostsByGallery(<generated>)
+	at org.java.spring_04.BoardRouter.boardDetail(BoardRouter.kt:124)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:59)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 84 common frames omitted
+2026-08-20 03:09:20 [http-nio-0.0.0.0-80-exec-2] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=0120343b-a6b1-49b3-9d38-a4e1c0444f76 status=500 elapsedMs=47 method=GET path=/board/furryjoa
+2026-08-20 03:09:45 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=d8965dbe-19bf-4e0f-88a3-9041021dcba9 method=POST path=/HNAP1/ query= ip=153.117.34.171 location=Lahore/Punjab/Pakistan ua= session=none referer=
+2026-08-20 03:09:45 [http-nio-0.0.0.0-80-exec-1] WARN  o.j.s.common.GlobalExceptionHandler - SERVICE_NOT_FOUND id=d8965dbe-19bf-4e0f-88a3-9041021dcba9 method=POST path=/HNAP1/ ip=153.117.34.171
+2026-08-20 03:09:45 [http-nio-0.0.0.0-80-exec-1] WARN  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=d8965dbe-19bf-4e0f-88a3-9041021dcba9 status=404 elapsedMs=320 method=POST path=/HNAP1/
+2026-08-20 03:13:17 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-20 03:13:17 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-20 03:13:23 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 7398 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 03:13:23 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 03:13:25 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 80 (http)
+2026-08-20 03:13:25 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 03:13:25 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 03:13:25 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1716 ms
+2026-08-20 03:13:26 [main] INFO  o.j.spring_04.common.DatabaseConfig - Datasource configured. driver=org.sqlite.JDBC database=home/united/web/mydb.db
+2026-08-20 03:13:26 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-08-20 03:13:26 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 80 (http) with context path '/'
+2026-08-20 03:13:26 [main] INFO  o.java.spring_04.Spring04Application - Started Spring04Application in 3.32 seconds (process running for 3.837)
+2026-08-20 03:13:26 [main] INFO  o.j.s.common.ServiceStartupLogger - SERVICE_READY application=Spring_04 port=80 database=mydb.db mailConfigured=false gcsConfigured=true adminAddressCount=1 sessionSecure=false
+2026-08-20 03:14:07 [http-nio-0.0.0.0-80-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-20 03:14:07 [http-nio-0.0.0.0-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-20 03:14:07 [http-nio-0.0.0.0-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-20 03:14:07 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=8b29f3e9-6148-4135-a7b6-173b735f0737 method=GET path=/borad/uspolitics query= ip=104.28.223.10 location=Suwon/Gyeonggi-do/South Korea ua=curl/8.13.0 session=none referer=
+2026-08-20 03:14:07 [http-nio-0.0.0.0-80-exec-1] WARN  o.j.s.common.GlobalExceptionHandler - SERVICE_NOT_FOUND id=8b29f3e9-6148-4135-a7b6-173b735f0737 method=GET path=/borad/uspolitics ip=104.28.223.10
+2026-08-20 03:14:07 [http-nio-0.0.0.0-80-exec-1] WARN  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=8b29f3e9-6148-4135-a7b6-173b735f0737 status=404 elapsedMs=628 method=GET path=/borad/uspolitics
+2026-08-20 03:14:24 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=3104cd79-b468-4442-8d71-16dadf8ccd27 method=GET path=/m query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m/boards
+2026-08-20 03:14:25 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=f575dd4c-bf5b-45a4-99f5-5a229c977321 method=GET path=/api/check-login query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:14:25 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=f575dd4c-bf5b-45a4-99f5-5a229c977321 status=200 elapsedMs=5 method=GET path=/api/check-login
+2026-08-20 03:14:25 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=a710c032-34b8-48c5-930a-7882e2fee4d2 method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:14:25 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=2e0288ed-a178-44fc-8d04-ef3688c5e96c method=GET path=/api/board/list query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:14:26 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=a710c032-34b8-48c5-930a-7882e2fee4d2 status=200 elapsedMs=48 method=GET path=/api/posts/recommend
+2026-08-20 03:14:26 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=2e0288ed-a178-44fc-8d04-ef3688c5e96c status=200 elapsedMs=35 method=GET path=/api/board/list
+2026-08-20 03:14:26 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=77a6507d-49f0-41a0-969b-adf8047eac80 method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:14:26 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=77a6507d-49f0-41a0-969b-adf8047eac80 status=200 elapsedMs=22 method=GET path=/api/posts/recommend
+2026-08-20 03:14:27 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=d973f245-0249-4957-ba53-4ed37660855a method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:14:27 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=d973f245-0249-4957-ba53-4ed37660855a status=200 elapsedMs=49 method=GET path=/api/posts/recommend
+2026-08-20 03:14:28 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=7ec7190b-0453-44eb-92fa-989c5dd24e34 method=GET path=/api/posts/get/uspolitics/240 query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m/board/uspolitics/240
+2026-08-20 03:14:28 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=6e5491fb-dcab-44e6-8706-853aeafd385b method=GET path=/api/board/manage/uspolitics query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m/board/uspolitics/240
+2026-08-20 03:14:28 [http-nio-0.0.0.0-80-exec-1] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=7ec7190b-0453-44eb-92fa-989c5dd24e34 method=GET path=/api/posts/get/uspolitics/240 ip=122.38.33.23 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [        SELECT c.id, c.writer_uid, c.name, c.ip, c.content, c.is_deleted, c.created_at AS writed_at,
+               c.parent_id, c.reply_depth, c.sort_key, c.like_count, c.report_count, c.review_status,
+               author.nick_type, author.nick_icon_type,
+               CASE
+                   WHEN LOWER(COALESCE(b.gall_type, '')) <> 'main' AND c.writer_uid IS NOT NULL AND c.writer_uid = b.manager_uid THEN 'manager'
+                   WHEN LOWER(COALESCE(b.gall_type, '')) <> 'main' AND c.writer_uid IS NOT NULL AND EXISTS (
+                       SELECT 1
+                       FROM board_submanager bs
+                       WHERE bs.gall_id = c.gall_id
+                         AND bs.uid = c.writer_uid
+                   ) THEN 'submanager'
+                   ELSE NULL
+               END AS author_board_role
+        FROM comment c
+        JOIN post p ON p.gall_id = c.gall_id AND p.post_no = c.post_no
+        JOIN board b ON b.gall_id = c.gall_id
+        LEFT JOIN user author ON author.uid = c.writer_uid
+        WHERE c.gall_id = ?
+          AND c.post_no = ?
+          AND (c.is_deleted = 0 OR EXISTS (
+              SELECT 1
+              FROM comment child
+              WHERE child.parent_id = c.id
+                AND COALESCE(child.review_status, 'normal') <> 'review'
+                AND (
+                    child.is_deleted = 0
+                    OR EXISTS (
+                        SELECT 1
+                        FROM comment grandchild
+                        WHERE grandchild.parent_id = child.id
+                          AND grandchild.is_deleted = 0
+                          AND COALESCE(grandchild.review_status, 'normal') <> 'review'
+                    )
+                )
+          ))
+          AND COALESCE(c.review_status, 'normal') <> 'review'
+          AND p.is_deleted = 0
+        ORDER BY COALESCE(c.sort_key, LPAD(c.id, 10, '0')) ASC, c.id ASC
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such function: LPAD)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [        SELECT c.id, c.writer_uid, c.name, c.ip, c.content, c.is_deleted, c.created_at AS writed_at,
+               c.parent_id, c.reply_depth, c.sort_key, c.like_count, c.report_count, c.review_status,
+               author.nick_type, author.nick_icon_type,
+               CASE
+                   WHEN LOWER(COALESCE(b.gall_type, '')) <> 'main' AND c.writer_uid IS NOT NULL AND c.writer_uid = b.manager_uid THEN 'manager'
+                   WHEN LOWER(COALESCE(b.gall_type, '')) <> 'main' AND c.writer_uid IS NOT NULL AND EXISTS (
+                       SELECT 1
+                       FROM board_submanager bs
+                       WHERE bs.gall_id = c.gall_id
+                         AND bs.uid = c.writer_uid
+                   ) THEN 'submanager'
+                   ELSE NULL
+               END AS author_board_role
+        FROM comment c
+        JOIN post p ON p.gall_id = c.gall_id AND p.post_no = c.post_no
+        JOIN board b ON b.gall_id = c.gall_id
+        LEFT JOIN user author ON author.uid = c.writer_uid
+        WHERE c.gall_id = ?
+          AND c.post_no = ?
+          AND (c.is_deleted = 0 OR EXISTS (
+              SELECT 1
+              FROM comment child
+              WHERE child.parent_id = c.id
+                AND COALESCE(child.review_status, 'normal') <> 'review'
+                AND (
+                    child.is_deleted = 0
+                    OR EXISTS (
+                        SELECT 1
+                        FROM comment grandchild
+                        WHERE grandchild.parent_id = child.id
+                          AND grandchild.is_deleted = 0
+                          AND COALESCE(grandchild.review_status, 'normal') <> 'review'
+                    )
+                )
+          ))
+          AND COALESCE(c.review_status, 'normal') <> 'review'
+          AND p.is_deleted = 0
+        ORDER BY COALESCE(c.sort_key, LPAD(c.id, 10, '0')) ASC, c.id ASC
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such function: LPAD)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:809)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForList(JdbcTemplate.java:948)
+	at org.java.spring_04.post.PostService.getComments(PostService.java:438)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.post.PostService$$SpringCGLIB$$0.getComments(<generated>)
+	at org.java.spring_04.post.PostController.getPostByGalleryAndNumber(PostController.java:68)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:48)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such function: LPAD)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 83 common frames omitted
+2026-08-20 03:14:28 [http-nio-0.0.0.0-80-exec-1] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=7ec7190b-0453-44eb-92fa-989c5dd24e34 status=500 elapsedMs=91 method=GET path=/api/posts/get/uspolitics/240
+2026-08-20 03:14:28 [http-nio-0.0.0.0-80-exec-2] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=6e5491fb-dcab-44e6-8706-853aeafd385b status=200 elapsedMs=76 method=GET path=/api/board/manage/uspolitics
+2026-08-20 03:14:30 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=e388a1a7-ce2b-457f-8fac-c1bfb96fe083 method=GET path=/api/posts/recommend query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:14:30 [http-nio-0.0.0.0-80-exec-3] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=e388a1a7-ce2b-457f-8fac-c1bfb96fe083 status=200 elapsedMs=41 method=GET path=/api/posts/recommend
+2026-08-20 03:14:31 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=86906fb5-72f0-4380-b30a-72f933056cca method=GET path=/m/boards query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=none referer=http://34.1.195.210/m
+2026-08-20 03:14:31 [http-nio-0.0.0.0-80-exec-4] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=86906fb5-72f0-4380-b30a-72f933056cca status=200 elapsedMs=59 method=GET path=/m/boards
+2026-08-20 03:14:33 [http-nio-0.0.0.0-80-exec-1] INFO  o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_START id=03a70163-b4d2-40f9-b5d3-3694d24a891a method=GET path=/m/board/civilizaion query= ip=122.38.33.23 location=Seoul/Seoul/South Korea ua=Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/151.0.7922.112 Mobile/15E148 Safari/604.1 session=present referer=http://34.1.195.210/m/boards
+2026-08-20 03:14:33 [http-nio-0.0.0.0-80-exec-1] ERROR o.j.s.common.GlobalExceptionHandler - SERVICE_UNHANDLED_EXCEPTION id=03a70163-b4d2-40f9-b5d3-3694d24a891a method=GET path=/m/board/civilizaion ip=122.38.33.23 type=org.springframework.jdbc.UncategorizedSQLException message=PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COUNT(*)
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = ?
+  AND column_name = ?
+]; SQL state [null]; error code [1]; [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1550)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:893)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:912)
+	at org.java.spring_04.board.BoardService.columnExists(BoardService.java:373)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:596)
+	at org.java.spring_04.board.BoardService.getPostsByGallery(BoardService.java:588)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at org.java.spring_04.board.BoardService$$SpringCGLIB$$0.getPostsByGallery(<generated>)
+	at org.java.spring_04.BoardRouter.mobileBoardDetail(BoardRouter.kt:169)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityHeadersFilter.doFilterInternal(SecurityHeadersFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.OriginPolicyFilter.doFilterInternal(OriginPolicyFilter.java:33)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ApiRequestSecurityFilter.doFilterInternal(ApiRequestSecurityFilter.java:49)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.AdminAddressRestrictionFilter.doFilterInternal(AdminAddressRestrictionFilter.java:39)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.MobileRedirectFilter.doFilterInternal(MobileRedirectFilter.java:30)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.SecurityProbeFilter.doFilterInternal(SecurityProbeFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.PageRequestRateLimitFilter.doFilterInternal(PageRequestRateLimitFilter.java:59)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.BlockedAddressFilter.doFilterInternal(BlockedAddressFilter.java:44)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.java.spring_04.common.ServiceRequestLoggingFilter.doFilterInternal(ServiceRequestLoggingFilter.java:60)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: information_schema.columns)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at org.springframework.jdbc.core.JdbcTemplate$SimplePreparedStatementCreator.createPreparedStatement(JdbcTemplate.java:1710)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:668)
+	... 85 common frames omitted
+2026-08-20 03:14:33 [http-nio-0.0.0.0-80-exec-1] ERROR o.j.s.c.ServiceRequestLoggingFilter - SERVICE_REQUEST_END id=03a70163-b4d2-40f9-b5d3-3694d24a891a status=500 elapsedMs=24 method=GET path=/m/board/civilizaion
+2026-08-20 03:17:31 [SpringApplicationShutdownHook] WARN  o.s.c.s.DefaultLifecycleProcessor - Failed to stop bean 'webServerGracefulShutdown'
+java.lang.NoClassDefFoundError: org/springframework/boot/web/server/GracefulShutdownCallback
+	at org.springframework.boot.web.server.context.WebServerGracefulShutdownLifecycle.stop(WebServerGracefulShutdownLifecycle.java:65)
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:480)
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.stop(DefaultLifecycleProcessor.java:645)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.context.support.DefaultLifecycleProcessor.stopBeans(DefaultLifecycleProcessor.java:448)
+	at org.springframework.context.support.DefaultLifecycleProcessor.onClose(DefaultLifecycleProcessor.java:337)
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1199)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.doClose(ServletWebServerApplicationContext.java:176)
+	at org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:1153)
+	at org.springframework.boot.SpringApplicationShutdownHook.closeAndWait(SpringApplicationShutdownHook.java:147)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:116)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.lang.ClassNotFoundException: org.springframework.boot.web.server.GracefulShutdownCallback
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:377)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:557)
+	at org.springframework.boot.loader.net.protocol.jar.JarUrlClassLoader.loadClass(JarUrlClassLoader.java:107)
+	at org.springframework.boot.loader.launch.LaunchedClassLoader.loadClass(LaunchedClassLoader.java:91)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 13 common frames omitted
+2026-08-20 03:17:31 [SpringApplicationShutdownHook] WARN  o.s.c.s.DefaultLifecycleProcessor - Failed to stop bean 'webServerStartStop'
+java.lang.NoClassDefFoundError: org/apache/catalina/Lifecycle$SingleUse
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:247)
+	at org.apache.catalina.core.StandardService.removeConnector(StandardService.java:297)
+	at org.springframework.boot.tomcat.TomcatWebServer.lambda$removeServiceConnectors$0(TomcatWebServer.java:176)
+	at org.springframework.boot.tomcat.TomcatWebServer.doWithConnectors(TomcatWebServer.java:195)
+	at org.springframework.boot.tomcat.TomcatWebServer.removeServiceConnectors(TomcatWebServer.java:173)
+	at org.springframework.boot.tomcat.TomcatWebServer.stop(TomcatWebServer.java:355)
+	at org.springframework.boot.web.server.servlet.context.WebServerStartStopLifecycle.stop(WebServerStartStopLifecycle.java:53)
+	at org.springframework.context.SmartLifecycle.stop(SmartLifecycle.java:143)
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:480)
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.stop(DefaultLifecycleProcessor.java:645)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.context.support.DefaultLifecycleProcessor.stopBeans(DefaultLifecycleProcessor.java:448)
+	at org.springframework.context.support.DefaultLifecycleProcessor.onClose(DefaultLifecycleProcessor.java:337)
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1199)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.doClose(ServletWebServerApplicationContext.java:176)
+	at org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:1153)
+	at org.springframework.boot.SpringApplicationShutdownHook.closeAndWait(SpringApplicationShutdownHook.java:147)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:116)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.lang.ClassNotFoundException: org.apache.catalina.Lifecycle$SingleUse
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:377)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:557)
+	at org.springframework.boot.loader.net.protocol.jar.JarUrlClassLoader.loadClass(JarUrlClassLoader.java:107)
+	at org.springframework.boot.loader.launch.LaunchedClassLoader.loadClass(LaunchedClassLoader.java:91)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 20 common frames omitted
+2026-08-20 03:17:33 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 7549 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 03:17:33 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 03:17:34 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 80 (http)
+2026-08-20 03:17:34 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1581 ms
+2026-08-20 03:17:34 [main] ERROR o.s.b.t.s.DeferredServletContainerInitializers - Error starting Tomcat context. Exception: org.springframework.beans.factory.BeanCreationException. Message: Error creating bean with name 'apiRequestSecurityFilter': Lookup method resolution failed
+2026-08-20 03:17:34 [main] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-08-20 03:17:40 [main] INFO  o.java.spring_04.Spring04Application - Starting Spring04Application v26.3 using Java 25.0.2 with PID 7587 (/home/united/web/irisen-26.3.jar started by root in /home/united/web)
+2026-08-20 03:17:40 [main] INFO  o.java.spring_04.Spring04Application - The following 1 profile is active: "sqlite"
+2026-08-20 03:17:41 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 80 (http)
+2026-08-20 03:17:41 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-20 03:17:41 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-08-20 03:17:41 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1489 ms
+2026-08-20 03:17:41 [main] ERROR o.s.b.t.s.DeferredServletContainerInitializers - Error starting Tomcat context. Exception: org.springframework.beans.factory.BeanCreationException. Message: Error creating bean with name 'apiRequestSecurityFilter': Lookup method resolution failed
+2026-08-20 03:17:41 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2026-08-20 03:17:41 [main] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-08-20 03:17:41 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-08-20 03:17:41 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.java.spring_04.Spring04Application.main(Spring04Application.java:13)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:106)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:64)
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:40)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:150)
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408)
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190)
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164)
+	... 13 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'apiRequestSecurityFilter': Lookup method resolution failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.checkLookupMethods(AutowiredAnnotationBeanPostProcessor.java:482)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineConstructorsFromBeanPostProcessors(AbstractAutowireCapableBeanFactory.java:1321)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1218)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:231)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:185)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:180)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:165)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:97)
+	at org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.initialize(WebApplicationContextInitializer.java:53)
+	at org.springframework.boot.tomcat.servlet.DeferredServletContainerInitializers.onStartup(DeferredServletContainerInitializers.java:55)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4416)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:149)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435)
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131)
+	... 18 common frames omitted
+Caused by: java.lang.IllegalStateException: Failed to introspect Class [org.java.spring_04.common.ApiRequestSecurityFilter] from ClassLoader [org.springframework.boot.loader.launch.LaunchedClassLoader@24d46ca6]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:483)
+	at org.springframework.util.ReflectionUtils.doWithLocalMethods(ReflectionUtils.java:320)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.checkLookupMethods(AutowiredAnnotationBeanPostProcessor.java:460)
+	... 58 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: SecurityEnvelope
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3010)
+	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2329)
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:465)
+	... 60 common frames omitted
+Caused by: java.lang.ClassNotFoundException: SecurityEnvelope
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:377)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:557)
+	at org.springframework.boot.loader.net.protocol.jar.JarUrlClassLoader.loadClass(JarUrlClassLoader.java:107)
+	at org.springframework.boot.loader.launch.LaunchedClassLoader.loadClass(LaunchedClassLoader.java:91)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 64 common frames omitted

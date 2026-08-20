@@ -370,6 +370,14 @@ public class BoardService {
     }
 
     private boolean columnExists(String tableName, String columnName) {
+        if (isSqliteRuntime()) {
+            Integer count = jdbcTemplate.queryForObject("""
+                    SELECT COUNT(*)
+                    FROM pragma_table_info(?)
+                    WHERE name = ?
+                    """, Integer.class, tableName, columnName);
+            return count != null && count > 0;
+        }
         Integer count = jdbcTemplate.queryForObject("""
                 SELECT COUNT(*)
                 FROM information_schema.columns

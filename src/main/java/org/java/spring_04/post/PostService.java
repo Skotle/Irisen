@@ -395,6 +395,9 @@ public class PostService {
     }
 
     public List<Map<String, Object>> getComments(String gallId, Long postNo) {
+        String commentSortKey = isSqliteRuntime()
+                ? "printf('%010d', c.id)"
+                : "LPAD(c.id, 10, '0')";
         String sql = """
                 SELECT c.id, c.writer_uid, c.name, c.ip, c.content, c.is_deleted, c.created_at AS writed_at,
                        c.parent_id, c.reply_depth, c.sort_key, c.like_count, c.report_count, c.review_status,
@@ -433,8 +436,8 @@ public class PostService {
                   ))
                   AND COALESCE(c.review_status, 'normal') <> 'review'
                   AND p.is_deleted = 0
-                ORDER BY COALESCE(c.sort_key, LPAD(c.id, 10, '0')) ASC, c.id ASC
-        """;
+                ORDER BY COALESCE(c.sort_key, %s) ASC, c.id ASC
+        """.formatted(commentSortKey);
         return sanitizeRowsContent(jdbcTemplate.queryForList(sql, gallId, postNo));
     }
 
@@ -930,6 +933,14 @@ public class PostService {
     }
 
     private boolean columnExists(String tableName, String columnName) {
+        if (isSqliteRuntime()) {
+            Integer count = jdbcTemplate.queryForObject("""
+                    SELECT COUNT(*)
+                    FROM pragma_table_info(?)
+                    WHERE name = ?
+                    """, Integer.class, tableName, columnName);
+            return count != null && count > 0;
+        }
         Integer count = jdbcTemplate.queryForObject("""
                 SELECT COUNT(*)
                 FROM information_schema.columns
