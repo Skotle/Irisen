@@ -21,6 +21,7 @@ public class ProfileService {
     @PostConstruct
     public void initializeProfileSchema() {
         if (isSqliteRuntime()) {
+            ensureProfileSettingColumns();
             return;
         }
         ensureUserProfileColumns();
@@ -32,6 +33,8 @@ public class ProfileService {
                     accent_color VARCHAR(20) NOT NULL DEFAULT '#ff8fab',
                     avatar_url VARCHAR(500) NULL,
                     banner_url VARCHAR(500) NULL,
+                    avatar_position VARCHAR(10) NOT NULL DEFAULT 'center',
+                    banner_position VARCHAR(10) NOT NULL DEFAULT 'center',
                     show_posts TINYINT(1) NOT NULL DEFAULT 1,
                     show_comments TINYINT(1) NOT NULL DEFAULT 1,
                     show_followers TINYINT(1) NOT NULL DEFAULT 1,
@@ -82,6 +85,8 @@ public class ProfileService {
     private void ensureProfileSettingColumns() {
         addProfileSettingColumnIfMissing("avatar_url", "VARCHAR(500) NULL");
         addProfileSettingColumnIfMissing("banner_url", "VARCHAR(500) NULL");
+        addProfileSettingColumnIfMissing("avatar_position", "VARCHAR(10) NOT NULL DEFAULT 'center'");
+        addProfileSettingColumnIfMissing("banner_position", "VARCHAR(10) NOT NULL DEFAULT 'center'");
         addProfileSettingColumnIfMissing("show_followers", "TINYINT(1) NOT NULL DEFAULT 1");
         addProfileSettingColumnIfMissing("show_following", "TINYINT(1) NOT NULL DEFAULT 1");
     }
@@ -152,6 +157,8 @@ public class ProfileService {
         profile.put("accentColor", firstNonBlank(nullableText(settings.get("accent_color")), "#ff8fab"));
         profile.put("avatarUrl", nullableText(settings.get("avatar_url")));
         profile.put("bannerUrl", nullableText(settings.get("banner_url")));
+        profile.put("avatarPosition", normalizeImagePosition(nullableText(settings.get("avatar_position")), "left", "center", "right"));
+        profile.put("bannerPosition", normalizeImagePosition(nullableText(settings.get("banner_position")), "top", "center", "bottom"));
         profile.put("ownerView", ownerView);
         profile.put("canEdit", ownerView);
         profile.put("showPosts", toBooleanFlag(settings.get("show_posts")));
@@ -221,6 +228,8 @@ public class ProfileService {
         String accentColor = normalizeThemeColor(payload.get("accentColor"));
         String avatarUrl = normalizeOptionalUrl(payload.get("avatarUrl"), "프로필 사진 URL");
         String bannerUrl = normalizeOptionalUrl(payload.get("bannerUrl"), "프로필 배너 URL");
+        String avatarPosition = normalizeImagePosition(payload.get("avatarPosition"), "left", "center", "right");
+        String bannerPosition = normalizeImagePosition(payload.get("bannerPosition"), "top", "center", "bottom");
         int showPosts = parseBooleanFlag(payload.get("showPosts"));
         int showComments = parseBooleanFlag(payload.get("showComments"));
         int showFollowers = parseBooleanFlag(payload.get("showFollowers"));
@@ -235,17 +244,19 @@ public class ProfileService {
 
         jdbcTemplate.update("""
                 INSERT INTO user_profile_setting (
-                    uid, status_message, bio, accent_color, avatar_url, banner_url,
+                    uid, status_message, bio, accent_color, avatar_url, banner_url, avatar_position, banner_position,
                     show_posts, show_comments, show_followers, show_following,
                     show_birthdate, show_gender, show_sns, updated_at
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, NOW())
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, NOW())
                 ON DUPLICATE KEY UPDATE
                     status_message = VALUES(status_message),
                     bio = VALUES(bio),
                     accent_color = VALUES(accent_color),
                     avatar_url = VALUES(avatar_url),
                     banner_url = VALUES(banner_url),
+                    avatar_position = VALUES(avatar_position),
+                    banner_position = VALUES(banner_position),
                     show_posts = VALUES(show_posts),
                     show_comments = VALUES(show_comments),
                     show_followers = VALUES(show_followers),
@@ -258,6 +269,8 @@ public class ProfileService {
                 accentColor,
                 avatarUrl,
                 bannerUrl,
+                avatarPosition,
+                bannerPosition,
                 showPosts,
                 showComments,
                 showFollowers,
@@ -332,6 +345,8 @@ public class ProfileService {
         defaults.put("accent_color", "#ff8fab");
         defaults.put("avatar_url", null);
         defaults.put("banner_url", null);
+        defaults.put("avatar_position", "center");
+        defaults.put("banner_position", "center");
         defaults.put("show_posts", true);
         defaults.put("show_comments", true);
         defaults.put("show_followers", true);
@@ -341,7 +356,7 @@ public class ProfileService {
         defaults.put("show_sns", true);
         try {
             Map<String, Object> row = jdbcTemplate.queryForMap("""
-                    SELECT uid, status_message, bio, accent_color, avatar_url, banner_url,
+                    SELECT uid, status_message, bio, accent_color, avatar_url, banner_url, avatar_position, banner_position,
                            show_posts, show_comments, show_followers, show_following,
                            show_birthdate, show_gender, show_sns, updated_at
                     FROM user_profile_setting
@@ -623,6 +638,18 @@ public class ProfileService {
             throw new RuntimeException(label + "은 http 또는 https 주소여야 합니다.");
         }
         return normalized;
+    }
+
+    private String normalizeImagePosition(String value, String... allowedValues) {
+        String normalized = nullableTrim(value);
+        if (normalized != null) {
+            for (String allowedValue : allowedValues) {
+                if (allowedValue.equalsIgnoreCase(normalized)) {
+                    return allowedValue;
+                }
+            }
+        }
+        return "center";
     }
 
     private String firstNonBlank(String first, String second) {

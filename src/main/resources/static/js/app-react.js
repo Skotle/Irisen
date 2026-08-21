@@ -2392,6 +2392,9 @@
     const [accentColor, setAccentColor] = useState(profileData?.accentColor || "#ff8fab");
     const [avatarUrl, setAvatarUrl] = useState(profileData?.avatarUrl || "");
     const [bannerUrl, setBannerUrl] = useState(profileData?.bannerUrl || "");
+    const [avatarPosition, setAvatarPosition] = useState(profileData?.avatarPosition || "center");
+    const [bannerPosition, setBannerPosition] = useState(profileData?.bannerPosition || "center");
+    const [followPopup, setFollowPopup] = useState(null);
     const [showPosts, setShowPosts] = useState(profileData?.showPosts !== false);
     const [showComments, setShowComments] = useState(profileData?.showComments !== false);
     const [showFollowers, setShowFollowers] = useState(profileData?.showFollowers !== false);
@@ -2407,6 +2410,9 @@
       setAccentColor(profileData?.accentColor || "#ff8fab");
       setAvatarUrl(profileData?.avatarUrl || "");
       setBannerUrl(profileData?.bannerUrl || "");
+      setAvatarPosition(profileData?.avatarPosition || "center");
+      setBannerPosition(profileData?.bannerPosition || "center");
+      setFollowPopup(null);
       setShowPosts(profileData?.showPosts !== false);
       setShowComments(profileData?.showComments !== false);
       setShowFollowers(profileData?.showFollowers !== false);
@@ -2453,14 +2459,12 @@
     ));
 
     function renderFollowDetails({ title, count, hidden, items, emptyText }) {
-      return h("details", { className: "profile-follow-details" },
+      return h("button", { type: "button", className: "profile-follow-popup-trigger", onClick: () => setFollowPopup({ title, hidden, items, emptyText }) },
           h("summary", null,
               h("span", null, title),
               h("strong", null, Number(count || 0).toLocaleString("ko-KR"))
           ),
-          hidden
-              ? h("div", { className: "empty-box" }, `${title} 목록이 비공개입니다.`)
-              : items?.length ? renderFollowList(items) : h("div", { className: "empty-box" }, emptyText)
+          h("span", { className: "muted" }, "목록 보기")
       );
     }
 
@@ -2470,11 +2474,11 @@
             h("div", { className: "frame" },
                 h("section", { className: "section-stack" },
                     h("article", { className: "card profile-hero-card", style: accentStyle },
-                        h("div", { className: "profile-banner", style: bannerUrl ? { backgroundImage: `url("${bannerUrl}")` } : null }),
+                        h("div", { className: "profile-banner", style: bannerUrl ? { backgroundImage: `url("${bannerUrl}")`, backgroundPosition: `center ${bannerPosition}` } : null }),
                         h("div", { className: "profile-hero-head" },
                             h("div", { className: "profile-identity-row" },
                                 h("div", { className: "profile-avatar" },
-                                    avatarUrl ? h("img", { src: avatarUrl, alt: `${displayName} 프로필 사진` }) : h("span", null, initial)
+                                    avatarUrl ? h("img", { src: avatarUrl, alt: `${displayName} 프로필 사진`, style: { objectPosition: `${avatarPosition} center` } }) : h("span", null, initial)
                                 ),
                                 h("div", { className: "stack", style: { gap: "8px" } },
                                     h("span", { className: "eyebrow" }, profileData.ownerView ? "My Profile" : "Profile"),
@@ -2525,6 +2529,10 @@
                                         h("input", { ref: bannerFileRef, type: "file", accept: "image/*", hidden: true, onChange: (event) => handleProfileImageUpload("banner", event) })
                                     )
                                 ),
+                                h("div", { className: "profile-upload-grid" },
+                                    h("div", { className: "field" }, h("label", { htmlFor: "profile-avatar-position" }, "사진 노출 위치"), h("select", { id: "profile-avatar-position", value: avatarPosition, onChange: (event) => setAvatarPosition(event.target.value) }, h("option", { value: "left" }, "왼쪽"), h("option", { value: "center" }, "가운데"), h("option", { value: "right" }, "오른쪽"))),
+                                    h("div", { className: "field" }, h("label", { htmlFor: "profile-banner-position" }, "배너 노출 위치"), h("select", { id: "profile-banner-position", value: bannerPosition, onChange: (event) => setBannerPosition(event.target.value) }, h("option", { value: "top" }, "위"), h("option", { value: "center" }, "가운데"), h("option", { value: "bottom" }, "아래")))
+                                ),
                                 h(Feedback, { feedback: profileUploadFeedback }),
                                 h("div", { className: "field profile-color-field" }, h("label", { htmlFor: "profile-color" }, "테마 색상"), h("input", { id: "profile-color", type: "color", value: accentColor, onChange: (event) => setAccentColor(event.target.value || "#ff8fab") })),
                                 h("label", { className: "check-row" }, h("input", { type: "checkbox", checked: showPosts, onChange: (event) => setShowPosts(event.target.checked) }), h("span", null, "작성 글 공개")),
@@ -2532,7 +2540,7 @@
                                 h("label", { className: "check-row" }, h("input", { type: "checkbox", checked: showFollowers, onChange: (event) => setShowFollowers(event.target.checked) }), h("span", null, "팔로워 목록 공개")),
                                 h("label", { className: "check-row" }, h("input", { type: "checkbox", checked: showFollowing, onChange: (event) => setShowFollowing(event.target.checked) }), h("span", null, "팔로잉 목록 공개")),
                                 h(Feedback, { feedback }),
-                                h("div", { className: "inline-actions" }, h("button", { type: "button", className: "btn btn-primary", onClick: () => onSaveProfile({ statusMessage, bio, accentColor, avatarUrl, bannerUrl, showPosts, showComments, showFollowers, showFollowing }) }, "프로필 저장")),
+                                h("div", { className: "inline-actions" }, h("button", { type: "button", className: "btn btn-primary", onClick: () => onSaveProfile({ statusMessage, bio, accentColor, avatarUrl, bannerUrl, avatarPosition, bannerPosition, showPosts, showComments, showFollowers, showFollowing }) }, "프로필 저장")),
                                 h("div", { className: "inline-actions" },
                                     h("button", { type: "button", className: "btn btn-secondary btn-danger", onClick: () => {
                                         const scope = window.prompt("삭제 범위 입력: posts, comments, scraps, follows, blocks, profile, all", "all");
@@ -2549,7 +2557,13 @@
                         h("div", { className: "profile-follow-detail-grid" },
                             renderFollowDetails({ title: "팔로워", count: stats.followerCount, hidden: profileData.followersHidden, items: profileData.followers, emptyText: "팔로워가 없습니다." }),
                             renderFollowDetails({ title: "팔로잉", count: stats.followingCount, hidden: profileData.followingHidden, items: profileData.following, emptyText: "팔로잉이 없습니다." })
-                        )
+                        ),
+                        followPopup ? h("div", { className: "profile-popup-backdrop", role: "presentation", onClick: () => setFollowPopup(null) },
+                            h("section", { className: "profile-popup", role: "dialog", "aria-modal": "true", "aria-label": followPopup.title, onClick: (event) => event.stopPropagation() },
+                                h("div", { className: "inline-actions" }, h("h2", { className: "section-title", style: { marginRight: "auto" } }, followPopup.title), h("button", { type: "button", className: "btn btn-ghost", onClick: () => setFollowPopup(null) }, "닫기")),
+                                followPopup.hidden ? h("div", { className: "empty-box" }, `${followPopup.title} 목록이 비공개입니다.`) : followPopup.items?.length ? renderFollowList(followPopup.items) : h("div", { className: "empty-box" }, followPopup.emptyText)
+                            )
+                        ) : null
                     ),
                     h("article", { className: "card profile-list-card" },
                         h(SectionHead, { eyebrow: "Posts", title: "작성 글" }),

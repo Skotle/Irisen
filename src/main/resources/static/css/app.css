@@ -2657,6 +2657,7 @@ a.m-nick-type:hover {
 }
 
 .profile-banner {
+  aspect-ratio: 3 / 1;
   min-height: 180px;
   margin: -24px -26px 22px;
   border-bottom: 1px solid var(--line);
@@ -2666,6 +2667,23 @@ a.m-nick-type:hover {
   background-position: center;
   background-size: cover;
 }
+
+.profile-follow-popup-trigger {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  padding: 16px;
+  border: 1px solid #dce3f0;
+  border-radius: 14px;
+  background: #fff;
+  color: inherit;
+  text-align: left;
+}
+
+.profile-follow-popup-trigger .muted { grid-column: 1 / -1; }
+.profile-popup-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(15, 23, 42, .52); }
+.profile-popup { width: min(540px, 100%); max-height: min(76vh, 700px); overflow: auto; padding: 20px; border-radius: 18px; background: #fff; box-shadow: 0 24px 64px rgba(0,0,0,.24); }
 
 .profile-identity-row {
   display: flex;

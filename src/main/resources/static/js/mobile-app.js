@@ -1627,6 +1627,9 @@
     const [bio, setBio] = useState(profileData?.bio || "");
     const [avatarUrl, setAvatarUrl] = useState(profileData?.avatarUrl || "");
     const [bannerUrl, setBannerUrl] = useState(profileData?.bannerUrl || "");
+    const [avatarPosition, setAvatarPosition] = useState(profileData?.avatarPosition || "center");
+    const [bannerPosition, setBannerPosition] = useState(profileData?.bannerPosition || "center");
+    const [followPopup, setFollowPopup] = useState(null);
     const [showFollowers, setShowFollowers] = useState(profileData?.showFollowers !== false);
     const [showFollowing, setShowFollowing] = useState(profileData?.showFollowing !== false);
     const [profileUploadFeedback, setProfileUploadFeedback] = useState(null);
@@ -1639,6 +1642,9 @@
       setBio(profileData?.bio || "");
       setAvatarUrl(profileData?.avatarUrl || "");
       setBannerUrl(profileData?.bannerUrl || "");
+      setAvatarPosition(profileData?.avatarPosition || "center");
+      setBannerPosition(profileData?.bannerPosition || "center");
+      setFollowPopup(null);
       setShowFollowers(profileData?.showFollowers !== false);
       setShowFollowing(profileData?.showFollowing !== false);
       setProfileUploadFeedback(null);
@@ -1682,14 +1688,12 @@
     );
 
     function renderFollowDetails({ title, count, hidden, items, emptyText }) {
-      return h("details", { className: "m-follow-details" },
+      return h("button", { type: "button", className: "m-follow-popup-trigger", onClick: () => setFollowPopup({ title, hidden, items, emptyText }) },
         h("summary", null,
           h("span", null, title),
           h("strong", null, Number(count || 0).toLocaleString("ko-KR"))
         ),
-        hidden
-          ? h("div", { className: "m-empty" }, `${title} 목록이 비공개입니다.`)
-          : items?.length ? h("div", { className: "m-follow-list" }, renderFollowList(items)) : h("div", { className: "m-empty" }, emptyText)
+        h("span", { className: "m-muted" }, "목록 보기")
       );
     }
 
@@ -1697,10 +1701,10 @@
       h(MobileTopbar, { session, onLogout, alarmCount }),
       h("main", { className: "m-shell m-stack" },
         h("section", { className: "m-panel m-stack m-profile-card" },
-          h("div", { className: "m-profile-banner", style: bannerUrl ? { backgroundImage: `url("${bannerUrl}")` } : null }),
+          h("div", { className: "m-profile-banner", style: bannerUrl ? { backgroundImage: `url("${bannerUrl}")`, backgroundPosition: `center ${bannerPosition}` } : null }),
           h("div", { className: "m-profile-identity" },
             h("div", { className: "m-profile-avatar" },
-              avatarUrl ? h("img", { src: avatarUrl, alt: `${displayName} 프로필 사진` }) : h("span", null, initial)
+              avatarUrl ? h("img", { src: avatarUrl, alt: `${displayName} 프로필 사진`, style: { objectPosition: `${avatarPosition} center` } }) : h("span", null, initial)
             ),
             h("div", { className: "m-stack" },
               h("div", { className: "m-meta m-muted" }, h("span", { className: "m-chip" }, profileData.ownerView ? "내 프로필" : "프로필")),
@@ -1742,6 +1746,10 @@
                   h("input", { ref: bannerFileRef, type: "file", accept: "image/*", hidden: true, onChange: (event) => handleProfileImageUpload("banner", event) })
                 )
               ),
+              h("div", { className: "m-profile-upload-grid" },
+                h("div", { className: "m-field" }, h("label", { htmlFor: "m-profile-avatar-position" }, "사진 노출 위치"), h("select", { id: "m-profile-avatar-position", value: avatarPosition, onChange: (event) => setAvatarPosition(event.target.value) }, h("option", { value: "left" }, "왼쪽"), h("option", { value: "center" }, "가운데"), h("option", { value: "right" }, "오른쪽"))),
+                h("div", { className: "m-field" }, h("label", { htmlFor: "m-profile-banner-position" }, "배너 노출 위치"), h("select", { id: "m-profile-banner-position", value: bannerPosition, onChange: (event) => setBannerPosition(event.target.value) }, h("option", { value: "top" }, "위"), h("option", { value: "center" }, "가운데"), h("option", { value: "bottom" }, "아래")))
+              ),
               h(MFeedback, { feedback: profileUploadFeedback }),
               h("label", { className: "m-check-row" }, h("input", { type: "checkbox", checked: showFollowers, onChange: (event) => setShowFollowers(event.target.checked) }), h("span", null, "팔로워 목록 공개")),
               h("label", { className: "m-check-row" }, h("input", { type: "checkbox", checked: showFollowing, onChange: (event) => setShowFollowing(event.target.checked) }), h("span", null, "팔로잉 목록 공개")),
@@ -1754,6 +1762,8 @@
                   bio: bio.trim(),
                   avatarUrl: avatarUrl.trim(),
                   bannerUrl: bannerUrl.trim(),
+                  avatarPosition,
+                  bannerPosition,
                   showFollowers,
                   showFollowing
                 })
@@ -1773,7 +1783,13 @@
         h("section", { className: "m-panel m-stack" },
           h(MSectionHead, { eyebrow: "Follow", title: "팔로우 세부 목록" }),
           renderFollowDetails({ title: "팔로워", count: stats.followerCount, hidden: profileData.followersHidden, items: profileData.followers, emptyText: "팔로워가 없습니다." }),
-          renderFollowDetails({ title: "팔로잉", count: stats.followingCount, hidden: profileData.followingHidden, items: profileData.following, emptyText: "팔로잉이 없습니다." })
+          renderFollowDetails({ title: "팔로잉", count: stats.followingCount, hidden: profileData.followingHidden, items: profileData.following, emptyText: "팔로잉이 없습니다." }),
+          followPopup ? h("div", { className: "m-profile-popup-backdrop", role: "presentation", onClick: () => setFollowPopup(null) },
+            h("section", { className: "m-profile-popup", role: "dialog", "aria-modal": "true", "aria-label": followPopup.title, onClick: (event) => event.stopPropagation() },
+              h("div", { className: "m-inline" }, h("h2", { className: "m-section-title", style: { marginRight: "auto" } }, followPopup.title), h("button", { type: "button", className: "m-btn m-btn-secondary", onClick: () => setFollowPopup(null) }, "닫기")),
+              followPopup.hidden ? h("div", { className: "m-empty" }, `${followPopup.title} 목록이 비공개입니다.`) : followPopup.items?.length ? h("div", { className: "m-follow-list" }, renderFollowList(followPopup.items)) : h("div", { className: "m-empty" }, followPopup.emptyText)
+            )
+          ) : null
         )
       )
     );
