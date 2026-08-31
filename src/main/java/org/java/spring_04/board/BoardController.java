@@ -3,6 +3,7 @@ package org.java.spring_04.board;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.java.spring_04.common.RequestIpResolver;
+import org.java.spring_04.common.ContentResponsePolicy;
 import org.java.spring_04.feature.FeatureService;
 import org.java.spring_04.post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class BoardController {
 
     @Autowired
     private RequestIpResolver requestIpResolver;
+
+    @Autowired
+    private ContentResponsePolicy contentResponsePolicy;
 
     @GetMapping("/list")
     public List<Map<String, Object>> getBoardList() {
@@ -93,7 +97,7 @@ public class BoardController {
             return Map.of("success", false, "message", "게시글을 열람할 권한이 없습니다.");
         }
 
-        return Map.of("success", true, "post", post);
+        return Map.of("success", true, "post", contentResponsePolicy.protectPost(post, uid, memberDivision));
     }
 
     @GetMapping("/manage/{gid}")

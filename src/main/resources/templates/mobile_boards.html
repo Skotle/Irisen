@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>모바일 보드</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5128462008892004"
-          crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/mobile-app.css">
 </head>
 <body>
@@ -65,7 +63,7 @@
       <a th:class="${currentType == 'side' ? 'm-mini-more is-active' : 'm-mini-more'}" href="/m/boards?type=side">사이드</a>
     </div>
 
-    <input id="mobileBoardSearchInput" class="m-directory-search" type="search" placeholder="보드 이름 또는 ID" oninput="filterMobileBoards(this.value)">
+    <input id="mobileBoardSearchInput" class="m-directory-search" type="search" placeholder="보드 이름 또는 ID">
 
     <div class="m-board-topic-groups">
       <section class="m-board-topic-group" th:if="${currentType == 'all' or currentType == 'main'}" th:each="group : ${mainTopicGroups}" data-mobile-board-section="main">

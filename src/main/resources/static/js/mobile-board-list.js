@@ -21,7 +21,9 @@ function filterMobileBoards(keyword) {
 }
 
 function initMobileBoardsPage() {
-  filterMobileBoards(document.getElementById("mobileBoardSearchInput")?.value || "");
+  const input = document.getElementById("mobileBoardSearchInput");
+  input?.addEventListener("input", (event) => filterMobileBoards(event.target.value));
+  filterMobileBoards(input?.value || "");
 }
 
 document.addEventListener("DOMContentLoaded", initMobileBoardsPage);

@@ -21,7 +21,9 @@ function filterBoards(keyword) {
 }
 
 function initBoardsPage() {
-  filterBoards(document.getElementById("boardSearchInput")?.value || "");
+  const input = document.getElementById("boardSearchInput");
+  input?.addEventListener("input", (event) => filterBoards(event.target.value));
+  filterBoards(input?.value || "");
 }
 
 document.addEventListener("DOMContentLoaded", initBoardsPage);

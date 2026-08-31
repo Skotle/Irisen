@@ -276,9 +276,14 @@ public class PostService {
                        ) AS comment_count
                 FROM post p
                 JOIN board g ON g.gall_id = p.gall_id
+                LEFT JOIN gallery_setting gs ON gs.gall_id = p.gall_id
                 LEFT JOIN post_content pc ON pc.post_id = p.id
                 LEFT JOIN user author ON author.uid = p.writer_uid
                 WHERE p.is_deleted = 0
+                  AND LOWER(COALESCE(CASE
+                          WHEN LOWER(COALESCE(gs.read_visibility, 'inherit')) = 'inherit' THEN gs.visibility
+                          ELSE gs.read_visibility
+                      END, 'public')) = 'public'
                   AND COALESCE(p.is_draft, 0) = 0
                   AND COALESCE(p.is_secret, 0) = 0
                   AND COALESCE(p.review_status, 'normal') <> 'review'
@@ -289,13 +294,6 @@ public class PostService {
     }
 
     public Map<String, Object> getPostDetail(Long postId) {
-        String updateSql = """
-            UPDATE post
-            SET view_count = view_count + 1
-            WHERE id = ?
-              AND is_deleted = 0
-            """;
-
         String selectSql = """
             SELECT p.*, g.gall_name,
                    pc.content AS post_content_body,
@@ -332,23 +330,13 @@ public class PostService {
             """;
 
         try {
-            int updated = jdbcTemplate.update(updateSql, postId);
-            if (updated == 0) return null;
-            return sanitizeRowContent(jdbcTemplate.queryForMap(selectSql, postId));
+            return removeStoredSecrets(sanitizeRowContent(jdbcTemplate.queryForMap(selectSql, postId)));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
     }
 
     public Map<String, Object> getPostDetail(String gallId, Long postNo) {
-        String updateSql = """
-            UPDATE post
-            SET view_count = view_count + 1
-            WHERE gall_id = ?
-              AND post_no = ?
-              AND is_deleted = 0
-            """;
-
         String selectSql = """
             SELECT p.*, g.gall_name,
                    pc.content AS post_content_body,
@@ -386,12 +374,20 @@ public class PostService {
             """;
 
         try {
-            int updated = jdbcTemplate.update(updateSql, gallId, postNo);
-            if (updated == 0) return null;
-            return sanitizeRowContent(jdbcTemplate.queryForMap(selectSql, gallId, postNo));
+            return removeStoredSecrets(sanitizeRowContent(jdbcTemplate.queryForMap(selectSql, gallId, postNo)));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public void incrementViewCount(String gallId, Long postNo) {
+        jdbcTemplate.update("""
+                UPDATE post
+                SET view_count = view_count + 1
+                WHERE gall_id = ?
+                  AND post_no = ?
+                  AND is_deleted = 0
+                """, gallId, postNo);
     }
 
     public List<Map<String, Object>> getComments(String gallId, Long postNo) {
@@ -439,6 +435,15 @@ public class PostService {
                 ORDER BY COALESCE(c.sort_key, %s) ASC, c.id ASC
         """.formatted(commentSortKey);
         return sanitizeRowsContent(jdbcTemplate.queryForList(sql, gallId, postNo));
+    }
+
+    private Map<String, Object> removeStoredSecrets(Map<String, Object> row) {
+        if (row != null) {
+            row.remove("password");
+            row.remove("password_hash");
+            row.remove("verification_code");
+        }
+        return row;
     }
 
     @Transactional
@@ -823,7 +828,7 @@ public class PostService {
         try {
             return BCrypt.checkpw(rawPassword, savedPassword);
         } catch (IllegalArgumentException e) {
-            return savedPassword.equals(rawPassword);
+            return false;
         }
     }
 
@@ -835,7 +840,10 @@ public class PostService {
 
         String guestName = required(firstNonBlank(payload.get("name"), payload.get("guestName")), "비회원 이름을 입력해야 합니다.");
         String guestPassword = required(firstNonBlank(payload.get("password"), payload.get("guestPassword")), "비회원 비밀번호를 입력해야 합니다.");
-        return new WriterInfo(null, guestName, normalizedIp(clientIp), BCrypt.hashpw(guestPassword, BCrypt.gensalt()));
+        if (guestPassword.length() < 8 || guestPassword.length() > 64) {
+            throw new RuntimeException("비회원 비밀번호는 8자 이상 64자 이하여야 합니다.");
+        }
+        return new WriterInfo(null, guestName, normalizedIp(clientIp), BCrypt.hashpw(guestPassword, BCrypt.gensalt(12)));
     }
 
     private String required(String value, String message) {
@@ -1162,6 +1170,9 @@ public class PostService {
 
     private List<Map<String, Object>> decorateListRows(List<Map<String, Object>> rows) {
         rows.forEach((row) -> {
+            row.remove("password");
+            row.remove("password_hash");
+            row.remove("ip");
             if (Boolean.TRUE.equals(row.get("has_image")) || "1".equals(String.valueOf(row.get("has_image")))) {
                 String title = nullableText(row.get("title"));
                 if (title != null && !title.startsWith("[IMG] ")) {

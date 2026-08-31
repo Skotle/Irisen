@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${post != null ? post.title : '게시글'}">게시글</title>
     <link rel="stylesheet" href="/css/app.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5128462008892004"
-            crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="topbar">
@@ -142,8 +140,7 @@
                     <form class="inline-actions delete-control js-post-delete-form"
                           th:if="${postCanDelete}"
                           th:action="@{/board/{gid}/{postNo}/delete(gid=${gid},postNo=${post.post_no})}"
-                          method="post"
-                          onsubmit="return confirm('게시글을 삭제할까요?');">
+                          method="post">
                         <input type="hidden" name="page" th:value="${currentPage}">
                         <input class="delete-password-input" th:if="${postRequiresDeletePassword}" type="password" name="password" placeholder="비밀번호">
                         <button class="btn btn-secondary btn-danger" type="submit">글 삭제</button>
@@ -170,7 +167,7 @@
                             </div>
                             <div class="field">
                                 <label for="guest-password">비밀번호</label>
-                                <input id="guest-password" type="password" name="password" placeholder="비밀번호">
+                                <input id="guest-password" type="password" name="password" minlength="8" maxlength="64" placeholder="8자 이상 비밀번호">
                             </div>
                         </div>
                         <div class="field">
@@ -242,7 +239,7 @@
                                 </div>
                                 <div class="field">
                                     <label th:for="'reply-password-' + ${comment.id}">비밀번호</label>
-                                    <input th:id="'reply-password-' + ${comment.id}" type="password" name="password" placeholder="비밀번호">
+                                    <input th:id="'reply-password-' + ${comment.id}" type="password" name="password" minlength="8" maxlength="64" placeholder="8자 이상 비밀번호">
                                 </div>
                             </div>
                             <div class="field">
@@ -305,7 +302,7 @@
     </section>
 </section>
 <script src="/js/security-request.js"></script>
-<script>
+<script th:attr="nonce=${cspNonce}">
 (() => {
   const votePanel = document.querySelector('.post-vote-panel');
   if (votePanel) {
@@ -403,7 +400,7 @@
   });
 })();
 </script>
-<script>
+<script th:attr="nonce=${cspNonce}">
 (() => {
   const createFlashBox = () => {
     const box = document.createElement('div');

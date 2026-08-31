@@ -61,3 +61,5 @@ async function doSignup() {
     setBtnLoading(btn, false);
   }
 }
+
+document.getElementById('signupBtn')?.addEventListener('click', doSignup);

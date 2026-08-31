@@ -5,13 +5,18 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.security.SecureRandom;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 @Service
 public class AuthService {
+    private static final int BCRYPT_COST = 12;
+    private static final String DUMMY_PASSWORD_HASH = BCrypt.hashpw(
+            "timing-only-password-value", BCrypt.gensalt(BCRYPT_COST));
     private static final int VERIFICATION_EXPIRE_MINUTES = 10;
     private static final Pattern UID_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{3,19}$");
     private static final Pattern NICK_PATTERN = Pattern.compile("^[\\p{L}\\p{N}_ ]{1,20}$");
@@ -20,6 +25,7 @@ public class AuthService {
     private static final Pattern PASSWORD_LOWER = Pattern.compile("[a-z]");
     private static final Pattern PASSWORD_DIGIT = Pattern.compile("\\d");
     private static final Pattern PASSWORD_SPECIAL = Pattern.compile("[^A-Za-z0-9]");
+    private final SecureRandom secureRandom = new SecureRandom();
 
     @Autowired
     private UserDAO userDAO;
@@ -34,9 +40,15 @@ public class AuthService {
         if (identifier == null || identifier.isBlank() || password == null || password.isBlank()) {
             return null;
         }
-        return userDAO.findByIdentifier(identifier)
-                .filter(user -> BCrypt.checkpw(password, user.getPasswordHash()))
-                .orElse(null);
+        UserEntity user = userDAO.findByIdentifier(identifier).orElse(null);
+        String passwordHash = user == null ? DUMMY_PASSWORD_HASH : user.getPasswordHash();
+        boolean valid;
+        try {
+            valid = passwordHash != null && BCrypt.checkpw(password, passwordHash);
+        } catch (IllegalArgumentException e) {
+            valid = false;
+        }
+        return user != null && valid ? user : null;
     }
 
     public Map<String, Object> validateSignupField(String field, String value, String nickType) {
@@ -108,7 +120,7 @@ public class AuthService {
         ensureFieldValid("password", password, nickType);
 
         String code = generateVerificationCode();
-        String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
+        String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt(BCRYPT_COST));
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(VERIFICATION_EXPIRE_MINUTES);
 
         signupVerificationRepository.upsertPendingSignup(uid, nick, email, passwordHash, nickType, code, expiresAt);
@@ -133,7 +145,9 @@ public class AuthService {
             signupVerificationRepository.deleteByUid(uid);
             throw new RuntimeException("\uc778\uc99d \ucf54\ub4dc\uac00 \ub9cc\ub8cc\ub418\uc5c8\uc2b5\ub2c8\ub2e4. \ub2e4\uc2dc \uc694\uccad\ud574 \uc8fc\uc138\uc694.");
         }
-        if (!savedCode.equals(code.trim())) {
+        if (!MessageDigest.isEqual(
+                savedCode.getBytes(StandardCharsets.UTF_8),
+                code.trim().getBytes(StandardCharsets.UTF_8))) {
             throw new RuntimeException("\uc778\uc99d \ucf54\ub4dc\uac00 \uc62c\ubc14\ub974\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.");
         }
         if (userDAO.existsByUid(uid)) {
@@ -205,7 +219,7 @@ public class AuthService {
     }
 
     private String generateVerificationCode() {
-        int value = ThreadLocalRandom.current().nextInt(100000, 1000000);
+        int value = 100000 + secureRandom.nextInt(900000);
         return String.valueOf(value);
     }
 

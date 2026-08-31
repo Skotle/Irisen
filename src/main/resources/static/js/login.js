@@ -41,3 +41,5 @@ async function doLogin() {
     setBtnLoading(btn, false);
   }
 }
+
+document.getElementById('loginBtn')?.addEventListener('click', doLogin);

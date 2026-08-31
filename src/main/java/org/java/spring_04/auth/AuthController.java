@@ -40,16 +40,15 @@ public class AuthController {
     public void printAdminLoginCodeStatus() {
         String configuredAdminLoginCode = configuredAdminLoginCode();
         System.out.println("[" + LocalDateTime.now() + "] ADMIN_LOGIN_CODE set="
-                + !configuredAdminLoginCode.isBlank()
-                + " hashPrefix=" + adminCodeHashPrefix(configuredAdminLoginCode));
+                + !configuredAdminLoginCode.isBlank());
     }
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody Map<String, String> body, HttpServletRequest request) {
         String identifier = body.get("userID") == null ? "" : body.get("userID").trim();
         String ip = requestIpResolver.resolve(request);
-        System.out.println("[" + LocalDateTime.now() + "] API /login userID=" + identifier + " ip=" + ip);
-        if (!rateLimiter.allow("login", ip + ":" + identifier, 8, Duration.ofMinutes(10))) {
+        System.out.println("[" + LocalDateTime.now() + "] API /login ip=" + ip);
+        if (!allowLoginAttempt("login", ip, identifier, 30, 12, 8, Duration.ofMinutes(10))) {
             return Map.of("success", false, "message", "로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.");
         }
         UserEntity user = authService.login(identifier, body.get("password"));
@@ -86,12 +85,10 @@ public class AuthController {
         String identifier = body.get("userID") == null ? "" : body.get("userID").trim();
         String ip = requestIpResolver.resolve(request);
         String configuredAdminLoginCode = configuredAdminLoginCode();
-        System.out.println("[" + LocalDateTime.now() + "] API /admin/login userID=" + identifier
-                + " ip=" + ip
-                + " adminCodeSet=" + !configuredAdminLoginCode.isBlank()
-                + " adminHashPrefix=" + adminCodeHashPrefix(configuredAdminLoginCode));
+        System.out.println("[" + LocalDateTime.now() + "] API /admin/login ip=" + ip
+                + " adminCodeSet=" + !configuredAdminLoginCode.isBlank());
 
-        if (!rateLimiter.allow("admin-login", ip + ":" + identifier, 5, Duration.ofMinutes(15))) {
+        if (!allowLoginAttempt("admin-login", ip, identifier, 10, 8, 5, Duration.ofMinutes(15))) {
             return Map.of("success", false, "message", "관리자 로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.");
         }
         if (configuredAdminLoginCode.isBlank()) {
@@ -139,6 +136,20 @@ public class AuthController {
         );
     }
 
+    private boolean allowLoginAttempt(String scope,
+                                      String ip,
+                                      String identifier,
+                                      int ipLimit,
+                                      int accountLimit,
+                                      int combinedLimit,
+                                      Duration window) {
+        String accountKey = identifier == null ? "" : identifier.trim().toLowerCase();
+        boolean ipAllowed = rateLimiter.allow(scope + "-ip", ip, ipLimit, window);
+        boolean accountAllowed = rateLimiter.allow(scope + "-account", accountKey, accountLimit, window);
+        boolean combinedAllowed = rateLimiter.allow(scope + "-combined", ip + ":" + accountKey, combinedLimit, window);
+        return ipAllowed && accountAllowed && combinedAllowed;
+    }
+
     private String configuredAdminLoginCode() {
         String environmentPropertyCode = firstPresent(
                 environment.getProperty("app.security.admin-login-code"),
@@ -169,30 +180,9 @@ public class AuthController {
         return "";
     }
 
-    private String adminCodeHashPrefix(String value) {
-        if (value == null || value.isBlank()) {
-            return "none";
-        }
-        return sha256Hex(value.trim()).substring(0, 12);
-    }
-
-    private String sha256Hex(String value) {
-        try {
-            byte[] digest = MessageDigest.getInstance("SHA-256")
-                    .digest(value.getBytes(StandardCharsets.UTF_8));
-            StringBuilder builder = new StringBuilder(digest.length * 2);
-            for (byte b : digest) {
-                builder.append(String.format("%02x", b));
-            }
-            return builder.toString();
-        } catch (Exception e) {
-            return "hash-error";
-        }
-    }
-
     @PostMapping("/api/signup/request")
     public Map<String, Object> requestSignup(@RequestBody Map<String, String> body, HttpServletRequest request) {
-        System.out.println("[" + LocalDateTime.now() + "] API /api/signup/request userID=" + body.get("userID"));
+        System.out.println("[" + LocalDateTime.now() + "] API /api/signup/request ip=" + requestIpResolver.resolve(request));
         String key = requestIpResolver.resolve(request) + ":" + String.valueOf(body.getOrDefault("email", ""));
         if (!rateLimiter.allow("signup-request", key, 5, Duration.ofHours(1))) {
             return Map.of("success", false, "message", "인증 메일 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.");
@@ -207,7 +197,7 @@ public class AuthController {
 
     @PostMapping("/api/signup/verify")
     public Map<String, Object> verifySignup(@RequestBody Map<String, String> body, HttpServletRequest request) {
-        System.out.println("[" + LocalDateTime.now() + "] API /api/signup/verify userID=" + body.get("userID"));
+        System.out.println("[" + LocalDateTime.now() + "] API /api/signup/verify ip=" + requestIpResolver.resolve(request));
         String key = requestIpResolver.resolve(request) + ":" + String.valueOf(body.getOrDefault("userID", ""));
         if (!rateLimiter.allow("signup-verify", key, 10, Duration.ofMinutes(30))) {
             return Map.of("success", false, "message", "인증 확인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.");
@@ -228,7 +218,14 @@ public class AuthController {
     @GetMapping("/api/signup/validate")
     public Map<String, Object> validateSignupField(@RequestParam("field") String field,
                                                    @RequestParam("value") String value,
-                                                   @RequestParam(value = "nickType", required = false) String nickType) {
+                                                   @RequestParam(value = "nickType", required = false) String nickType,
+                                                   HttpServletRequest request) {
+        if (!rateLimiter.allow("signup-validate-ip", requestIpResolver.resolve(request), 60, Duration.ofMinutes(10))) {
+            return Map.of(
+                    "success", true,
+                    "data", Map.of("field", field, "valid", false, "message", "검증 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.")
+            );
+        }
         try {
             return Map.of("success", true, "data", authService.validateSignupField(field, value, nickType));
         } catch (Exception e) {
@@ -274,12 +271,6 @@ public class AuthController {
             return null;
         }
         return Map.of("message", "로그아웃이 완료되었습니다.");
-    }
-
-    @GetMapping("/logout")
-    public void logoutByNavigation(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        clearSession(request);
-        response.sendRedirect("/");
     }
 
     private boolean isAjax(HttpServletRequest request) {

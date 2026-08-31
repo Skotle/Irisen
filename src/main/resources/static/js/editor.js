@@ -22,6 +22,18 @@ function updateEditorPreview() {
   updateHtmlPreview();
 }
 
+function bindEditorControls() {
+  document.getElementById('writeEditor')?.addEventListener('input', updateEditorPreview);
+  document.getElementById('writeBtn')?.addEventListener('click', submitHtmlPost);
+  document.querySelectorAll('[data-editor-command]').forEach((button) => {
+    button.addEventListener('click', () => applyEditorCommand(button.dataset.editorCommand));
+  });
+  document.querySelectorAll('[data-editor-block]').forEach((button) => {
+    button.addEventListener('click', () => applyBlockTag(button.dataset.editorBlock));
+  });
+  document.querySelector('[data-editor-link]')?.addEventListener('click', insertEditorLink);
+}
+
 function focusWriteEditor() {
   const editor = document.getElementById('writeEditor');
   if (editor) editor.focus();
@@ -95,6 +107,7 @@ async function submitHtmlPost() {
 }
 
 async function initWritePage(gid) {
+  bindEditorControls();
   const gidInput = document.getElementById('writeGid');
   const gidBadge = document.getElementById('currentWriteGid');
   const author = document.getElementById('writeAuthor');

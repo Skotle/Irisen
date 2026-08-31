@@ -24,6 +24,7 @@ import java.util.Map;
 @Service
 public class BoardService {
     private static final int BOARD_POSTS_PAGE_SIZE = 50;
+    private static final long GLOBAL_ATTACHMENT_MAX_BYTES = 10L * 1024L * 1024L;
     private static final int BOARD_RANKING_DAILY_LIMIT = 10;
     private static final long BOARD_RANKING_AUTO_REFRESH_MINUTES = 144L;
     private static final String ALARM_REF_TYPE_BOARD_STAFF = "board_staff_request";
@@ -721,7 +722,10 @@ public class BoardService {
                 """;
 
         try {
-            return sanitizeRowContent(jdbcTemplate.queryForMap(sql, gallId, postNo));
+            Map<String, Object> row = sanitizeRowContent(jdbcTemplate.queryForMap(sql, gallId, postNo));
+            row.remove("password");
+            row.remove("password_hash");
+            return row;
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -1240,6 +1244,11 @@ public class BoardService {
 
     public void assertAttachmentPolicy(String gallId, String contentType, long size) {
         Map<String, Object> settings = getBoardSettings(gallId);
+        long configuredMax = toLongValue(settings.get("attachment_max_bytes"), GLOBAL_ATTACHMENT_MAX_BYTES);
+        long effectiveMax = configuredMax <= 0 ? GLOBAL_ATTACHMENT_MAX_BYTES : Math.min(configuredMax, GLOBAL_ATTACHMENT_MAX_BYTES);
+        if (size <= 0 || size > effectiveMax) {
+            throw new RuntimeException("첨부 파일 크기가 허용 범위를 초과했습니다.");
+        }
         String allowedTypes = nullableText(settings.get("allowed_attachment_types"));
         if (allowedTypes == null) {
             return;
@@ -1265,6 +1274,16 @@ public class BoardService {
         }
         if (!allowed) {
             throw new RuntimeException("요청을 처리할 수 없습니다.");
+        }
+    }
+
+    public void assertGlobalAttachmentPolicy(String contentType, long size) {
+        if (size <= 0 || size > GLOBAL_ATTACHMENT_MAX_BYTES) {
+            throw new RuntimeException("첨부 파일 크기가 허용 범위를 초과했습니다.");
+        }
+        String normalizedType = contentType == null ? "" : contentType.trim().toLowerCase(Locale.ROOT);
+        if (!normalizedType.startsWith("image/")) {
+            throw new RuntimeException("이미지 파일만 업로드할 수 있습니다.");
         }
     }
 
@@ -2528,7 +2547,10 @@ public class BoardService {
 
         String guestName = required(firstNonBlank(payload.get("name"), payload.get("guestName")), "이름을 입력해 주세요.");
         String guestPassword = required(firstNonBlank(payload.get("password"), payload.get("guestPassword")), "비밀번호를 입력해 주세요.");
-        return new WriterInfo(null, guestName, normalizedIp(clientIp), BCrypt.hashpw(guestPassword, BCrypt.gensalt()));
+        if (guestPassword.length() < 8 || guestPassword.length() > 64) {
+            throw new RuntimeException("비회원 비밀번호는 8자 이상 64자 이하여야 합니다.");
+        }
+        return new WriterInfo(null, guestName, normalizedIp(clientIp), BCrypt.hashpw(guestPassword, BCrypt.gensalt(12)));
     }
 
     private String required(String value, String message) {
@@ -2678,6 +2700,9 @@ public class BoardService {
 
     private List<Map<String, Object>> decorateListRows(List<Map<String, Object>> rows) {
         rows.forEach((row) -> {
+            row.remove("password");
+            row.remove("password_hash");
+            row.remove("ip");
             if (Boolean.TRUE.equals(row.get("has_image")) || "1".equals(String.valueOf(row.get("has_image")))) {
                 String title = nullableText(row.get("title"));
                 if (title != null && !title.startsWith("[IMG] ")) {
@@ -2761,6 +2786,20 @@ public class BoardService {
         }
         String text = nullableText(value);
         return text == null || text.equals("1") || text.equalsIgnoreCase("true") || text.equalsIgnoreCase("yes") || text.equalsIgnoreCase("on");
+    }
+
+    private long toLongValue(Object value, long fallback) {
+        if (value instanceof Number number) {
+            return number.longValue();
+        }
+        if (value == null) {
+            return fallback;
+        }
+        try {
+            return Long.parseLong(String.valueOf(value).trim());
+        } catch (NumberFormatException ignored) {
+            return fallback;
+        }
     }
 
     private boolean isOneFlag(Object value) {

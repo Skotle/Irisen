@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Service
 public class GcsImageService {
+    private static final long MAX_IMAGE_BYTES = 10L * 1024L * 1024L;
     private static final List<String> ALLOWED_CONTENT_TYPES = List.of(
             "image/jpeg",
             "image/png",
@@ -56,6 +57,9 @@ public class GcsImageService {
         }
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("이미지 파일이 필요합니다.");
+        }
+        if (file.getSize() > MAX_IMAGE_BYTES) {
+            throw new IllegalArgumentException("이미지는 10MB 이하만 업로드할 수 있습니다.");
         }
         byte[] bytes = file.getBytes();
         String contentType = detectContentType(bytes);

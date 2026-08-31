@@ -33,4 +33,14 @@ build/
 .vscode/
 
 # Local MySQL runtime credentials
-.mysql-runtime.env
+.mysql-runtime.env*
+
+# Runtime data and security-sensitive local artifacts
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.log
+logs/
+*.gz
+runtime.env

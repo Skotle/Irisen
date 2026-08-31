@@ -1,6 +1,8 @@
 package org.java.spring_04.common;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -17,24 +19,40 @@ import java.util.Locale;
 import java.util.Random;
 
 @Component
+@ConditionalOnProperty(name = "app.seed.bulk-guest-content.enabled", havingValue = "true")
 public class BulkGuestContentSeedRunner implements CommandLineRunner {
     private static final String SEED_KEY = "bulk_guest_content_v2_ordered";
     private static final List<String> TARGET_GALLERIES = List.of("alpha", "beta", "marine", "stockus", "uspolitics");
     private static final int POSTS_PER_GALLERY = 240;
     private static final int EXTRA_COMMENT_POSTS = 300;
-    private static final String GUEST_PASSWORD_RAW = "guest1234";
     private static final LocalDateTime BASE_WRITED_AT = LocalDateTime.of(2026, 1, 1, 0, 0);
 
     private final JdbcTemplate jdbcTemplate;
     private final TransactionTemplate transactionTemplate;
+    private final String guestPassword;
+    private final boolean destructiveResetAllowed;
 
-    public BulkGuestContentSeedRunner(JdbcTemplate jdbcTemplate, TransactionTemplate transactionTemplate) {
+    public BulkGuestContentSeedRunner(JdbcTemplate jdbcTemplate,
+                                      TransactionTemplate transactionTemplate,
+                                      @Value("${app.seed.bulk-guest-content.password:}") String guestPassword,
+                                      @Value("${app.seed.bulk-guest-content.allow-destructive-reset:false}") boolean destructiveResetAllowed) {
         this.jdbcTemplate = jdbcTemplate;
         this.transactionTemplate = transactionTemplate;
+        this.guestPassword = guestPassword == null ? "" : guestPassword;
+        this.destructiveResetAllowed = destructiveResetAllowed;
     }
 
     @Override
     public void run(String... args) {
+        if (!destructiveResetAllowed) {
+            throw new IllegalStateException(
+                    "Bulk guest seed is enabled, but destructive reset approval is missing. "
+                            + "Set app.seed.bulk-guest-content.allow-destructive-reset=true explicitly."
+            );
+        }
+        if (guestPassword.length() < 16) {
+            throw new IllegalStateException("Bulk guest seed password must contain at least 16 characters.");
+        }
         if (isSqliteRuntime()) {
             System.out.println("[SEED] SQLite runtime detected. Bulk seed skipped.");
             return;
@@ -50,7 +68,7 @@ public class BulkGuestContentSeedRunner implements CommandLineRunner {
             ensureGalleryCounters();
             purgeExistingContent();
 
-            String guestPasswordHash = BCrypt.hashpw(GUEST_PASSWORD_RAW, BCrypt.gensalt(10));
+            String guestPasswordHash = BCrypt.hashpw(guestPassword, BCrypt.gensalt(12));
             Random random = new Random(20260427L);
 
             List<PostSeedRow> postRows = new ArrayList<>();

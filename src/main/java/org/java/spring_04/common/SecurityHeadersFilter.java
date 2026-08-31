@@ -8,13 +8,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 @Component
 public class SecurityHeadersFilter extends OncePerRequestFilter {
+    private final SecureRandom secureRandom = new SecureRandom();
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        byte[] nonceBytes = new byte[18];
+        secureRandom.nextBytes(nonceBytes);
+        String cspNonce = Base64.getEncoder().encodeToString(nonceBytes);
+        request.setAttribute("cspNonce", cspNonce);
+
         response.setHeader("X-Content-Type-Options", "nosniff");
         response.setHeader("X-Frame-Options", "DENY");
         response.setHeader("X-XSS-Protection", "0");
@@ -28,16 +37,16 @@ public class SecurityHeadersFilter extends OncePerRequestFilter {
             response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
             response.setHeader("Pragma", "no-cache");
         }
-        if (request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto"))) {
+        if (request.isSecure()) {
             response.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
         }
         response.setHeader("Content-Security-Policy",
-                "default-src 'self' https://storage.googleapis.com; " +
+                "default-src 'self'; " +
                         "connect-src 'self'; " +
-                        "img-src 'self' data: https://storage.googleapis.com https://*.googlesyndication.com https://*.googleusercontent.com https://*.gstatic.com https://*.kakaocdn.net https://*.kakao.com; " +
+                        "img-src 'self' data: https://storage.googleapis.com; " +
                         "style-src 'self' 'unsafe-inline'; " +
-                        "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://t1.kakaocdn.net; " +
-                        "frame-src 'self' https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://*.kakao.com; " +
+                        "script-src 'self' 'nonce-" + cspNonce + "'; " +
+                        "frame-src 'self'; " +
                         "font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
         filterChain.doFilter(request, response);
     }

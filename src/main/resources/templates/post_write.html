@@ -61,35 +61,34 @@
                         <label>본문</label>
                         <div class="write-toolbar">
                             <div class="toolbar-group">
-                                <button class="btn btn-ghost toolbar-btn" type="button" onclick="applyEditorCommand('bold')"><strong>B</strong></button>
-                                <button class="btn btn-ghost toolbar-btn" type="button" onclick="applyEditorCommand('italic')"><em>I</em></button>
-                                <button class="btn btn-ghost toolbar-btn" type="button" onclick="applyEditorCommand('underline')"><u>U</u></button>
+                                <button class="btn btn-ghost toolbar-btn" type="button" data-editor-command="bold"><strong>B</strong></button>
+                                <button class="btn btn-ghost toolbar-btn" type="button" data-editor-command="italic"><em>I</em></button>
+                                <button class="btn btn-ghost toolbar-btn" type="button" data-editor-command="underline"><u>U</u></button>
                             </div>
                             <div class="toolbar-group">
-                                <button class="btn btn-ghost" type="button" onclick="applyBlockTag('H2')">제목</button>
-                                <button class="btn btn-ghost" type="button" onclick="applyBlockTag('P')">본문</button>
-                                <button class="btn btn-ghost" type="button" onclick="applyBlockTag('BLOCKQUOTE')">인용</button>
+                                <button class="btn btn-ghost" type="button" data-editor-block="H2">제목</button>
+                                <button class="btn btn-ghost" type="button" data-editor-block="P">본문</button>
+                                <button class="btn btn-ghost" type="button" data-editor-block="BLOCKQUOTE">인용</button>
                             </div>
                             <div class="toolbar-group">
-                                <button class="btn btn-ghost" type="button" onclick="applyEditorCommand('insertUnorderedList')">목록</button>
-                                <button class="btn btn-ghost" type="button" onclick="applyEditorCommand('insertOrderedList')">번호</button>
-                                <button class="btn btn-ghost" type="button" onclick="insertEditorLink()">링크</button>
+                                <button class="btn btn-ghost" type="button" data-editor-command="insertUnorderedList">목록</button>
+                                <button class="btn btn-ghost" type="button" data-editor-command="insertOrderedList">번호</button>
+                                <button class="btn btn-ghost" type="button" data-editor-link>링크</button>
                             </div>
                         </div>
                         <div
                             id="writeEditor"
                             class="editor-surface"
                             contenteditable="true"
-                            data-placeholder="여기에 글을 입력하세요."
-                            oninput="updateEditorPreview()"></div>
+                            data-placeholder="여기에 글을 입력하세요."></div>
                     </div>
 
                     <div class="write-toolbar">
-                        <button class="btn btn-primary" id="writeBtn" type="button" onclick="submitHtmlPost()">
+                        <button class="btn btn-primary" id="writeBtn" type="button">
                             <span class="btn-label">저장</span>
                             <span class="spinner"></span>
                         </button>
-                        <button class="btn btn-ghost" type="button" onclick="applyEditorCommand('removeFormat')">서식 지우기</button>
+                        <button class="btn btn-ghost" type="button" data-editor-command="removeFormat">서식 지우기</button>
                     </div>
                 </div>
             </article>
@@ -112,7 +111,7 @@
 <script src="/js/editor.js"></script>
 <script src="/js/recent-boards.js"></script>
 <script src="/js/page-init.js"></script>
-<script>
+<script th:attr="nonce=${cspNonce}">
     initPostWritePage();
 </script>
 </body>

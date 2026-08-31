@@ -18,6 +18,9 @@ public class RequestReplayGuard {
         long expiresAt = now + ttl.toMillis();
         cleanupExpired(now);
         String key = replayKey(request, requestId);
+        if (seenRequests.size() >= MAX_TRACKED_REQUESTS && !seenRequests.containsKey(key)) {
+            return false;
+        }
         final boolean[] accepted = {false};
         seenRequests.compute(key, (ignored, existing) -> {
             if (existing == null || existing <= now) {

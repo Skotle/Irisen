@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpSession
 import org.java.spring_04.board.BoardService
 import org.java.spring_04.common.RequestIpResolver
+import org.java.spring_04.common.ContentResponsePolicy
 import org.java.spring_04.feature.FeatureService
 import org.java.spring_04.post.PostService
 import org.springframework.stereotype.Controller
@@ -21,7 +22,8 @@ class BoardRouter(
     private val postService: PostService,
     private val boardService: BoardService,
     private val featureService: FeatureService,
-    private val requestIpResolver: RequestIpResolver
+    private val requestIpResolver: RequestIpResolver,
+    private val contentResponsePolicy: ContentResponsePolicy
 ) {
 
     private fun logRequest(pageName: String, detail: String? = null) {
@@ -291,7 +293,10 @@ class BoardRouter(
         val clientIp = extractClientIp(request)
         val currentPage = if (page < 1) 1 else page
         logRequest("POST $boardId/$postNo", "viewer=$viewerUid ip=$clientIp page=$currentPage")
-        val post = postService.getPostDetail(boardId, postNo)
+        val rawPost = postService.getPostDetail(boardId, postNo)
+        val post = rawPost
+            ?.takeIf { featureService.canViewPost(it, sessionUid(session), sessionDivision(session)) }
+            ?.let { contentResponsePolicy.protectPost(it, sessionUid(session), sessionDivision(session)) }
         val manageData = boardService.getBoardManageInfo(boardId, sessionUid(session), sessionDivision(session))
         @Suppress("UNCHECKED_CAST")
         val settings = manageData["settings"] as? Map<String, Any?> ?: emptyMap()
@@ -320,7 +325,14 @@ class BoardRouter(
             return "post"
         }
 
-        val comments = postService.getComments(boardId, postNo).map { comment ->
+        postService.incrementViewCount(boardId, postNo)
+
+        val comments = contentResponsePolicy.protectComments(
+            postService.getComments(boardId, postNo),
+            boardId,
+            sessionUid(session),
+            sessionDivision(session)
+        ).map { comment ->
             val copy = LinkedHashMap(comment)
             val deleted = flagEnabled(comment["is_deleted"])
             copy["canDelete"] = !deleted && canDelete(comment, session, boardId, false)
@@ -338,10 +350,14 @@ class BoardRouter(
     }
 
     @GetMapping("/m/board/{gid}/{postNo}")
-    fun mobilePostDetail(@PathVariable gid: String, @PathVariable postNo: Long, model: Model): String {
+    fun mobilePostDetail(@PathVariable gid: String, @PathVariable postNo: Long, model: Model, session: HttpSession): String {
         val boardId = cleanPathSegment(gid)
         logRequest("MOBILE POST $boardId/$postNo")
-        val post = postService.getPostDetail(boardId, postNo)
+        val readable = readableRedirect(boardId, session) == null
+        val rawPost = if (readable) postService.getPostDetail(boardId, postNo) else null
+        val post = rawPost
+            ?.takeIf { featureService.canViewPost(it, sessionUid(session), sessionDivision(session)) }
+            ?.let { contentResponsePolicy.protectPost(it, sessionUid(session), sessionDivision(session)) }
         model.addAttribute("crawlerBoards", boardService.getBoardList().filter { it["gall_id"]?.toString() == boardId })
         model.addAttribute("crawlerPosts", if (post == null) emptyList<Map<String, Any?>>() else listOf(post))
         return "mobile"

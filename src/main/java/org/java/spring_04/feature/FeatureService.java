@@ -586,8 +586,12 @@ public class FeatureService {
                 LEFT JOIN gallery_setting gs ON gs.gall_id = p.gall_id
                 WHERE p.is_deleted = 0
                   AND COALESCE(p.is_draft, 0) = 0
+                  AND COALESCE(p.is_secret, 0) = 0
                   AND COALESCE(p.review_status, 'normal') <> 'review'
-                  AND COALESCE(gs.visibility, 'public') = 'public'
+                  AND LOWER(COALESCE(CASE
+                          WHEN LOWER(COALESCE(gs.read_visibility, 'inherit')) = 'inherit' THEN gs.visibility
+                          ELSE gs.read_visibility
+                      END, 'public')) = 'public'
                 """);
         List<Object> args = new ArrayList<>();
         if (gallId != null) {
@@ -1095,6 +1099,9 @@ public class FeatureService {
         if (rawContent != null) {
             row.put("content", htmlSanitizerService.sanitize(String.valueOf(rawContent)));
         }
+        row.remove("password");
+        row.remove("password_hash");
+        row.remove("ip");
     }
 
     private int number(Object value, int fallback) {

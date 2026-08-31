@@ -10,6 +10,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -82,6 +83,27 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
                 "success", false,
                 "message", "Not found."
+        ));
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, Object>> responseStatus(ResponseStatusException exception,
+                                                               HttpServletRequest request) {
+        int status = exception.getStatusCode().value();
+        log.warn("SERVICE_ACCESS_REJECTED id={} method={} path={} ip={} status={}",
+                requestId(request),
+                request.getMethod(),
+                request.getRequestURI(),
+                requestIpResolver.resolve(request),
+                status);
+        String message = status == HttpStatus.UNAUTHORIZED.value()
+                ? "Authentication is required."
+                : status == HttpStatus.FORBIDDEN.value()
+                ? "Access is forbidden."
+                : "Request was rejected.";
+        return ResponseEntity.status(exception.getStatusCode()).body(Map.of(
+                "success", false,
+                "message", message
         ));
     }
 

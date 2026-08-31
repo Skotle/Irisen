@@ -3,6 +3,7 @@ package org.java.spring_04.post;
 import jakarta.servlet.http.HttpServletRequest;
 import org.java.spring_04.board.BoardService;
 import org.java.spring_04.common.RequestIpResolver;
+import org.java.spring_04.common.ContentResponsePolicy;
 import org.java.spring_04.feature.FeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,15 @@ public class PostController {
     @Autowired
     private RequestIpResolver requestIpResolver;
 
+    @Autowired
+    private ContentResponsePolicy contentResponsePolicy;
+
     @GetMapping("/list")
-    public List<Map<String, Object>> getPostList(@RequestParam("gid") String gallId) {
+    public List<Map<String, Object>> getPostList(@RequestParam("gid") String gallId,
+                                                 @SessionAttribute(name = "uid", required = false) String uid,
+                                                 @SessionAttribute(name = "memberDivision", required = false) String memberDivision) {
         System.out.println("[" + LocalDateTime.now() + "] API /api/posts/list?gid=" + gallId);
+        featureService.assertBoardReadable(gallId, uid, memberDivision);
         return postService.getPostsByGallery(gallId);
     }
 
@@ -40,9 +47,25 @@ public class PostController {
     }
 
     @GetMapping("/detail/{postId}")
-    public Map<String, Object> getPostDetail(@PathVariable("postId") Long postId) {
+    public Map<String, Object> getPostDetail(@PathVariable("postId") Long postId,
+                                             @SessionAttribute(name = "uid", required = false) String uid,
+                                             @SessionAttribute(name = "memberDivision", required = false) String memberDivision) {
         System.out.println("[" + LocalDateTime.now() + "] API /api/posts/detail/" + postId);
-        return postService.getPostDetail(postId);
+        Map<String, Object> post = postService.getPostDetail(postId);
+        if (post == null) {
+            return Map.of("success", false, "message", "게시글을 찾을 수 없습니다.");
+        }
+        String gallId = String.valueOf(post.getOrDefault("gall_id", ""));
+        try {
+            featureService.assertBoardReadable(gallId, uid, memberDivision);
+        } catch (RuntimeException e) {
+            return Map.of("success", false, "message", "게시글을 열람할 권한이 없습니다.");
+        }
+        if (!featureService.canViewPost(post, uid, memberDivision)) {
+            return Map.of("success", false, "message", "게시글을 열람할 권한이 없습니다.");
+        }
+        postService.incrementViewCount(gallId, toLong(post.get("post_no")));
+        return Map.of("success", true, "post", contentResponsePolicy.protectPost(post, uid, memberDivision));
     }
 
     @GetMapping("/get/{gid}/{postNo}")
@@ -61,13 +84,21 @@ public class PostController {
         if (!featureService.canViewPost(post, uid, memberDivision)) {
             return Map.of("success", false, "message", "게시글을 열람할 권한이 없습니다.");
         }
+        postService.incrementViewCount(gid, postNo);
 
         return Map.of(
                 "success", true,
-                "post", post,
-                "comments", postService.getComments(gid, postNo),
+                "post", contentResponsePolicy.protectPost(post, uid, memberDivision),
+                "comments", contentResponsePolicy.protectComments(postService.getComments(gid, postNo), gid, uid, memberDivision),
                 "voteState", postService.getVoteState(gid, postNo, uid, extractClientIp(request))
         );
+    }
+
+    private Long toLong(Object value) {
+        if (value instanceof Number number) {
+            return number.longValue();
+        }
+        return Long.parseLong(String.valueOf(value));
     }
 
     @PostMapping("/write")

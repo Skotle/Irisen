@@ -6,13 +6,6 @@
     <title th:text="${boardInfo.gall_name != null ? boardInfo.gall_name : gid}">보드</title>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/security-request.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5128462008892004"
-            crossorigin="anonymous"></script>
-    <ins class="kakao_ad_area" style="display:none;"
-         data-ad-unit = "DAN-HGwMI7hHrajGwi2G"
-         data-ad-width = "160"
-         data-ad-height = "600"></ins>
-    <script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async></script>
 </head>
 <body>
 <header class="topbar">
@@ -282,7 +275,7 @@
     </article>
 </section>
 
-<script>
+<script th:attr="nonce=${cspNonce}">
 (() => {
   const table = document.querySelector('.dc-post-table-wrap');
   const flash = document.getElementById('boardFlash');

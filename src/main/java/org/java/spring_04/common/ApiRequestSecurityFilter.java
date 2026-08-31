@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 public class ApiRequestSecurityFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(ApiRequestSecurityFilter.class);
     private static final Duration MAX_CLOCK_SKEW = Duration.ofMinutes(10);
-    private static final int MAX_JSON_BODY_BYTES = 2 * 1024 * 1024;
+    private static final int MAX_JSON_BODY_BYTES = 1024 * 1024;
     private static final Pattern REQUEST_ID = Pattern.compile("^[A-Za-z0-9._:-]{12,100}$");
     private static final Pattern SHA_256_HEX = Pattern.compile("^[a-fA-F0-9]{64}$");
     private static final TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {};
@@ -61,7 +61,12 @@ public class ApiRequestSecurityFilter extends OncePerRequestFilter {
             return;
         }
 
-        byte[] body = request.getInputStream().readAllBytes();
+        long declaredLength = request.getContentLengthLong();
+        if (declaredLength > MAX_JSON_BODY_BYTES) {
+            reject(request, response, "Request payload is too large.");
+            return;
+        }
+        byte[] body = request.getInputStream().readNBytes(MAX_JSON_BODY_BYTES + 1);
         if (body.length > MAX_JSON_BODY_BYTES) {
             reject(request, response, "Request payload is too large.");
             return;
@@ -233,45 +238,14 @@ public class ApiRequestSecurityFilter extends OncePerRequestFilter {
     }
 
     private String forwardedScheme(HttpServletRequest request) {
-        String proto = request.getHeader("X-Forwarded-Proto");
-        return proto == null || proto.isBlank() ? request.getScheme() : proto.split(",")[0].trim();
+        return request.getScheme();
     }
 
     private String forwardedHost(HttpServletRequest request) {
-        String host = request.getHeader("X-Forwarded-Host");
-        if (host == null || host.isBlank()) {
-            host = request.getHeader("Host");
-        }
-        if (host == null || host.isBlank()) {
-            return request.getServerName();
-        }
-        String first = host.split(",")[0].trim();
-        int colon = first.lastIndexOf(':');
-        return colon > -1 ? first.substring(0, colon) : first;
+        return request.getServerName();
     }
 
     private int forwardedPort(HttpServletRequest request, String scheme) {
-        String forwardedPort = request.getHeader("X-Forwarded-Port");
-        if (forwardedPort != null && !forwardedPort.isBlank()) {
-            try {
-                return Integer.parseInt(forwardedPort.split(",")[0].trim());
-            } catch (NumberFormatException ignored) {
-            }
-        }
-        String host = request.getHeader("X-Forwarded-Host");
-        if (host == null || host.isBlank()) {
-            host = request.getHeader("Host");
-        }
-        if (host != null) {
-            String first = host.split(",")[0].trim();
-            int colon = first.lastIndexOf(':');
-            if (colon > -1) {
-                try {
-                    return Integer.parseInt(first.substring(colon + 1));
-                } catch (NumberFormatException ignored) {
-                }
-            }
-        }
         return request.getServerPort() > 0 ? request.getServerPort() : ("https".equalsIgnoreCase(scheme) ? 443 : 80);
     }
 

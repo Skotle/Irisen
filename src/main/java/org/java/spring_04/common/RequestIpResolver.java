@@ -23,7 +23,7 @@ public class RequestIpResolver {
     public String resolve(HttpServletRequest request) {
         String remoteAddr = normalizeIp(request.getRemoteAddr());
         if (isTrustedProxy(remoteAddr)) {
-            String forwarded = firstHeaderToken(request.getHeader("X-Forwarded-For"));
+            String forwarded = firstUntrustedFromRight(request.getHeader("X-Forwarded-For"));
             if (forwarded != null) {
                 return normalizeIp(forwarded);
             }
@@ -45,6 +45,20 @@ public class RequestIpResolver {
         }
         String token = parts[0].trim();
         return token.isEmpty() ? null : token;
+    }
+
+    private String firstUntrustedFromRight(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        String[] parts = value.split(",");
+        for (int i = parts.length - 1; i >= 0; i--) {
+            String candidate = normalizeIp(parts[i]);
+            if (!candidate.isBlank() && !isTrustedProxy(candidate)) {
+                return candidate;
+            }
+        }
+        return null;
     }
 
     private boolean isTrustedProxy(String remoteAddr) {
