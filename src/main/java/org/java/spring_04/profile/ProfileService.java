@@ -133,6 +133,7 @@ public class ProfileService {
         }
 
         boolean ownerView = resolvedTarget.equals(nullableText(viewerUid));
+        boolean blockedByViewer = !ownerView && isBlockedBy(viewerUid, resolvedTarget);
         boolean blockedView = !ownerView && isBlockedBetween(viewerUid, resolvedTarget);
         Map<String, Object> settings = getProfileSettings(resolvedTarget);
         boolean showPosts = !blockedView && (ownerView || toBooleanFlag(settings.get("show_posts")));
@@ -188,6 +189,7 @@ public class ProfileService {
         profile.put("posts", showPosts ? getPostsByUser(resolvedTarget) : List.of());
         profile.put("comments", showComments ? getCommentsByUser(resolvedTarget) : List.of());
         profile.put("blockedView", blockedView);
+        profile.put("blockedByViewer", blockedByViewer);
         profile.put("scraps", ownerView ? getScrapsByUser(resolvedTarget) : List.of());
         return profile;
     }
@@ -462,6 +464,21 @@ public class ProfileService {
                 WHERE (blocker_uid = ? AND blocked_uid = ?)
                    OR (blocker_uid = ? AND blocked_uid = ?)
                 """, Integer.class, viewer, targetUid, targetUid, viewer);
+        return count != null && count > 0;
+    }
+
+    private boolean isBlockedBy(String blockerUid, String targetUid) {
+        String blocker = nullableText(blockerUid);
+        String target = nullableText(targetUid);
+        if (blocker == null || target == null) {
+            return false;
+        }
+        Integer count = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM user_block
+                WHERE blocker_uid = ?
+                  AND blocked_uid = ?
+                """, Integer.class, blocker, target);
         return count != null && count > 0;
     }
 

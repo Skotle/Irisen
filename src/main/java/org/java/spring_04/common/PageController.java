@@ -78,6 +78,12 @@ public class PageController {
         return "index";
     }
 
+    @GetMapping("/search")
+    public String search() {
+        logRequest("SEARCH");
+        return "index";
+    }
+
     @GetMapping("/profile")
     public String profile() {
         logRequest("PROFILE");
@@ -112,6 +118,12 @@ public class PageController {
     public String mobileFeed(Model model) {
         logRequest("MOBILE FEED");
         addCrawlerSnapshot(model);
+        return "mobile";
+    }
+
+    @GetMapping({"/m/search", "/m/profile", "/m/profile/{uid}", "/m/alarms"})
+    public String mobileUtilityPage() {
+        logRequest("MOBILE UTILITY");
         return "mobile";
     }
 

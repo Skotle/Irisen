@@ -193,7 +193,7 @@ class BoardRouter(
         return "index"
     }
 
-    @GetMapping("/board/{gid}/manage")
+    @GetMapping("/board/{gid}/manage", "/board/{gid}/staff")
     fun boardManage(@PathVariable gid: String, session: HttpSession): String {
         val boardId = cleanPathSegment(gid)
         logRequest("BOARD MANAGE $boardId")
@@ -201,6 +201,16 @@ class BoardRouter(
             return "redirect:/board/$boardId"
         }
         return "index"
+    }
+
+    @GetMapping("/m/board/{gid}/manage")
+    fun mobileBoardManage(@PathVariable gid: String, session: HttpSession): String {
+        val boardId = cleanPathSegment(gid)
+        logRequest("MOBILE BOARD MANAGE $boardId")
+        if (!boardService.canManageBoard(boardId, sessionUid(session), sessionDivision(session))) {
+            return "redirect:/m/board/$boardId"
+        }
+        return "mobile"
     }
 
     @GetMapping("/board/{gid}/join")

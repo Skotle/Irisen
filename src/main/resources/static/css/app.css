@@ -476,6 +476,24 @@ button {
   background: #fff;
 }
 
+.permission-notice {
+  display: grid;
+  gap: 5px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--accent);
+  background: #fff8fb;
+  color: var(--text);
+}
+
+.permission-notice-label {
+  font-size: 0.95rem;
+}
+
+.permission-notice-detail {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 .permission-title {
   margin: 8px 0 14px;
   font-size: 1.12rem;

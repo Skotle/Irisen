@@ -291,6 +291,31 @@
     return { name: "notFound", params: {} };
   }
 
+  const formatPageTitle = (title) => title && title !== "Irisen" ? `${title} | Irisen` : "Irisen";
+
+  function pageTitleForRoute({ route, board, post, profileUid, searchQuery }) {
+    const boardName = board?.gall_name || route.params.gid || "보드";
+    const titles = {
+      home: "Irisen",
+      login: "로그인",
+      adminLogin: "관리자 로그인",
+      signup: "회원가입",
+      alarms: "알림",
+      boardRequests: "보드 개설 신청",
+      profile: profileUid ? `${profileUid} 프로필` : "프로필",
+      boards: "보드 목록",
+      feed: "피드",
+      search: searchQuery ? `${searchQuery} 검색` : "통합 검색",
+      write: `${boardName} 글쓰기`,
+      boardManage: `${boardName} 관리`,
+      boardStaffManage: `${boardName} 운영진 관리`,
+      post: post?.title || `${boardName} 게시글`,
+      board: boardName,
+      notFound: "페이지를 찾을 수 없음"
+    };
+    return formatPageTitle(titles[route.name] || "Irisen");
+  }
+
   function navigate(path, replace = false) {
     const target = appHref(path);
     if (isServerRenderedPath(target)) {
@@ -331,15 +356,32 @@
   }
 
   function PermissionNotice({ label, detail }) {
-    return null;
+    if (!label && !detail) return null;
+    return h("aside", { className: "permission-notice", role: "note" },
+        label ? h("strong", { className: "permission-notice-label" }, label) : null,
+        detail ? h("span", { className: "permission-notice-detail" }, detail) : null
+    );
   }
 
   function PermissionMatrix({ title = "행동별 필요 권한", items = [] }) {
-    return null;
+    if (!items.length) return null;
+    return h("section", { className: "permission-matrix card", "aria-label": title },
+        h("h2", { className: "permission-title" }, title),
+        h("div", { className: "permission-grid" }, items.map((item, index) =>
+            h("article", { className: "permission-item", key: `${item.action || "permission"}-${index}` },
+                h("div", { className: "permission-action" }, item.action || "기능"),
+                h("div", { className: "permission-required" }, `필요 조건: ${item.required || "없음"}`),
+                item.note ? h("div", { className: "permission-note muted" }, item.note) : null,
+                typeof item.available === "boolean"
+                    ? h("span", { className: `permission-state ${item.available ? "is-allowed" : "is-blocked"}` }, item.available ? "현재 사용 가능" : "현재 사용 제한")
+                    : null
+            )
+        ))
+    );
   }
 
   function ActionPermission({ children }) {
-    return null;
+    return children ? h("div", { className: "action-permission", role: "note" }, children) : null;
   }
 
   function ConsentChecklist({ title = "사전 동의", items = [], checked = false, onToggle, requiredLabel = "모든 항목을 확인하고 동의합니다." }) {
@@ -2344,6 +2386,42 @@
   }
 
   function AlarmsView({ session, alarms, feedback, onAcceptAlarm, onRejectAlarm, onMarkAllRead, onLogout, alarmCount }) {
+    const [notificationSettings, setNotificationSettings] = useState(null);
+    const [notificationFeedback, setNotificationFeedback] = useState(null);
+    const notificationFlag = (value, fallback) => value == null ? fallback : flagEnabled(value);
+
+    useEffect(() => {
+      if (!session?.loggedIn) {
+        setNotificationSettings(null);
+        setNotificationFeedback(null);
+        return;
+      }
+      api("/api/features/notifications/settings")
+          .then((result) => {
+            if (!result?.success) throw new Error(result?.message || "알림 설정을 불러오지 못했습니다.");
+            const data = result.data || {};
+            setNotificationSettings({
+              inAppEnabled: notificationFlag(data.in_app_enabled ?? data.inAppEnabled, true),
+              emailEnabled: notificationFlag(data.email_enabled ?? data.emailEnabled, false),
+              followPostEnabled: notificationFlag(data.follow_post_enabled ?? data.followPostEnabled, true),
+              commentEnabled: notificationFlag(data.comment_enabled ?? data.commentEnabled, true)
+            });
+          })
+          .catch((error) => setNotificationFeedback({ type: "error", message: error.message || "알림 설정을 불러오지 못했습니다." }));
+    }, [session?.loggedIn]);
+
+    function saveNotificationSettings() {
+      if (!notificationSettings) return;
+      setNotificationFeedback(null);
+      const payload = Object.fromEntries(Object.entries(notificationSettings).map(([key, value]) => [key, String(!!value)]));
+      api("/api/features/notifications/settings", { method: "POST", body: JSON.stringify(payload) })
+          .then((result) => {
+            if (!result?.success) throw new Error(result?.message || "알림 설정 저장에 실패했습니다.");
+            setNotificationFeedback({ type: "success", message: "알림 설정을 저장했습니다." });
+          })
+          .catch((error) => setNotificationFeedback({ type: "error", message: error.message || "알림 설정 저장에 실패했습니다." }));
+    }
+
     return h(React.Fragment, null,
         h(TopbarV2, { session, onLogout, alarmCount }),
         h("main", { className: "shell" },
@@ -2366,6 +2444,24 @@
                         ? h("article", { className: "card auth-card" }, h("p", { className: "muted" }, "로그인해야 알림을 확인할 수 있습니다."))
                         : h("div", { className: "stack" },
                             h(Feedback, { feedback }),
+                            h("article", { className: "card" },
+                                h(SectionHead, { eyebrow: "Preferences", title: "알림 설정" }),
+                                notificationSettings
+                                    ? h("div", { className: "stack" },
+                                        [
+                                          ["inAppEnabled", "앱 내 알림 받기"],
+                                          ["emailEnabled", "이메일 알림 받기"],
+                                          ["followPostEnabled", "팔로우한 사용자의 새 글 알림"],
+                                          ["commentEnabled", "내 글과 댓글의 새 댓글 알림"]
+                                        ].map(([key, label]) => h("label", { className: "check-row", key },
+                                            h("input", { type: "checkbox", checked: !!notificationSettings[key], onChange: (event) => setNotificationSettings((current) => ({ ...current, [key]: event.target.checked })) }),
+                                            h("span", null, label)
+                                        )),
+                                        h(Feedback, { feedback: notificationFeedback }),
+                                        h("div", { className: "inline-actions" }, h("button", { type: "button", className: "btn btn-primary btn-compact", onClick: saveNotificationSettings }, "설정 저장"))
+                                    )
+                                    : h("div", { className: "muted" }, "알림 설정을 불러오는 중입니다.")
+                            ),
                             alarms.length
                                 ? alarms.map((alarm) => h("article", { className: "card", key: alarm.alarm_id },
                                     h("div", { className: "section-head" },
@@ -2386,7 +2482,7 @@
     );
   }
 
-  function ProfileView({ session, profileData, feedback, onSaveProfile, onDeleteHistory, onFollowProfile, onUnfollowProfile, onLogout, alarmCount }) {
+  function ProfileView({ session, profileData, feedback, onSaveProfile, onDeleteHistory, onFollowProfile, onUnfollowProfile, onBlockProfile, onUnblockProfile, onLogout, alarmCount }) {
     const [statusMessage, setStatusMessage] = useState(profileData?.statusMessage || "");
     const [bio, setBio] = useState(profileData?.bio || "");
     const [accentColor, setAccentColor] = useState(profileData?.accentColor || "#ff8fab");
@@ -2502,9 +2598,15 @@
                                 ? profileData.follow?.isFollowing
                                     ? h("button", { type: "button", className: "btn btn-secondary btn-compact", onClick: () => onUnfollowProfile(profileData.uid) }, "언팔로우")
                                     : h("button", { type: "button", className: "btn btn-primary btn-compact", onClick: () => onFollowProfile(profileData.uid) }, "팔로우")
+                                : null,
+                            !profileData.ownerView && session?.loggedIn
+                                ? profileData.blockedByViewer
+                                    ? h("button", { type: "button", className: "btn btn-secondary btn-compact", onClick: () => onUnblockProfile(profileData.uid) }, "차단 해제")
+                                    : h("button", { type: "button", className: "btn btn-ghost btn-compact", onClick: () => onBlockProfile(profileData.uid) }, "사용자 차단")
                                 : null
                         )
                     ),
+                    !profileData.ownerView ? h(Feedback, { feedback }) : null,
                     profileData.canEdit
                         ? h("article", { className: "card profile-settings-card" },
                             h(SectionHead, { eyebrow: "Customize", title: "프로필 설정" }),
@@ -2583,7 +2685,16 @@
                                     h("div", { className: "muted" }, `${comment.gall_name || comment.gall_id} · ${formatDate(comment.writed_at)}`),
                                     h("div", { className: "muted profile-comment-preview" }, comment.content || "")
                                 ))) : h("div", { className: "empty-box" }, "작성한 댓글이 없습니다.")
-                    )
+                    ),
+                    profileData.ownerView ? h("article", { className: "card profile-list-card" },
+                        h(SectionHead, { eyebrow: "Scraps", title: "스크랩한 글" }),
+                        profileData.scraps?.length ? h("div", { className: "compact-stack" }, profileData.scraps.map((post) =>
+                            h(Link, { href: `/board/${encodeURIComponent(post.gall_id)}/${post.post_no}`, reload: true, className: "mini-link-card", key: `${post.gall_id}-${post.post_no}` },
+                                h("div", { className: "board-title", style: { fontSize: "1rem" } }, post.title || "제목 없음"),
+                                h("div", { className: "muted" }, `${post.gall_name || post.gall_id} · ${formatDate(post.scrapped_at || post.writed_at)}`)
+                            )
+                        )) : h("div", { className: "empty-box" }, "스크랩한 글이 없습니다.")
+                    ) : null
                 )
             )
         )
@@ -2652,6 +2763,16 @@
         window.removeEventListener("app:navigate", syncRoute);
       };
     }, []);
+
+    useEffect(() => {
+      document.title = pageTitleForRoute({
+        route,
+        board: currentBoard,
+        post: postData.post,
+        profileUid: targetProfileUid,
+        searchQuery
+      });
+    }, [route, currentBoard, postData.post, targetProfileUid, searchQuery]);
 
     function refreshSession() {
       return api("/api/check-login").then((data) => setSession(data || { loggedIn: false })).catch(() => setSession({ loggedIn: false }));
@@ -3363,6 +3484,29 @@
           .catch((error) => setProfileFeedback({ type: "error", message: error.message || "언팔로우에 실패했습니다." }));
     }
 
+    function blockProfile(targetUid) {
+      if (!session?.loggedIn) {
+        setProfileFeedback({ type: "error", message: "로그인해야 사용자를 차단할 수 있습니다." });
+        return;
+      }
+      if (!window.confirm(`${targetUid} 사용자를 차단할까요? 서로의 공개 활동 일부가 제한됩니다.`)) return;
+      api(`/api/features/blocks/${encodeURIComponent(targetUid)}`, { method: "POST" })
+          .then((result) => {
+            if (!result?.success) throw new Error(result?.message || "사용자 차단에 실패했습니다.");
+            return refreshProfile(targetUid).then(() => setProfileFeedback({ type: "success", message: "사용자를 차단했습니다." }));
+          })
+          .catch((error) => setProfileFeedback({ type: "error", message: error.message || "사용자 차단에 실패했습니다." }));
+    }
+
+    function unblockProfile(targetUid) {
+      api(`/api/features/blocks/${encodeURIComponent(targetUid)}`, { method: "DELETE" })
+          .then((result) => {
+            if (!result?.success) throw new Error(result?.message || "차단 해제에 실패했습니다.");
+            return refreshProfile(targetUid).then(() => setProfileFeedback({ type: "success", message: "차단을 해제했습니다." }));
+          })
+          .catch((error) => setProfileFeedback({ type: "error", message: error.message || "차단 해제에 실패했습니다." }));
+    }
+
     function submitSideBoardRequest(payload, reset) {
       if (!session?.loggedIn) {
         setBoardRequestFeedback({ type: "error", message: "로그인해야 요청할 수 있습니다." });
@@ -3447,7 +3591,7 @@
     if (route.name === "boardManage") return h(BoardManageView, { session, gid: route.params.gid, board: currentBoard, manageData: boardManageData, feedback: settingsFeedback, submanagerFeedback, onSaveSettings: submitBoardSettings, onRenameCategory: renameBoardCategory, onRenameTag: renameBoardTag, onBanBoardUser: banBoardUser, onUnbanBoardUser: unbanBoardUser, onSaveSubmanagerPermissions: submitSubmanagerPermissions, onAppointSubmanager: appointSubmanager, onRevokeSubmanager: revokeSubmanager, onTransferManager: transferManager, onLogout: handleLogout, alarmCount });
     if (route.name === "boardStaffManage") return h(BoardStaffManageView, { session, gid: route.params.gid, board: currentBoard, manageData: boardManageData, feedback: submanagerFeedback, onSaveSubmanagerPermissions: submitSubmanagerPermissions, onAppointSubmanager: appointSubmanager, onRevokeSubmanager: revokeSubmanager, onTransferManager: transferManager, onLogout: handleLogout, alarmCount });
     if (route.name === "post") return h(PostView, { session, gid: route.params.gid, post: postData.post, comments: postData.comments, feedback: commentFeedback, deleteFeedback, voteFeedback, voteState: postData.voteState, manageData: boardManageData, onSubmitComment: submitComment, onDeletePost: submitDeletePost, onDeleteComment: submitDeleteComment, onVote: submitVote, onScrapPost: scrapPost, onReportPost: reportPost, onLikeComment: likeComment, onReportComment: reportComment, onBanBoardUser: banBoardUser, onCancelConcept: cancelConcept, onSetConcept: setConcept, onBumpPost: bumpPost, onSetNotice: setNotice, onLogout: handleLogout, alarmCount });
-    if (route.name === "profile") return h(ProfileView, { session, profileData, feedback: profileFeedback, onSaveProfile: submitProfileSettings, onDeleteHistory: deleteProfileHistory, onFollowProfile: followProfile, onUnfollowProfile: unfollowProfile, onLogout: handleLogout, alarmCount });
+    if (route.name === "profile") return h(ProfileView, { session, profileData, feedback: profileFeedback, onSaveProfile: submitProfileSettings, onDeleteHistory: deleteProfileHistory, onFollowProfile: followProfile, onUnfollowProfile: unfollowProfile, onBlockProfile: blockProfile, onUnblockProfile: unblockProfile, onLogout: handleLogout, alarmCount });
     if (route.name === "write") return h(WriteView, { session, gid: route.params.gid, feedback: writeFeedback, manageData: boardManageData, onSubmitPost: submitPost, onLogout: handleLogout, alarmCount });
     if (route.name === "login") return h(AuthView, { mode: "login", feedback: authFeedback, onSubmitAuth: submitAuth, session, onLogout: handleLogout, alarmCount });
     if (route.name === "adminLogin") return h(AdminLoginView, { feedback: authFeedback, onSubmitAuth: submitAuth, session, onLogout: handleLogout, alarmCount });
