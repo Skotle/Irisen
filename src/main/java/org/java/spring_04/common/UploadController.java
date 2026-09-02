@@ -75,9 +75,17 @@ public class UploadController {
             }
         }
         try {
-            String url = gcsImageService.uploadImage(file);
-            log.info("Image uploaded. actor={} gallId={}", uid == null || uid.isBlank() ? "guest" : uid, normalizedGallId);
-            return ResponseEntity.ok(Map.of("success", true, "url", url));
+            GcsImageService.ImageUploadResult result = gcsImageService.uploadImage(file);
+            log.info("Image upload handled. actor={} gallId={} duplicateType={}",
+                    uid == null || uid.isBlank() ? "guest" : uid,
+                    normalizedGallId,
+                    result.duplicateType());
+            return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "url", result.url(),
+                    "duplicate", result.duplicate(),
+                    "duplicateType", result.duplicateType().apiValue()
+            ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         } catch (StorageException e) {
