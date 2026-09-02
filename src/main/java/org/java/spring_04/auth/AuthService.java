@@ -3,8 +3,11 @@ package org.java.spring_04.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.security.SecureRandom;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -17,7 +20,11 @@ public class AuthService {
     private static final int BCRYPT_COST = 12;
     private static final String DUMMY_PASSWORD_HASH = BCrypt.hashpw(
             "timing-only-password-value", BCrypt.gensalt(BCRYPT_COST));
+    private static final String DUMMY_VERIFICATION_HASH = BCrypt.hashpw(
+            "000000", BCrypt.gensalt(BCRYPT_COST));
     private static final int VERIFICATION_EXPIRE_MINUTES = 10;
+    public static final String ACTION_PASSWORD_RESET = "password_reset";
+    public static final String ACTION_ACCOUNT_DELETE = "account_delete";
     private static final Pattern UID_PATTERN = Pattern.compile("^[a-z][a-z0-9_]{3,19}$");
     private static final Pattern NICK_PATTERN = Pattern.compile("^[\\p{L}\\p{N}_ ]{1,20}$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
@@ -35,6 +42,9 @@ public class AuthService {
 
     @Autowired
     private EmailVerificationService emailVerificationService;
+
+    @Autowired
+    private AccountVerificationRepository accountVerificationRepository;
 
     public UserEntity login(String identifier, String password) {
         if (identifier == null || identifier.isBlank() || password == null || password.isBlank()) {
@@ -109,7 +119,7 @@ public class AuthService {
 
         String uid = required(data.get("userID"), "\uc544\uc774\ub514\ub97c \uc785\ub825\ud574 \uc8fc\uc138\uc694.");
         String nick = required(data.get("username"), "\ub2c9\ub124\uc784\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.");
-        String email = required(data.get("email"), "\uc774\uba54\uc77c\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.");
+        String email = normalizeEmail(required(data.get("email"), "\uc774\uba54\uc77c\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694."));
         String password = required(data.get("password"), "\ube44\ubc00\ubc88\ud638\ub97c \uc785\ub825\ud574 \uc8fc\uc138\uc694.");
         String nickType = normalizeNickType(data.get("nickType"));
         ensureSignupConsents(data);
@@ -131,7 +141,7 @@ public class AuthService {
         signupVerificationRepository.deleteExpired();
 
         String uid = required(data.get("userID"), "\uc544\uc774\ub514\ub97c \uc785\ub825\ud574 \uc8fc\uc138\uc694.");
-        String email = required(data.get("email"), "\uc774\uba54\uc77c\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.");
+        String email = normalizeEmail(required(data.get("email"), "\uc774\uba54\uc77c\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694."));
         String code = required(data.get("code"), "\uc778\uc99d \ucf54\ub4dc\ub97c \uc785\ub825\ud574 \uc8fc\uc138\uc694.");
 
         Map<String, Object> pending = signupVerificationRepository.findByUidAndEmail(uid, email);
@@ -177,6 +187,106 @@ public class AuthService {
         signupVerificationRepository.deleteByUid(uid);
     }
 
+    public void requestAccountAction(Map<String, String> data) {
+        accountVerificationRepository.deleteExpired();
+
+        String email = normalizeEmail(required(data.get("email"), "가입한 이메일을 입력해 주세요."));
+        String actionType = normalizeAccountAction(data.get("action"));
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            throw new RuntimeException("올바른 이메일 주소를 입력해 주세요.");
+        }
+
+        String passwordHash = null;
+        if (ACTION_PASSWORD_RESET.equals(actionType)) {
+            String newPassword = requiredSecret(data.get("newPassword"), "새 비밀번호를 입력해 주세요.");
+            String passwordMessage = validatePasswordPolicy(newPassword);
+            if (passwordMessage != null) {
+                throw new RuntimeException(passwordMessage);
+            }
+            passwordHash = BCrypt.hashpw(newPassword, BCrypt.gensalt(BCRYPT_COST));
+        }
+
+        UserEntity user = userDAO.findByEmail(email).orElse(null);
+        if (user == null || (ACTION_ACCOUNT_DELETE.equals(actionType) && isPrivileged(user.getMemberDivision()))) {
+            return;
+        }
+
+        String code = generateVerificationCode();
+        String codeHash = BCrypt.hashpw(code, BCrypt.gensalt(BCRYPT_COST));
+        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(VERIFICATION_EXPIRE_MINUTES);
+        accountVerificationRepository.replace(
+                user.getUid(),
+                email,
+                actionType,
+                passwordHash,
+                codeHash,
+                expiresAt
+        );
+        emailVerificationService.sendAccountActionCode(email, user.getUid(), actionType, code);
+    }
+
+    @Transactional
+    public String confirmAccountAction(Map<String, String> data) {
+        accountVerificationRepository.deleteExpired();
+
+        String email = normalizeEmail(required(data.get("email"), "가입한 이메일을 입력해 주세요."));
+        String actionType = normalizeAccountAction(data.get("action"));
+        String code = required(data.get("code"), "인증 코드를 입력해 주세요.");
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            throw new RuntimeException("올바른 이메일 주소를 입력해 주세요.");
+        }
+        if (ACTION_ACCOUNT_DELETE.equals(actionType)
+                && !"DELETE".equals(required(data.get("confirmation"), "계정 삭제 확인 문구를 입력해 주세요."))) {
+            throw new RuntimeException("계정 삭제 확인란에 DELETE를 정확히 입력해 주세요.");
+        }
+
+        Map<String, Object> pending = accountVerificationRepository.findLatest(email, actionType);
+        if (pending == null) {
+            BCrypt.checkpw(code, DUMMY_VERIFICATION_HASH);
+            throw invalidAccountVerification();
+        }
+
+        LocalDateTime expiresAt = toLocalDateTime(pending.get("expires_at"));
+        if (expiresAt == null || expiresAt.isBefore(LocalDateTime.now())) {
+            accountVerificationRepository.deleteByRequestId(longValue(pending.get("request_id")));
+            throw invalidAccountVerification();
+        }
+
+        String savedCodeHash = String.valueOf(pending.get("verification_code"));
+        boolean codeMatches;
+        try {
+            codeMatches = BCrypt.checkpw(code, savedCodeHash);
+        } catch (IllegalArgumentException e) {
+            codeMatches = false;
+        }
+        if (!codeMatches) {
+            throw invalidAccountVerification();
+        }
+
+        String uid = String.valueOf(pending.get("uid"));
+        if (ACTION_ACCOUNT_DELETE.equals(actionType) && isPrivileged(userDAO.findMemberDivision(uid))) {
+            throw new RuntimeException("관리자 또는 운영자 계정은 이 화면에서 삭제할 수 없습니다.");
+        }
+
+        long requestId = longValue(pending.get("request_id"));
+        if (accountVerificationRepository.deleteByRequestId(requestId) != 1) {
+            throw invalidAccountVerification();
+        }
+
+        if (ACTION_PASSWORD_RESET.equals(actionType)) {
+            String passwordHash = nullableText(pending.get("password_hash"));
+            if (passwordHash == null || userDAO.updatePassword(uid, passwordHash) != 1) {
+                throw new RuntimeException("비밀번호를 변경할 계정을 찾을 수 없습니다.");
+            }
+            return uid;
+        }
+
+        if (userDAO.deleteAccount(uid) != 1) {
+            throw new RuntimeException("삭제할 계정을 찾을 수 없습니다.");
+        }
+        return uid;
+    }
+
     private void ensureFieldValid(String field, String value, String nickType) {
         Map<String, Object> result = validateSignupField(field, value, nickType);
         if (!Boolean.TRUE.equals(result.get("valid"))) {
@@ -216,6 +326,53 @@ public class AuthService {
             return "\ube44\ubc00\ubc88\ud638\uc5d0\ub294 \ud2b9\uc218\ubb38\uc790\ub97c 1\uc790 \uc774\uc0c1 \ud3ec\ud568\ud574 \uc8fc\uc138\uc694.";
         }
         return null;
+    }
+
+    private String normalizeAccountAction(String value) {
+        String normalized = value == null ? "" : value.trim().toLowerCase();
+        if (ACTION_PASSWORD_RESET.equals(normalized) || ACTION_ACCOUNT_DELETE.equals(normalized)) {
+            return normalized;
+        }
+        throw new RuntimeException("지원하지 않는 계정 관리 요청입니다.");
+    }
+
+    private RuntimeException invalidAccountVerification() {
+        return new RuntimeException("인증 정보가 올바르지 않거나 만료되었습니다. 인증 메일을 다시 요청해 주세요.");
+    }
+
+    private boolean isPrivileged(String memberDivision) {
+        String normalized = memberDivision == null ? "" : memberDivision.trim().toLowerCase();
+        return "admin".equals(normalized) || "operator".equals(normalized);
+    }
+
+    private String normalizeEmail(String value) {
+        return value.trim().toLowerCase();
+    }
+
+    private String requiredSecret(String value, String message) {
+        if (value == null || value.isBlank()) {
+            throw new RuntimeException(message);
+        }
+        return value;
+    }
+
+    private String nullableText(Object value) {
+        if (value == null) {
+            return null;
+        }
+        String text = String.valueOf(value).trim();
+        return text.isEmpty() || "null".equalsIgnoreCase(text) ? null : text;
+    }
+
+    private long longValue(Object value) {
+        if (value instanceof Number number) {
+            return number.longValue();
+        }
+        try {
+            return Long.parseLong(String.valueOf(value));
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("인증 요청 정보를 확인할 수 없습니다.");
+        }
     }
 
     private String generateVerificationCode() {
@@ -261,6 +418,19 @@ public class AuthService {
         }
         if (value instanceof java.sql.Timestamp timestamp) {
             return timestamp.toLocalDateTime();
+        }
+        if (value != null) {
+            String text = String.valueOf(value).trim();
+            for (DateTimeFormatter formatter : new DateTimeFormatter[]{
+                    DateTimeFormatter.ISO_LOCAL_DATE_TIME,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"),
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+            }) {
+                try {
+                    return LocalDateTime.parse(text, formatter);
+                } catch (DateTimeParseException ignored) {
+                }
+            }
         }
         return null;
     }

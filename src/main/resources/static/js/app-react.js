@@ -270,6 +270,7 @@
     if (path === "/signin") return { name: "login", params: {} };
     if (path === "/admin-login") return { name: "adminLogin", params: {} };
     if (path === "/nid") return { name: "signup", params: {} };
+    if (path === "/account-recovery") return { name: "accountRecovery", params: {} };
     if (path === "/alarms") return { name: "alarms", params: {} };
     if (path === "/board-requests") return { name: "boardRequests", params: {} };
     if (path === "/profile") return { name: "profile", params: {} };
@@ -300,6 +301,7 @@
       login: "로그인",
       adminLogin: "관리자 로그인",
       signup: "회원가입",
+      accountRecovery: "계정 관리",
       alarms: "알림",
       boardRequests: "보드 개설 신청",
       profile: profileUid ? `${profileUid} 프로필` : "프로필",
@@ -2376,7 +2378,136 @@
                                       h("button", { type: "button", className: "btn btn-primary", key: "verify", disabled: !verificationSent || signupLoading, onClick: completeSignup }, signupLoading ? h(React.Fragment, null, h("span", { className: "loading-spinner", "aria-hidden": "true" }), "처리 중") : "인증 완료 후 가입")
                                     ],
                                 h(Link, { href: isLogin ? "/nid" : "/signin", className: "btn btn-secondary" }, isLogin ? "회원가입" : "로그인으로")
-                            )
+                            ),
+                            isLogin ? h("div", { className: "account-recovery-link-row" },
+                                h(Link, { href: "/account-recovery", className: "signup-policy-link" }, "가입 이메일로 비밀번호 변경 또는 계정 삭제")
+                            ) : null
+                        )
+                    )
+                )
+            )
+        )
+    );
+  }
+
+  function AccountRecoveryView({ session, onLogout, alarmCount, feedback, onAccountAction }) {
+    const [action, setAction] = useState("password_reset");
+    const [email, setEmail] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+    const [code, setCode] = useState("");
+    const [confirmation, setConfirmation] = useState("");
+    const [verificationSent, setVerificationSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [localFeedback, setLocalFeedback] = useState(null);
+    const deleting = action === "account_delete";
+
+    function changeAction(nextAction) {
+      setAction(nextAction);
+      setCode("");
+      setConfirmation("");
+      setVerificationSent(false);
+      setLocalFeedback(null);
+    }
+
+    async function requestCode() {
+      setLocalFeedback(null);
+      if (!email.trim()) {
+        setLocalFeedback({ type: "error", message: "가입한 이메일을 입력해 주세요." });
+        return;
+      }
+      if (!deleting) {
+        if (newPassword !== newPasswordConfirm) {
+          setLocalFeedback({ type: "error", message: "새 비밀번호 확인이 일치하지 않습니다." });
+          return;
+        }
+        if (newPassword.length < 8 || newPassword.length > 64
+            || !/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword)
+            || !/\d/.test(newPassword) || !/[^A-Za-z0-9]/.test(newPassword)) {
+          setLocalFeedback({ type: "error", message: "새 비밀번호는 8~64자로 영문 대문자, 소문자, 숫자, 특수문자를 모두 포함해야 합니다." });
+          return;
+        }
+      }
+      try {
+        setLoading(true);
+        const result = await onAccountAction({ stage: "request", action, email: email.trim(), newPassword });
+        if (result?.success) setVerificationSent(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function confirmAction() {
+      setLocalFeedback(null);
+      if (!verificationSent) {
+        setLocalFeedback({ type: "error", message: "먼저 인증 메일을 요청해 주세요." });
+        return;
+      }
+      if (!code.trim()) {
+        setLocalFeedback({ type: "error", message: "메일로 받은 인증 코드를 입력해 주세요." });
+        return;
+      }
+      if (deleting && confirmation !== "DELETE") {
+        setLocalFeedback({ type: "error", message: "계정 삭제 확인란에 DELETE를 정확히 입력해 주세요." });
+        return;
+      }
+      if (deleting && !window.confirm("계정을 삭제하면 복구할 수 없습니다. 정말 삭제할까요?")) return;
+      try {
+        setLoading(true);
+        await onAccountAction({ stage: "confirm", action, email: email.trim(), code: code.trim(), confirmation });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    return h(React.Fragment, null,
+        h(TopbarV2, { session, onLogout, alarmCount }),
+        h("main", { className: "shell" },
+            h("div", { className: "frame" },
+                h("section", { className: "auth-wrap account-recovery-wrap" },
+                    h("article", { className: "auth-card card" },
+                        h("span", { className: "eyebrow" }, "Account Security"),
+                        h("h1", { className: "section-title" }, "가입 이메일로 계정 관리"),
+                        h("p", { className: "muted" }, "가입할 때 인증한 이메일로 본인 확인 코드를 받아 비밀번호를 변경하거나 계정을 삭제할 수 있습니다."),
+                        h("div", { className: "account-action-tabs", role: "tablist", "aria-label": "계정 관리 작업" },
+                            h("button", { type: "button", role: "tab", "aria-selected": !deleting, className: `btn ${!deleting ? "btn-primary" : "btn-secondary"}`, onClick: () => changeAction("password_reset") }, "비밀번호 변경"),
+                            h("button", { type: "button", role: "tab", "aria-selected": deleting, className: `btn ${deleting ? "btn-danger" : "btn-secondary"}`, onClick: () => changeAction("account_delete") }, "계정 삭제")
+                        ),
+                        h("div", { className: "stack account-action-form" },
+                            deleting ? h("div", { className: "error-box" }, "계정 삭제 후에는 복구할 수 없습니다. 작성한 글과 댓글의 작성자는 ‘탈퇴한 사용자’로 익명화됩니다.") : null,
+                            h("div", { className: "field" },
+                                h("label", { htmlFor: "account-email" }, "가입한 이메일"),
+                                h("input", { id: "account-email", type: "email", autoComplete: "email", value: email, disabled: verificationSent, onChange: (event) => setEmail(event.target.value), placeholder: "name@example.com" })
+                            ),
+                            deleting ? null : [
+                              h("div", { className: "field", key: "new-password" },
+                                  h("label", { htmlFor: "account-new-password" }, "새 비밀번호"),
+                                  h("input", { id: "account-new-password", type: "password", autoComplete: "new-password", value: newPassword, disabled: verificationSent, onChange: (event) => setNewPassword(event.target.value), placeholder: "8~64자, 대/소문자·숫자·특수문자 포함" })
+                              ),
+                              h("div", { className: "field", key: "new-password-confirm" },
+                                  h("label", { htmlFor: "account-new-password-confirm" }, "새 비밀번호 확인"),
+                                  h("input", { id: "account-new-password-confirm", type: "password", autoComplete: "new-password", value: newPasswordConfirm, disabled: verificationSent, onChange: (event) => setNewPasswordConfirm(event.target.value) })
+                              )
+                            ],
+                            h("div", { className: "inline-actions" },
+                                h("button", { type: "button", className: "btn btn-secondary", disabled: loading, onClick: requestCode }, loading ? "처리 중" : (verificationSent ? "인증 메일 다시 보내기" : "인증 메일 보내기")),
+                                verificationSent ? h("button", { type: "button", className: "btn btn-ghost", disabled: loading, onClick: () => { setVerificationSent(false); setCode(""); } }, "이메일 다시 입력") : null
+                            ),
+                            verificationSent ? h(React.Fragment, null,
+                                h("div", { className: "success-box" }, "입력한 이메일과 일치하는 계정이 있으면 인증 메일이 발송됩니다. 코드는 10분 동안 유효합니다."),
+                                h("div", { className: "field" },
+                                    h("label", { htmlFor: "account-code" }, "이메일 인증 코드"),
+                                    h("input", { id: "account-code", type: "text", inputMode: "numeric", autoComplete: "one-time-code", maxLength: 6, value: code, onChange: (event) => setCode(event.target.value.replace(/\D/g, "")), placeholder: "6자리 코드" })
+                                ),
+                                deleting ? h("div", { className: "field" },
+                                    h("label", { htmlFor: "account-delete-confirmation" }, "삭제 확인을 위해 DELETE 입력"),
+                                    h("input", { id: "account-delete-confirmation", type: "text", autoComplete: "off", value: confirmation, onChange: (event) => setConfirmation(event.target.value), placeholder: "DELETE" })
+                                ) : null,
+                                h("button", { type: "button", className: deleting ? "btn btn-danger" : "btn btn-primary", disabled: loading, onClick: confirmAction }, loading ? "처리 중" : (deleting ? "인증 후 계정 삭제" : "인증 후 비밀번호 변경"))
+                            ) : null,
+                            h(Feedback, { feedback: localFeedback }),
+                            h(Feedback, { feedback }),
+                            h("div", { className: "account-recovery-link-row" }, h(Link, { href: "/signin", className: "signup-policy-link" }, "로그인으로 돌아가기"))
                         )
                     )
                 )
@@ -2732,6 +2863,7 @@
     const [profileData, setProfileData] = useState(null);
     const [postData, setPostData] = useState({ post: null, comments: [], voteState: { canVote: true, voteType: "" } });
     const [authFeedback, setAuthFeedback] = useState(null);
+    const [accountFeedback, setAccountFeedback] = useState(null);
     const [writeFeedback, setWriteFeedback] = useState(null);
     const [commentFeedback, setCommentFeedback] = useState(null);
     const [deleteFeedback, setDeleteFeedback] = useState(null);
@@ -3005,6 +3137,36 @@
         setAuthFeedback({ type: "success", message: result.message || "회원가입이 완료되었습니다." });
         setTimeout(() => navigate("/signin"), 500);
       }).catch((error) => setAuthFeedback({ type: "error", message: error.message || "이메일 인증 확인 중 오류가 발생했습니다." }));
+    }
+
+    async function submitAccountAction(payload) {
+      setAccountFeedback(null);
+      const endpoint = payload.stage === "confirm" ? "/api/account/confirm" : "/api/account/request";
+      try {
+        const result = await api(endpoint, {
+          method: "POST",
+          body: JSON.stringify({
+            action: payload.action,
+            email: payload.email,
+            newPassword: payload.newPassword || "",
+            code: payload.code || "",
+            confirmation: payload.confirmation || ""
+          })
+        });
+        setAccountFeedback({ type: result?.success ? "success" : "error", message: result?.message || "계정 관리 요청을 처리하지 못했습니다." });
+        if (result?.success && payload.stage === "confirm") {
+          if (payload.action === "account_delete") {
+            await refreshSession();
+            window.setTimeout(() => navigate("/", true), 700);
+          } else {
+            window.setTimeout(() => navigate("/signin", true), 700);
+          }
+        }
+        return result;
+      } catch (error) {
+        setAccountFeedback({ type: "error", message: error.message || "계정 관리 요청 중 오류가 발생했습니다." });
+        return { success: false };
+      }
     }
 
     function submitPost(payload, reset) {
@@ -3596,6 +3758,7 @@
     if (route.name === "login") return h(AuthView, { mode: "login", feedback: authFeedback, onSubmitAuth: submitAuth, session, onLogout: handleLogout, alarmCount });
     if (route.name === "adminLogin") return h(AdminLoginView, { feedback: authFeedback, onSubmitAuth: submitAuth, session, onLogout: handleLogout, alarmCount });
     if (route.name === "signup") return h(AuthView, { mode: "signup", feedback: authFeedback, onSubmitAuth: submitAuth, session, onLogout: handleLogout, alarmCount });
+    if (route.name === "accountRecovery") return h(AccountRecoveryView, { feedback: accountFeedback, onAccountAction: submitAccountAction, session, onLogout: handleLogout, alarmCount });
     if (route.name === "alarms") return h(AlarmsView, { session, alarms, feedback: alarmFeedback, onAcceptAlarm: acceptAlarm, onRejectAlarm: rejectAlarm, onMarkAllRead: markAllAlarmsRead, onLogout: handleLogout, alarmCount });
     return h(NotFoundView, { session, onLogout: handleLogout, alarmCount });
   }

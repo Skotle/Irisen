@@ -126,6 +126,9 @@ public class MobileRedirectFilter extends OncePerRequestFilter {
         if ("/nid".equals(path)) {
             return "/m/nid";
         }
+        if ("/account-recovery".equals(path)) {
+            return "/m/account-recovery";
+        }
         if ("/boards".equals(path) || "/board_main".equals(path)) {
             return "/m/boards";
         }

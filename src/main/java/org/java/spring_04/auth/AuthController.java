@@ -215,6 +215,50 @@ public class AuthController {
         return requestSignup(body, request);
     }
 
+    @PostMapping("/api/account/request")
+    public Map<String, Object> requestAccountAction(@RequestBody Map<String, String> body,
+                                                     HttpServletRequest request) {
+        String email = String.valueOf(body.getOrDefault("email", "")).trim().toLowerCase();
+        String action = String.valueOf(body.getOrDefault("action", "")).trim().toLowerCase();
+        String key = requestIpResolver.resolve(request) + ":" + email + ":" + action;
+        if (!rateLimiter.allow("account-action-request", key, 5, Duration.ofHours(1))) {
+            return Map.of("success", false, "message", "인증 메일 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.");
+        }
+        try {
+            authService.requestAccountAction(body);
+            return Map.of(
+                    "success", true,
+                    "message", "입력한 이메일과 일치하는 계정이 있으면 인증 메일을 발송했습니다."
+            );
+        } catch (Exception e) {
+            return Map.of("success", false, "message", e.getMessage());
+        }
+    }
+
+    @PostMapping("/api/account/confirm")
+    public Map<String, Object> confirmAccountAction(@RequestBody Map<String, String> body,
+                                                     HttpServletRequest request) {
+        String email = String.valueOf(body.getOrDefault("email", "")).trim().toLowerCase();
+        String action = String.valueOf(body.getOrDefault("action", "")).trim().toLowerCase();
+        String key = requestIpResolver.resolve(request) + ":" + email + ":" + action;
+        if (!rateLimiter.allow("account-action-confirm", key, 10, Duration.ofMinutes(30))) {
+            return Map.of("success", false, "message", "인증 확인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.");
+        }
+        try {
+            String affectedUid = authService.confirmAccountAction(body);
+            if (AuthService.ACTION_ACCOUNT_DELETE.equals(action)) {
+                HttpSession session = request.getSession(false);
+                if (session != null && affectedUid.equals(String.valueOf(session.getAttribute("uid")))) {
+                    session.invalidate();
+                }
+                return Map.of("success", true, "message", "계정이 삭제되었습니다.");
+            }
+            return Map.of("success", true, "message", "비밀번호가 변경되었습니다. 새 비밀번호로 로그인해 주세요.");
+        } catch (Exception e) {
+            return Map.of("success", false, "message", e.getMessage());
+        }
+    }
+
     @GetMapping("/api/signup/validate")
     public Map<String, Object> validateSignupField(@RequestParam("field") String field,
                                                    @RequestParam("value") String value,

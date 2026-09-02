@@ -102,6 +102,12 @@ public class PageController {
         return "index";
     }
 
+    @GetMapping("/account-recovery")
+    public String accountRecovery() {
+        logRequest("ACCOUNT RECOVERY");
+        return "index";
+    }
+
     @GetMapping("/m/nid")
     public String mobileSignup() {
         logRequest("MOBILE SIGNUP");
@@ -111,6 +117,12 @@ public class PageController {
     @GetMapping("/m/board-request")
     public String mobileBoardRequest() {
         logRequest("MOBILE BOARD REQUEST");
+        return "mobile";
+    }
+
+    @GetMapping("/m/account-recovery")
+    public String mobileAccountRecovery() {
+        logRequest("MOBILE ACCOUNT RECOVERY");
         return "mobile";
     }
 
@@ -134,9 +146,15 @@ public class PageController {
     }
 
     @GetMapping("/test")
-    public String test(HttpSession session) {
+    public String legacyApiTest(HttpSession session) {
         adminAccessService.assertAdmin(session);
-        logRequest("TEST");
+        return "redirect:/admin/api-test";
+    }
+
+    @GetMapping("/admin/api-test")
+    public String apiTest(HttpSession session) {
+        adminAccessService.assertAdmin(session);
+        logRequest("ADMIN API TEST");
         return "test";
     }
 

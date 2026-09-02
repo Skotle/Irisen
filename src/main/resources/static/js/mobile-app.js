@@ -204,6 +204,7 @@
     if (pathname === "/m") return { name: "home", params: {} };
     if (pathname === "/m/signin") return { name: "login", params: {} };
     if (pathname === "/m/nid") return { name: "signup", params: {} };
+    if (pathname === "/m/account-recovery") return { name: "accountRecovery", params: {} };
     if (pathname === "/m/boards") return { name: "boards", params: {} };
     if (pathname === "/m/board-request") return { name: "boardRequest", params: {} };
     if (pathname === "/m/feed") return { name: "feed", params: {} };
@@ -237,6 +238,7 @@
       home: "Irisen",
       login: "로그인",
       signup: "회원가입",
+      accountRecovery: "계정 관리",
       boards: "보드 목록",
       boardRequest: "보드 개설 신청",
       feed: "피드",
@@ -2080,7 +2082,117 @@
                   }
                 }, "인증 완료하고 가입")
               ),
-          h(MLink, { href: isLogin ? "/m/nid" : "/m/signin", className: "m-btn m-btn-secondary" }, isLogin ? "회원가입" : "로그인으로")
+          h(MLink, { href: isLogin ? "/m/nid" : "/m/signin", className: "m-btn m-btn-secondary" }, isLogin ? "회원가입" : "로그인으로"),
+          isLogin ? h(MLink, { href: "/m/account-recovery", className: "m-policy-link" }, "가입 이메일로 비밀번호 변경 또는 계정 삭제") : null
+        )
+      )
+    );
+  }
+
+  function AccountRecoveryView({ session, onLogout, alarmCount }) {
+    const [action, setAction] = useState("password_reset");
+    const [email, setEmail] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+    const [code, setCode] = useState("");
+    const [confirmation, setConfirmation] = useState("");
+    const [verificationSent, setVerificationSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [feedback, setFeedback] = useState(null);
+    const deleting = action === "account_delete";
+
+    function switchAction(nextAction) {
+      setAction(nextAction);
+      setVerificationSent(false);
+      setCode("");
+      setConfirmation("");
+      setFeedback(null);
+    }
+
+    async function requestCode() {
+      if (!email.trim()) {
+        setFeedback({ type: "error", message: "가입한 이메일을 입력해 주세요." });
+        return;
+      }
+      if (!deleting && (newPassword !== newPasswordConfirm
+          || newPassword.length < 8 || newPassword.length > 64
+          || !/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword)
+          || !/\d/.test(newPassword) || !/[^A-Za-z0-9]/.test(newPassword))) {
+        setFeedback({ type: "error", message: "새 비밀번호는 8~64자로 대문자, 소문자, 숫자, 특수문자를 모두 포함하고 확인값과 일치해야 합니다." });
+        return;
+      }
+      try {
+        setLoading(true);
+        setFeedback(null);
+        const result = await api("/api/account/request", {
+          method: "POST",
+          body: JSON.stringify({ action, email: email.trim(), newPassword: deleting ? "" : newPassword })
+        });
+        setFeedback({ type: result?.success ? "success" : "error", message: result?.message || "인증 메일 요청을 처리하지 못했습니다." });
+        if (result?.success) setVerificationSent(true);
+      } catch (error) {
+        setFeedback({ type: "error", message: error.message || "인증 메일 요청에 실패했습니다." });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function confirmAction() {
+      if (!code.trim()) {
+        setFeedback({ type: "error", message: "메일로 받은 인증 코드를 입력해 주세요." });
+        return;
+      }
+      if (deleting && confirmation !== "DELETE") {
+        setFeedback({ type: "error", message: "삭제 확인란에 DELETE를 정확히 입력해 주세요." });
+        return;
+      }
+      if (deleting && !window.confirm("계정을 삭제하면 복구할 수 없습니다. 정말 삭제할까요?")) return;
+      try {
+        setLoading(true);
+        setFeedback(null);
+        const result = await api("/api/account/confirm", {
+          method: "POST",
+          body: JSON.stringify({ action, email: email.trim(), code: code.trim(), confirmation })
+        });
+        setFeedback({ type: result?.success ? "success" : "error", message: result?.message || "계정 관리 요청을 처리하지 못했습니다." });
+        if (result?.success) {
+          window.setTimeout(() => {
+            if (deleting) window.location.assign("/m");
+            else navigate("/m/signin", true);
+          }, 700);
+        }
+      } catch (error) {
+        setFeedback({ type: "error", message: error.message || "계정 관리 요청에 실패했습니다." });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    return h(React.Fragment, null,
+      h(MobileTopbar, { session, onLogout, alarmCount }),
+      h("main", { className: "m-shell m-stack" },
+        h("section", { className: "m-auth m-card m-stack" },
+          h("span", { className: "m-eyebrow" }, "Account Security"),
+          h("h1", { className: "m-section-title" }, "가입 이메일로 계정 관리"),
+          h("div", { className: "m-muted" }, "이메일 인증 후 비밀번호를 변경하거나 계정을 삭제할 수 있습니다."),
+          h("div", { className: "m-account-tabs" },
+            h("button", { type: "button", className: `m-btn ${deleting ? "m-btn-secondary" : "m-btn-primary"}`, onClick: () => switchAction("password_reset") }, "비밀번호 변경"),
+            h("button", { type: "button", className: `m-btn ${deleting ? "m-btn-danger" : "m-btn-secondary"}`, onClick: () => switchAction("account_delete") }, "계정 삭제")
+          ),
+          deleting ? h("div", { className: "m-feedback-error" }, "삭제한 계정은 복구할 수 없으며 글과 댓글 작성자는 익명화됩니다.") : null,
+          h("div", { className: "m-field" }, h("label", { htmlFor: "m-account-email" }, "가입한 이메일"), h("input", { id: "m-account-email", type: "email", autoComplete: "email", value: email, disabled: verificationSent, onChange: (event) => setEmail(event.target.value) })),
+          deleting ? null : h(React.Fragment, null,
+            h("div", { className: "m-field" }, h("label", { htmlFor: "m-account-password" }, "새 비밀번호"), h("input", { id: "m-account-password", type: "password", autoComplete: "new-password", value: newPassword, disabled: verificationSent, onChange: (event) => setNewPassword(event.target.value) })),
+            h("div", { className: "m-field" }, h("label", { htmlFor: "m-account-password-confirm" }, "새 비밀번호 확인"), h("input", { id: "m-account-password-confirm", type: "password", autoComplete: "new-password", value: newPasswordConfirm, disabled: verificationSent, onChange: (event) => setNewPasswordConfirm(event.target.value) }))
+          ),
+          h("button", { type: "button", className: "m-btn m-btn-secondary", disabled: loading, onClick: requestCode }, loading ? "처리 중" : (verificationSent ? "인증 메일 다시 보내기" : "인증 메일 보내기")),
+          verificationSent ? h(React.Fragment, null,
+            h("div", { className: "m-field" }, h("label", { htmlFor: "m-account-code" }, "인증 코드"), h("input", { id: "m-account-code", type: "text", inputMode: "numeric", autoComplete: "one-time-code", maxLength: 6, value: code, onChange: (event) => setCode(event.target.value.replace(/\D/g, "")) })),
+            deleting ? h("div", { className: "m-field" }, h("label", { htmlFor: "m-account-delete" }, "삭제 확인을 위해 DELETE 입력"), h("input", { id: "m-account-delete", type: "text", value: confirmation, onChange: (event) => setConfirmation(event.target.value) })) : null,
+            h("button", { type: "button", className: `m-btn ${deleting ? "m-btn-danger" : "m-btn-primary"}`, disabled: loading, onClick: confirmAction }, deleting ? "인증 후 계정 삭제" : "인증 후 비밀번호 변경")
+          ) : null,
+          h(MFeedback, { feedback }),
+          h(MLink, { href: "/m/signin", className: "m-btn m-btn-secondary" }, "로그인으로 돌아가기")
         )
       )
     );
@@ -2788,6 +2900,7 @@
     if (route.name === "alarms") return h(AlarmsView, { session, alarms, feedback: alarmFeedback, onAcceptAlarm: acceptAlarm, onRejectAlarm: rejectAlarm, onMarkAllRead: markAllAlarmsRead, onLogout: handleLogout, alarmCount });
     if (route.name === "login") return h(AuthView, { mode: "login", feedback: authFeedback, onSubmitAuth: submitAuth, session, onLogout: handleLogout, alarmCount });
     if (route.name === "signup") return h(AuthView, { mode: "signup", feedback: authFeedback, onSubmitAuth: submitAuth, session, onLogout: handleLogout, alarmCount });
+    if (route.name === "accountRecovery") return h(AccountRecoveryView, { session, onLogout: handleLogout, alarmCount });
     return h(NotFoundView, { session, onLogout: handleLogout, alarmCount });
   }
 

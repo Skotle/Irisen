@@ -2,91 +2,143 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 API 테스트 | Irisen</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
-        .section { margin-bottom: 30px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
-        button { padding: 8px 15px; cursor: pointer; background: #ff5b86; color: white; border: none; border-radius: 0; }
-        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 13px; }
-        input, textarea { display: block; margin-bottom: 10px; width: 300px; padding: 5px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내부 API 점검 | Irisen</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/admin-api-test.css">
 </head>
-<body>
+<body class="api-test-page">
+<main class="page-shell">
+    <header class="api-test-header">
+        <div>
+            <h1>내부 Spring API 점검</h1>
+            <p>현재 관리자 세션으로 같은 서버의 API를 호출하고 원본 응답을 확인합니다.</p>
+        </div>
+        <nav class="admin-links" aria-label="관리자 메뉴">
+            <a href="/admin">권한 관리</a>
+            <a href="/admin/boards">보드 관리</a>
+            <a href="/admin/requests">요청 관리</a>
+            <a href="/">서비스로 돌아가기</a>
+        </nav>
+    </header>
 
-<h1>Post API 테스트 페이지</h1>
+    <div class="notice" role="note">
+        POST, PUT, PATCH, DELETE 요청은 실제 데이터를 변경할 수 있습니다. 운영 데이터에서 실행하기 전에 경로와 본문을 다시 확인하세요.
+    </div>
 
-<div class="section">
-    <h3>1. 게시글 작성 (로그인 필요)</h3>
-    <input type="text" id="gid" placeholder="갤러리 ID (stockus, marine 등)" value="stockus">
-    <input type="text" id="title" placeholder="글 제목">
-    <textarea id="content" placeholder="글 내용"></textarea>
-    <button id="testWriteButton">게시글 작성 요청</button>
-    <pre id="writeResult">결과가 여기에 표시됩니다.</pre>
-</div>
+    <div class="api-test-grid">
+        <section class="api-panel" aria-labelledby="requestTitle">
+            <h2 id="requestTitle">요청 만들기</h2>
 
-<div class="section">
-    <h3>2. 게시글 목록 조회</h3>
-    <input type="text" id="targetGid" placeholder="조회할 gid" value="stockus">
-    <button id="testListButton">목록 조회 요청</button>
-    <pre id="listResult">결과가 여기에 표시됩니다.</pre>
-</div>
+            <div class="preset-grid" aria-label="빠른 점검 항목">
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/check-login" data-body-type="none">
+                    <strong>관리자 세션</strong><span>GET /api/check-login</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/board/list" data-body-type="none">
+                    <strong>보드 목록</strong><span>GET /api/board/list</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/board/topics" data-body-type="none">
+                    <strong>보드 주제</strong><span>GET /api/board/topics</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/posts/recommend" data-body-type="none">
+                    <strong>추천 게시글</strong><span>GET /api/posts/recommend</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/profile/me" data-body-type="none">
+                    <strong>내 프로필</strong><span>GET /api/profile/me</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/alarms/my" data-body-type="none">
+                    <strong>알림 목록</strong><span>GET /api/alarms/my</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/features/notifications/settings" data-body-type="none">
+                    <strong>알림 설정</strong><span>GET /api/features/notifications/settings</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/admin/requests" data-body-type="none">
+                    <strong>관리 요청 현황</strong><span>GET /api/admin/requests</span>
+                </button>
+                <button class="preset-button" type="button" data-method="GET" data-path="/api/features/search?q=%ED%85%8C%EC%8A%A4%ED%8A%B8" data-body-type="none">
+                    <strong>통합 검색</strong><span>GET /api/features/search?q=테스트</span>
+                </button>
+                <button class="preset-button" type="button" data-method="POST" data-path="/api/upload/image" data-body-type="multipart">
+                    <strong>이미지 업로드</strong><span>POST /api/upload/image</span>
+                </button>
+            </div>
 
-<div class="section">
-    <h3>3. 실시간 인기글 조회</h3>
-    <button id="testRecommendButton">인기글 요청</button>
-    <pre id="recommendResult">결과가 여기에 표시됩니다.</pre>
-</div>
+            <form id="apiRequestForm" novalidate>
+                <div class="field">
+                    <span class="field-label">요청</span>
+                    <div class="request-line">
+                        <select id="requestMethod" aria-label="HTTP 메서드">
+                            <option>GET</option>
+                            <option>POST</option>
+                            <option>PUT</option>
+                            <option>PATCH</option>
+                            <option>DELETE</option>
+                        </select>
+                        <input id="requestPath" type="text" value="/api/check-login" autocomplete="off" spellcheck="false" aria-label="API 경로">
+                    </div>
+                    <span class="field-help">보안을 위해 현재 호스트의 <code>/api/**</code> 경로만 호출할 수 있습니다.</span>
+                </div>
+
+                <div class="field">
+                    <label for="requestBodyType">본문 형식</label>
+                    <select id="requestBodyType">
+                        <option value="none">본문 없음</option>
+                        <option value="json">JSON</option>
+                        <option value="multipart">이미지 multipart</option>
+                    </select>
+                </div>
+
+                <div class="field" id="jsonBodyField" hidden>
+                    <label for="requestBody">JSON 본문</label>
+                    <textarea id="requestBody" spellcheck="false">{}</textarea>
+                </div>
+
+                <div class="multipart-fields" id="multipartFields" hidden>
+                    <div class="field">
+                        <label for="requestFile">이미지 파일</label>
+                        <input id="requestFile" type="file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,image/heic,image/heif">
+                    </div>
+                    <div class="field">
+                        <label for="multipartGallId">gallId (선택)</label>
+                        <input id="multipartGallId" type="text" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="requestHeaders">추가 헤더 JSON (선택)</label>
+                    <textarea id="requestHeaders" spellcheck="false">{}</textarea>
+                    <span class="field-help">Cookie, Host, Origin 등 브라우저가 관리하는 헤더는 지정하지 마세요.</span>
+                </div>
+
+                <div class="request-actions">
+                    <button class="send-button" id="sendRequestButton" type="submit">요청 실행</button>
+                    <label class="mutation-confirm" id="mutationConfirmLabel" hidden>
+                        <input id="mutationConfirm" type="checkbox">
+                        실제 데이터 변경 가능성을 확인했습니다
+                    </label>
+                </div>
+                <div class="feedback" id="requestFeedback" role="alert"></div>
+            </form>
+
+            <section aria-labelledby="historyTitle">
+                <h3 id="historyTitle">이번 화면의 요청 기록</h3>
+                <div class="history-list" id="requestHistory">
+                    <p class="empty-history">아직 실행한 요청이 없습니다.</p>
+                </div>
+            </section>
+        </section>
+
+        <section class="api-panel" aria-labelledby="responseTitle">
+            <h2 id="responseTitle">응답</h2>
+            <div class="response-meta" id="responseMeta">
+                <span>대기 중</span>
+            </div>
+            <pre class="response-output" id="responseOutput">빠른 점검 항목을 선택하거나 API 요청을 직접 입력한 뒤 실행하세요.</pre>
+        </section>
+    </div>
+</main>
 
 <script src="/js/security-request.js"></script>
-<script src="/js/common.js"></script> <script th:attr="nonce=${cspNonce}">
-    // 결과 출력 유틸리티
-    function display(id, data) {
-        document.getElementById(id).textContent = JSON.stringify(data, null, 2);
-    }
-
-    // 1. 작성 테스트
-    async function testWrite() {
-        const payload = {
-            gid: document.getElementById('gid').value,
-            title: document.getElementById('title').value,
-            content: document.getElementById('content').value
-        };
-        try {
-            const data = await apiFetch('/api/posts/write', {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            });
-            display('writeResult', data);
-            if(data.success) alert("작성 성공!");
-        } catch (e) {
-            display('writeResult', { error: e.message });
-        }
-    }
-
-    // 2. 목록 조회 테스트
-    async function testList() {
-        const gid = document.getElementById('targetGid').value;
-        try {
-            const data = await apiFetch(`/api/posts/list?gid=${gid}`);
-            display('listResult', data);
-        } catch (e) {
-            display('listResult', { error: e.message });
-        }
-    }
-
-    // 3. 인기글 조회 테스트
-    async function testRecommend() {
-        try {
-            const data = await apiFetch('/api/posts/recommend');
-            display('recommendResult', data);
-        } catch (e) {
-            display('recommendResult', { error: e.message });
-        }
-    }
-
-    document.getElementById('testWriteButton').addEventListener('click', testWrite);
-    document.getElementById('testListButton').addEventListener('click', testList);
-    document.getElementById('testRecommendButton').addEventListener('click', testRecommend);
-</script>
+<script src="/js/admin-api-test.js"></script>
 </body>
 </html>

@@ -797,15 +797,6 @@ public class FeatureService {
     }
 
     @Transactional
-    public Map<String, Object> withdrawUser(String uid) {
-        String actor = required(uid, "로그인이 필요합니다.");
-        jdbcTemplate.update("UPDATE post SET writer_uid = NULL, name = '탈퇴한 사용자' WHERE writer_uid = ?", actor);
-        jdbcTemplate.update("UPDATE comment SET writer_uid = NULL, name = '탈퇴한 사용자' WHERE writer_uid = ?", actor);
-        jdbcTemplate.update("DELETE FROM user WHERE uid = ?", actor);
-        return Map.of("success", true);
-    }
-
-    @Transactional
     public void runDormancyCheck() {
         List<Map<String, Object>> boards = jdbcTemplate.queryForList("""
                 SELECT b.gall_id, b.manager_uid, COALESCE(b.last_activity_at, MAX(p.writed_at), NOW()) AS last_seen,

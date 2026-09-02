@@ -1,0 +1,276 @@
+:root {
+  --console-bg: #151821;
+  --console-text: #e9edf5;
+}
+
+.api-test-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.api-test-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.api-test-header h1,
+.api-test-header p {
+  margin: 0;
+}
+
+.api-test-header p {
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.admin-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-links a,
+.button {
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  color: var(--text);
+  padding: 9px 13px;
+  font-weight: 700;
+}
+
+.api-test-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  gap: 18px;
+}
+
+.api-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 20px;
+}
+
+.api-panel h2,
+.api-panel h3 {
+  margin: 0 0 14px;
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.preset-button {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  color: var(--text);
+  min-height: 58px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.preset-button strong,
+.preset-button span {
+  display: block;
+}
+
+.preset-button span {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.field label,
+.field-label {
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.request-line {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  color: var(--text);
+  padding: 11px 12px;
+}
+
+.field textarea {
+  min-height: 150px;
+  resize: vertical;
+  font-family: var(--mono);
+  line-height: 1.5;
+}
+
+.field-help {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.multipart-fields {
+  border: 1px dashed var(--line-strong);
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.request-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.send-button {
+  border: 1px solid var(--accent-deep);
+  background: var(--accent-deep);
+  color: #fff;
+  padding: 11px 18px;
+  font-weight: 900;
+}
+
+.send-button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.mutation-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--danger);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.notice {
+  border-left: 4px solid #e0a800;
+  background: #fff9df;
+  color: #6a5300;
+  padding: 11px 13px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+.feedback {
+  display: none;
+  padding: 10px 12px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+}
+
+.feedback.visible {
+  display: block;
+}
+
+.feedback.error {
+  border-color: #efb1aa;
+  background: #fff3f2;
+  color: var(--danger);
+}
+
+.response-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.response-meta span {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  padding: 4px 8px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.response-output {
+  min-height: 420px;
+  max-height: 68vh;
+  overflow: auto;
+  margin: 0;
+  padding: 16px;
+  background: var(--console-bg);
+  color: var(--console-text);
+  font: 13px/1.55 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.history-list {
+  display: grid;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.history-button {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 9px 10px;
+  text-align: left;
+}
+
+.history-method,
+.history-status {
+  font-family: var(--mono);
+  font-weight: 800;
+}
+
+.history-path {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-history {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .api-test-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .api-test-header {
+    display: grid;
+  }
+}
+
+@media (max-width: 600px) {
+  .preset-grid,
+  .request-line {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell {
+    width: min(100% - 28px, var(--desktop-max));
+  }
+}

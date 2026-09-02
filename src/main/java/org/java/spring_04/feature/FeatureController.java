@@ -270,11 +270,10 @@ public class FeatureController {
 
     @PostMapping("/me/withdraw")
     public Map<String, Object> withdraw(@SessionAttribute(name = "uid", required = false) String uid) {
-        try {
-            return featureService.withdrawUser(uid);
-        } catch (Exception e) {
-            return Map.of("success", false, "message", e.getMessage());
-        }
+        return Map.of(
+                "success", false,
+                "message", "계정 삭제는 로그인 화면의 계정 관리에서 가입 이메일 인증 후 진행해 주세요."
+        );
     }
 
     private String extractClientIp(HttpServletRequest request) {
