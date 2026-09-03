@@ -286,6 +286,7 @@ public class BoardService {
             jdbcTemplate.execute("ALTER TABLE post ADD COLUMN category VARCHAR(50) NULL");
         }
         ensurePostDisplayColumns();
+        ensurePerformanceIndexes();
     }
 
     private boolean isSqliteRuntime() {
@@ -389,6 +390,31 @@ public class BoardService {
         return count != null && count > 0;
     }
 
+    private void ensurePerformanceIndexes() {
+        ensureIndex("post", "idx_post_gallery_active_time", "gall_id, is_deleted, writed_at, id");
+        ensureIndex("post", "idx_post_gallery_number", "gall_id, post_no");
+        ensureIndex("post", "idx_post_recent_ranking", "is_deleted, is_draft, writed_at, gall_id");
+        ensureIndex("post", "idx_post_recommended", "is_deleted, is_draft, is_secret, recommend_count, view_count, id");
+        ensureIndex("post", "idx_post_writer_active_time", "writer_uid, is_deleted, writed_at, id");
+        ensureIndex("comment", "idx_comment_post_active", "gall_id, post_no, is_deleted");
+        ensureIndex("comment", "idx_comment_writer_active_time", "writer_uid, is_deleted, created_at, id");
+        ensureIndex("alarm", "idx_alarm_created_at", "created_at");
+        ensureIndex("board", "idx_board_manager", "manager_uid");
+    }
+
+    private void ensureIndex(String tableName, String indexName, String columns) {
+        Integer count = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM information_schema.statistics
+                WHERE table_schema = DATABASE()
+                  AND table_name = ?
+                  AND index_name = ?
+                """, Integer.class, tableName, indexName);
+        if (count == null || count == 0) {
+            jdbcTemplate.execute("ALTER TABLE " + tableName + " ADD INDEX " + indexName + " (" + columns + ")");
+        }
+    }
+
     private void seedBoardTopics() {
         List<Object[]> topics = List.of(
                 new Object[]{"game", "게임", "게임, e스포츠, 콘솔, PC/모바일 게임", 10},
@@ -423,6 +449,14 @@ public class BoardService {
     }
 
     public List<Map<String, Object>> getBoardList() {
+        return queryBoardList("");
+    }
+
+    public List<Map<String, Object>> getBoardList(String gallId) {
+        return queryBoardList(" WHERE g.gall_id = ?", gallId);
+    }
+
+    private List<Map<String, Object>> queryBoardList(String predicate, Object... args) {
         String sql = """
                 SELECT g.gall_id,
                        g.gall_name,
@@ -444,12 +478,13 @@ public class BoardService {
                 LEFT JOIN board_topic bt ON bt.topic_id = g.topic_id
                 LEFT JOIN gallery_setting gs ON gs.gall_id = g.gall_id
                 LEFT JOIN user manager ON manager.uid = g.manager_uid
+                """ + predicate + """
                 ORDER BY COALESCE(bt.sort_order, 9999) ASC,
                          COALESCE(bt.topic_name, '기타') ASC,
                          g.gall_name ASC,
                          g.gall_id ASC
                 """;
-        return resolveBoardTagRows(jdbcTemplate.queryForList(sql));
+        return resolveBoardTagRows(jdbcTemplate.queryForList(sql, args));
     }
 
     public Map<String, Object> getMyBoardDashboard(String uid) {
@@ -651,18 +686,18 @@ public class BoardService {
         List<Object> args = new ArrayList<>();
         args.add(gallId);
         if (hasDraft) {
-            sql.append(" AND COALESCE(p.is_draft, 0) = 0");
+            sql.append(" AND p.is_draft = 0");
         }
         if (hasSecret) {
-            sql.append(" AND COALESCE(p.is_secret, 0) = 0");
+            sql.append(" AND p.is_secret = 0");
         }
         if (hasReviewStatus) {
-            sql.append(" AND COALESCE(p.review_status, 'normal') <> 'review'");
+            sql.append(" AND p.review_status <> 'review'");
         }
         if ("concept".equalsIgnoreCase(normalizedMode)) {
-            sql.append(" AND COALESCE(p.is_concept, 0) = 1");
+            sql.append(" AND p.is_concept = 1");
         } else if ("notice".equalsIgnoreCase(normalizedMode)) {
-            sql.append(" AND COALESCE(p.is_notice, 0) = 1");
+            sql.append(" AND p.is_notice = 1");
         }
         if (normalizedCategory != null) {
             sql.append(" AND COALESCE(p.category, '') = ?");
@@ -1709,18 +1744,35 @@ public class BoardService {
     }
 
     @Transactional
-    public void syncGalleryPostCount() {
-        String sql = """
-                UPDATE board
-                SET post_count = (
-                    SELECT COUNT(*)
+    public int syncGalleryPostCount() {
+        if (isSqliteRuntime()) {
+            return jdbcTemplate.update("""
+                    UPDATE board
+                    SET post_count = (
+                        SELECT COUNT(*)
+                        FROM post
+                        WHERE post.gall_id = board.gall_id
+                          AND post.is_deleted = 0
+                    )
+                    WHERE COALESCE(post_count, 0) <> (
+                        SELECT COUNT(*)
+                        FROM post
+                        WHERE post.gall_id = board.gall_id
+                          AND post.is_deleted = 0
+                    )
+                    """);
+        }
+        return jdbcTemplate.update("""
+                UPDATE board b
+                LEFT JOIN (
+                    SELECT gall_id, COUNT(*) AS post_count
                     FROM post
-                    WHERE post.gall_id = board.gall_id
-                      AND post.is_deleted = 0
-                )
-                """;
-
-        jdbcTemplate.update(sql);
+                    WHERE is_deleted = 0
+                    GROUP BY gall_id
+                ) counts ON counts.gall_id = b.gall_id
+                SET b.post_count = COALESCE(counts.post_count, 0)
+                WHERE COALESCE(b.post_count, 0) <> COALESCE(counts.post_count, 0)
+                """);
     }
 
     public boolean canManageBoard(String gallId, String uid, String memberDivision) {
@@ -2896,16 +2948,20 @@ public class BoardService {
 
     private List<Map<String, Object>> resolveBoardTagRows(List<Map<String, Object>> rows) {
         for (Map<String, Object> row : rows) {
-            String gallId = nullableText(row.get("gall_id"));
             String boardTags = nullableText(row.get("board_tags"));
-            row.put("board_tags", normalizeBoardTagsForBoard(gallId, boardTags));
+            String topicId = firstNonBlank(nullableText(row.get("topic_id")), "other");
+            String topicName = firstNonBlank(nullableText(row.get("topic_name")), "기타");
+            row.put("board_tags", normalizeBoardTagsWithTopic(boardTags, topicId + " " + topicName));
         }
         return rows;
     }
 
     private String normalizeBoardTagsForBoard(String gallId, String value) {
+        return normalizeBoardTagsWithTopic(value, getBoardTopicTagText(gallId));
+    }
+
+    private String normalizeBoardTagsWithTopic(String value, String topicTagText) {
         List<String> tags = parseBoardTags(value);
-        String topicTagText = getBoardTopicTagText(gallId);
         if (tags.isEmpty()) {
             return topicTagText;
         }
@@ -3096,43 +3152,27 @@ public class BoardService {
                        COALESCE(NULLIF(b.gall_name, ''), b.gall_id) AS gall_name,
                        COALESCE(b.gall_type, 'other') AS gall_type,
                        COALESCE(b.post_count, 0) AS post_count,
-                       SUM(CASE
-                               WHEN p.is_deleted = 0
-                                AND COALESCE(p.is_draft, 0) = 0
-                                AND p.writed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-                               THEN 1 ELSE 0
-                           END) AS recent_post_count,
-                       SUM(CASE
-                               WHEN p.is_deleted = 0
-                                AND COALESCE(p.is_draft, 0) = 0
-                                AND p.writed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-                               THEN COALESCE(p.recommend_count, 0) ELSE 0
-                           END) AS recent_recommend_sum,
+                       COALESCE(recent.recent_post_count, 0) AS recent_post_count,
+                       COALESCE(recent.recent_recommend_sum, 0) AS recent_recommend_sum,
                        (
                            COALESCE(b.post_count, 0) * 2 +
-                           SUM(CASE
-                                   WHEN p.is_deleted = 0
-                                    AND COALESCE(p.is_draft, 0) = 0
-                                    AND p.writed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-                                   THEN 8 ELSE 0
-                               END) +
-                           SUM(CASE
-                                   WHEN p.is_deleted = 0
-                                    AND COALESCE(p.is_draft, 0) = 0
-                                    AND p.writed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-                                   THEN COALESCE(p.recommend_count, 0) * 3 ELSE 0
-                               END) +
-                           SUM(CASE
-                                   WHEN p.is_deleted = 0
-                                    AND COALESCE(p.is_draft, 0) = 0
-                                    AND p.writed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-                                   THEN LEAST(COALESCE(p.view_count, 0), 500) ELSE 0
-                               END) / 25
+                           COALESCE(recent.recent_post_count, 0) * 8 +
+                           COALESCE(recent.recent_recommend_sum, 0) * 3 +
+                           COALESCE(recent.recent_view_score, 0) / 25
                        ) AS score
                 FROM board b
-                LEFT JOIN post p ON p.gall_id = b.gall_id
-                WHERE COALESCE(b.status, 'active') <> 'deleted'
-                GROUP BY b.gall_id, b.gall_name, b.gall_type, b.post_count
+                LEFT JOIN (
+                    SELECT gall_id,
+                           COUNT(*) AS recent_post_count,
+                           SUM(COALESCE(recommend_count, 0)) AS recent_recommend_sum,
+                           SUM(LEAST(COALESCE(view_count, 0), 500)) AS recent_view_score
+                    FROM post
+                    WHERE writed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+                      AND is_deleted = 0
+                      AND is_draft = 0
+                    GROUP BY gall_id
+                ) recent ON recent.gall_id = b.gall_id
+                WHERE b.status IS NULL OR b.status <> 'deleted'
                 ORDER BY score DESC, recent_post_count DESC, post_count DESC, b.gall_id ASC
                 LIMIT 10
                 """);

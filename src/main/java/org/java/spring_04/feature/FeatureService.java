@@ -226,6 +226,9 @@ public class FeatureService {
                     INDEX idx_post_attachment_post (gall_id, post_no)
                 )
                 """);
+        ensureIndex("board", "idx_board_type_activity", "gall_type, last_activity_at");
+        ensureIndex("board_ban", "idx_board_ban_scope", "gall_id, expires_at, target_uid, target_ip");
+        ensureIndex("board_member", "idx_board_member_uid", "uid, status");
     }
 
     private boolean isSqliteRuntime() {
@@ -579,15 +582,19 @@ public class FeatureService {
         String dateFrom = nullable(params.get("dateFrom"));
         String dateTo = nullable(params.get("dateTo"));
 
+        if (gallId == null && keyword == null && category == null && writer == null && dateFrom == null && dateTo == null) {
+            return List.of();
+        }
+
         StringBuilder sql = new StringBuilder("""
                 SELECT p.*, b.gall_name
                 FROM post p
                 JOIN board b ON b.gall_id = p.gall_id
                 LEFT JOIN gallery_setting gs ON gs.gall_id = p.gall_id
                 WHERE p.is_deleted = 0
-                  AND COALESCE(p.is_draft, 0) = 0
-                  AND COALESCE(p.is_secret, 0) = 0
-                  AND COALESCE(p.review_status, 'normal') <> 'review'
+                  AND p.is_draft = 0
+                  AND p.is_secret = 0
+                  AND p.review_status <> 'review'
                   AND LOWER(COALESCE(CASE
                           WHEN LOWER(COALESCE(gs.read_visibility, 'inherit')) = 'inherit' THEN gs.visibility
                           ELSE gs.read_visibility
@@ -799,28 +806,24 @@ public class FeatureService {
     @Transactional
     public void runDormancyCheck() {
         List<Map<String, Object>> boards = jdbcTemplate.queryForList("""
-                SELECT b.gall_id, b.manager_uid, COALESCE(b.last_activity_at, MAX(p.writed_at), NOW()) AS last_seen,
+                SELECT b.gall_id,
+                       b.manager_uid,
+                       DATEDIFF(NOW(), COALESCE(b.last_activity_at, NOW())) AS inactive_days,
                        COALESCE(gs.dormant_after_days, 180) AS dormant_after_days
                 FROM board b
-                LEFT JOIN post p ON p.gall_id = b.gall_id
                 LEFT JOIN gallery_setting gs ON gs.gall_id = b.gall_id
                 WHERE b.gall_type = 'm'
-                GROUP BY b.gall_id, b.manager_uid, b.last_activity_at, gs.dormant_after_days
                 """);
         for (Map<String, Object> board : boards) {
             String gallId = text(board.get("gall_id"), "");
             String managerUid = nullable(board.get("manager_uid"));
             int days = number(board.get("dormant_after_days"), 180);
-            Integer inactive = jdbcTemplate.queryForObject("""
-                    SELECT DATEDIFF(NOW(), COALESCE(last_activity_at, NOW()))
-                    FROM board
-                    WHERE gall_id = ?
-                    """, Integer.class, gallId);
-            if (inactive != null && inactive >= Math.max(1, days - 7) && managerUid != null) {
+            int inactive = number(board.get("inactive_days"), 0);
+            if (inactive >= Math.max(1, days - 7) && managerUid != null) {
                 createAlarm(managerUid, "board_dormant_warning", "보드 휴면 전환 예정", gallId, "board", gallId);
                 jdbcTemplate.update("UPDATE board SET dormant_notified_at = COALESCE(dormant_notified_at, NOW()) WHERE gall_id = ?", gallId);
             }
-            if (inactive != null && inactive >= days) {
+            if (inactive >= days) {
                 jdbcTemplate.update("UPDATE board SET dormant_at = COALESCE(dormant_at, NOW()), status = 'dormant' WHERE gall_id = ?", gallId);
             }
         }
@@ -1035,6 +1038,19 @@ public class FeatureService {
                 """, Integer.class, table, column);
         if (count == null || count == 0) {
             jdbcTemplate.execute("ALTER TABLE " + table + " ADD COLUMN " + column + " " + definition);
+        }
+    }
+
+    private void ensureIndex(String table, String indexName, String columns) {
+        Integer count = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM information_schema.statistics
+                WHERE table_schema = DATABASE()
+                  AND table_name = ?
+                  AND index_name = ?
+                """, Integer.class, table, indexName);
+        if (count == null || count == 0) {
+            jdbcTemplate.execute("ALTER TABLE " + table + " ADD INDEX " + indexName + " (" + columns + ")");
         }
     }
 

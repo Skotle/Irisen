@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class UserDAO {
             jdbcTemplate.execute("ALTER TABLE user ADD COLUMN nick_type VARCHAR(20) NOT NULL DEFAULT 'variable'");
         } catch (Exception ignored) {
         }
+        ensureIndex("idx_user_email", "email");
+        ensureIndex("idx_user_fixed_nick", "nick, nick_type");
     }
 
     private boolean isSqliteRuntime() {
@@ -35,17 +38,18 @@ public class UserDAO {
     }
 
     public Optional<UserEntity> findByIdentifier(String identifier) {
+        String normalizedEmail = identifier == null ? null : identifier.trim().toLowerCase(Locale.ROOT);
         String sql = """
                 SELECT uid, nick, nick_type, nick_icon_type, password_hash, email, member_division
                 FROM user
-                WHERE uid = ? OR LOWER(email) = LOWER(?)
+                WHERE uid = ? OR email = ?
                 """;
         try {
             UserEntity user = jdbcTemplate.queryForObject(
                     sql,
                     new BeanPropertyRowMapper<>(UserEntity.class),
                     identifier,
-                    identifier
+                    normalizedEmail
             );
             return Optional.ofNullable(user);
         } catch (Exception e) {
@@ -54,16 +58,17 @@ public class UserDAO {
     }
 
     public Optional<UserEntity> findByEmail(String email) {
+        String normalizedEmail = email == null ? null : email.trim().toLowerCase(Locale.ROOT);
         String sql = """
                 SELECT uid, nick, nick_type, nick_icon_type, password_hash, email, member_division
                 FROM user
-                WHERE LOWER(email) = LOWER(?)
+                WHERE email = ?
                 ORDER BY created_at ASC
                 """;
         List<UserEntity> users = jdbcTemplate.query(
                 sql,
                 new BeanPropertyRowMapper<>(UserEntity.class),
-                email
+                normalizedEmail
         );
         return users.size() == 1 ? Optional.of(users.get(0)) : Optional.empty();
     }
@@ -78,10 +83,11 @@ public class UserDAO {
     }
 
     public boolean existsByEmail(String email) {
+        String normalizedEmail = email == null ? null : email.trim().toLowerCase(Locale.ROOT);
         Integer count = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM user WHERE LOWER(email) = LOWER(?)",
+                "SELECT COUNT(*) FROM user WHERE email = ?",
                 Integer.class,
-                email
+                normalizedEmail
         );
         return count != null && count > 0;
     }
@@ -176,7 +182,7 @@ public class UserDAO {
         deleteIfTableExists("user_profile", "DELETE FROM user_profile WHERE uid = ?", uid);
         deleteIfTableExists("user_suspension", "DELETE FROM user_suspension WHERE uid = ?", uid);
         deleteIfTableExists("account_verification", "DELETE FROM account_verification WHERE uid = ?", uid);
-        deleteIfTableExists("signup_verification", "DELETE FROM signup_verification WHERE uid = ? OR LOWER(email) = LOWER((SELECT email FROM user WHERE uid = ?))", uid, uid);
+        deleteIfTableExists("signup_verification", "DELETE FROM signup_verification WHERE uid = ? OR email = (SELECT email FROM user WHERE uid = ?)", uid, uid);
 
         String actorKey = "uid:" + uid;
         deleteIfTableExists("comment_reaction", "DELETE FROM comment_reaction WHERE actor_key = ?", actorKey);
@@ -195,6 +201,19 @@ public class UserDAO {
 
     private void deleteIfTableExists(String tableName, String sql, Object... args) {
         updateIfTableExists(tableName, sql, args);
+    }
+
+    private void ensureIndex(String indexName, String columns) {
+        Integer count = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM information_schema.statistics
+                WHERE table_schema = DATABASE()
+                  AND table_name = 'user'
+                  AND index_name = ?
+                """, Integer.class, indexName);
+        if (count == null || count == 0) {
+            jdbcTemplate.execute("ALTER TABLE user ADD INDEX " + indexName + " (" + columns + ")");
+        }
     }
 
     private boolean tableExists(String tableName) {

@@ -167,7 +167,7 @@ class BoardRouter(
     fun mobileBoardDetail(@PathVariable gid: String, model: Model): String {
         val boardId = cleanPathSegment(gid)
         logRequest("MOBILE BOARD $boardId")
-        model.addAttribute("crawlerBoards", boardService.getBoardList().filter { it["gall_id"]?.toString() == boardId })
+        model.addAttribute("crawlerBoards", boardService.getBoardList(boardId))
         model.addAttribute("crawlerPosts", boardService.getPostsByGallery(boardId, 1))
         return "mobile"
     }
@@ -368,7 +368,7 @@ class BoardRouter(
         val post = rawPost
             ?.takeIf { featureService.canViewPost(it, sessionUid(session), sessionDivision(session)) }
             ?.let { contentResponsePolicy.protectPost(it, sessionUid(session), sessionDivision(session)) }
-        model.addAttribute("crawlerBoards", boardService.getBoardList().filter { it["gall_id"]?.toString() == boardId })
+        model.addAttribute("crawlerBoards", boardService.getBoardList(boardId))
         model.addAttribute("crawlerPosts", if (post == null) emptyList<Map<String, Any?>>() else listOf(post))
         return "mobile"
     }

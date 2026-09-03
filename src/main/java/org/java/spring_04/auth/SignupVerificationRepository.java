@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Map;
 
 @Repository
@@ -33,13 +34,15 @@ public class SignupVerificationRepository {
                     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     PRIMARY KEY (request_id),
                     UNIQUE KEY uk_signup_verification_uid (uid),
-                    UNIQUE KEY uk_signup_verification_email (email)
+                    UNIQUE KEY uk_signup_verification_email (email),
+                    INDEX idx_signup_verification_expires (expires_at)
                 )
                 """);
         try {
             jdbcTemplate.execute("ALTER TABLE signup_verification ADD COLUMN nick_type VARCHAR(20) NOT NULL DEFAULT 'variable'");
         } catch (Exception ignored) {
         }
+        ensureIndex("idx_signup_verification_expires", "expires_at");
     }
 
     private boolean isSqliteRuntime() {
@@ -48,6 +51,7 @@ public class SignupVerificationRepository {
     }
 
     public void upsertPendingSignup(String uid, String nick, String email, String passwordHash, String nickType, String code, LocalDateTime expiresAt) {
+        String normalizedEmail = normalizeEmail(email);
         jdbcTemplate.update("""
                 INSERT INTO signup_verification (uid, nick, email, password_hash, nick_type, verification_code, expires_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -59,7 +63,7 @@ public class SignupVerificationRepository {
                     verification_code = VALUES(verification_code),
                     expires_at = VALUES(expires_at),
                     created_at = CURRENT_TIMESTAMP
-                """, uid, nick, email, passwordHash, nickType, code, expiresAt);
+                """, uid, nick, normalizedEmail, passwordHash, nickType, code, expiresAt);
     }
 
     public Map<String, Object> findByUidAndEmail(String uid, String email) {
@@ -68,7 +72,7 @@ public class SignupVerificationRepository {
                     SELECT request_id, uid, nick, email, password_hash, nick_type, verification_code, expires_at
                     FROM signup_verification
                     WHERE uid = ? AND email = ?
-                    """, uid, email);
+                    """, uid, normalizeEmail(email));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -78,7 +82,24 @@ public class SignupVerificationRepository {
         jdbcTemplate.update("DELETE FROM signup_verification WHERE uid = ?", uid);
     }
 
-    public void deleteExpired() {
-        jdbcTemplate.update("DELETE FROM signup_verification WHERE expires_at < NOW()");
+    public int deleteExpired() {
+        return jdbcTemplate.update("DELETE FROM signup_verification WHERE expires_at < ?", LocalDateTime.now());
+    }
+
+    private void ensureIndex(String indexName, String columns) {
+        Integer count = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM information_schema.statistics
+                WHERE table_schema = DATABASE()
+                  AND table_name = 'signup_verification'
+                  AND index_name = ?
+                """, Integer.class, indexName);
+        if (count == null || count == 0) {
+            jdbcTemplate.execute("ALTER TABLE signup_verification ADD INDEX " + indexName + " (" + columns + ")");
+        }
+    }
+
+    private String normalizeEmail(String email) {
+        return email == null ? null : email.trim().toLowerCase(Locale.ROOT);
     }
 }

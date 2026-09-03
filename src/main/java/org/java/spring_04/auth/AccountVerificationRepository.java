@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.DatabaseMetaData;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Map;
 
 @Repository
@@ -48,9 +49,12 @@ public class AccountVerificationRepository {
                     expires_at DATETIME NOT NULL,
                     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     PRIMARY KEY (request_id),
-                    INDEX idx_account_verification_lookup (email, action_type, created_at)
+                    INDEX idx_account_verification_lookup (email, action_type, created_at),
+                    INDEX idx_account_verification_expires (expires_at)
                 )
                 """);
+        ensureIndex("idx_account_verification_lookup", "email, action_type, created_at");
+        ensureIndex("idx_account_verification_expires", "expires_at");
         try {
             jdbcTemplate.execute("ALTER TABLE account_verification MODIFY verification_code VARCHAR(255) NOT NULL");
         } catch (Exception ignored) {
@@ -74,12 +78,13 @@ public class AccountVerificationRepository {
                         String passwordHash,
                         String verificationCodeHash,
                         LocalDateTime expiresAt) {
-        deleteByEmailAndAction(email, actionType);
+        String normalizedEmail = normalizeEmail(email);
+        deleteByEmailAndAction(normalizedEmail, actionType);
         jdbcTemplate.update("""
                 INSERT INTO account_verification (
                     uid, email, action_type, password_hash, verification_code, expires_at
                 ) VALUES (?, ?, ?, ?, ?, ?)
-                """, uid, email, actionType, passwordHash, verificationCodeHash, expiresAt);
+                """, uid, normalizedEmail, actionType, passwordHash, verificationCodeHash, expiresAt);
     }
 
     public Map<String, Object> findLatest(String email, String actionType) {
@@ -87,10 +92,10 @@ public class AccountVerificationRepository {
             return jdbcTemplate.queryForMap("""
                     SELECT request_id, uid, email, action_type, password_hash, verification_code, expires_at
                     FROM account_verification
-                    WHERE LOWER(email) = LOWER(?) AND action_type = ?
+                    WHERE email = ? AND action_type = ?
                     ORDER BY created_at DESC, request_id DESC
                     LIMIT 1
-                    """, email, actionType);
+                    """, normalizeEmail(email), actionType);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -102,13 +107,30 @@ public class AccountVerificationRepository {
 
     public void deleteByEmailAndAction(String email, String actionType) {
         jdbcTemplate.update(
-                "DELETE FROM account_verification WHERE LOWER(email) = LOWER(?) AND action_type = ?",
-                email,
+                "DELETE FROM account_verification WHERE email = ? AND action_type = ?",
+                normalizeEmail(email),
                 actionType
         );
     }
 
-    public void deleteExpired() {
-        jdbcTemplate.update("DELETE FROM account_verification WHERE expires_at < ?", LocalDateTime.now());
+    public int deleteExpired() {
+        return jdbcTemplate.update("DELETE FROM account_verification WHERE expires_at < ?", LocalDateTime.now());
+    }
+
+    private void ensureIndex(String indexName, String columns) {
+        Integer count = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM information_schema.statistics
+                WHERE table_schema = DATABASE()
+                  AND table_name = 'account_verification'
+                  AND index_name = ?
+                """, Integer.class, indexName);
+        if (count == null || count == 0) {
+            jdbcTemplate.execute("ALTER TABLE account_verification ADD INDEX " + indexName + " (" + columns + ")");
+        }
+    }
+
+    private String normalizeEmail(String email) {
+        return email == null ? null : email.trim().toLowerCase(Locale.ROOT);
     }
 }

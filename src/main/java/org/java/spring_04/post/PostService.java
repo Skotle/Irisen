@@ -67,6 +67,9 @@ public class PostService {
         if (!columnExists("comment", "sort_key")) {
             jdbcTemplate.execute("ALTER TABLE comment ADD COLUMN sort_key VARCHAR(255) NULL");
         }
+        if (!indexExists("comment", "idx_comment_parent_active")) {
+            jdbcTemplate.execute("ALTER TABLE comment ADD INDEX idx_comment_parent_active (parent_id, is_deleted)");
+        }
         jdbcTemplate.execute("""
                 CREATE TABLE IF NOT EXISTS post_vote (
                     id BIGINT NOT NULL AUTO_INCREMENT,
@@ -237,9 +240,9 @@ public class PostService {
                 LEFT JOIN user author ON author.uid = p.writer_uid
                 WHERE p.gall_id = ?
                   AND p.is_deleted = 0
-                  AND COALESCE(p.is_draft, 0) = 0
-                  AND COALESCE(p.is_secret, 0) = 0
-                  AND COALESCE(p.review_status, 'normal') <> 'review'
+                  AND p.is_draft = 0
+                  AND p.is_secret = 0
+                  AND p.review_status <> 'review'
                 ORDER BY COALESCE(p.is_notice, 0) DESC, p.pinned_at DESC, COALESCE(p.bumped_at, p.writed_at) DESC, p.writed_at DESC, p.id DESC, p.post_no DESC
                 LIMIT 20
                 """;
@@ -284,9 +287,9 @@ public class PostService {
                           WHEN LOWER(COALESCE(gs.read_visibility, 'inherit')) = 'inherit' THEN gs.visibility
                           ELSE gs.read_visibility
                       END, 'public')) = 'public'
-                  AND COALESCE(p.is_draft, 0) = 0
-                  AND COALESCE(p.is_secret, 0) = 0
-                  AND COALESCE(p.review_status, 'normal') <> 'review'
+                  AND p.is_draft = 0
+                  AND p.is_secret = 0
+                  AND p.review_status <> 'review'
                 ORDER BY p.recommend_count DESC, p.view_count DESC, p.id DESC
                 LIMIT 5
                 """;
