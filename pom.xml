@@ -29,6 +29,7 @@
     <properties>
         <java.version>23</java.version>
         <kotlin.version>2.2.20</kotlin.version>
+        <irisen.build.name>${project.artifactId}-${project.version}</irisen.build.name>
     </properties>
     <dependencies>
         <!-- Spring Web -->
@@ -105,6 +106,7 @@
     </dependencies>
 
     <build>
+        <finalName>${irisen.build.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

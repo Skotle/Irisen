@@ -38,8 +38,17 @@ public class DatabaseConfig {
     @Value("${spring.datasource.driver-class-name:}")
     private String datasourceDriverClassName;
 
+    @Value("${app.sqlite.memory:false}")
+    private boolean memoryMode;
+
+    @Value("${APP_SQLITE_EXPORT_PATH:}")
+    private String exportPath;
+
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws Exception {
+        if (memoryMode) {
+            return new MemorySqliteDataSource(datasourceUrl, exportPath);
+        }
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         String configuredUrl = normalizeDatasourceUrl(datasourceUrl);
         if (configuredUrl.isEmpty()) {

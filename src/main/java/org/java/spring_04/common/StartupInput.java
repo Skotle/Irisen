@@ -36,6 +36,12 @@ public final class StartupInput {
                 System.getenv("APP_DB_MODE"),
                 System.getProperty("APP_DB_MODE")
         ).trim().toLowerCase();
+        if ("sqlite-memory".equals(dbMode)) {
+            System.setProperty("app.sqlite.path", "file:irisen-" + java.util.UUID.randomUUID() + "?mode=memory&cache=shared");
+            System.setProperty("app.sqlite.memory", "true");
+            applySqliteRuntime();
+            return;
+        }
         if ("sqlite".equals(dbMode)) {
             applySqliteRuntime();
             return;
