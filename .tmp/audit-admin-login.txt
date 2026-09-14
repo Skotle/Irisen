@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Irisen</title>
+    <link rel="stylesheet" href="/css/app.css"/>
+</head>
+<body>
+<section class="crawler-snapshot"
+         aria-label="crawler loaded data"
+         style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;">
+    <h1>irisen</h1>
+    <nav aria-label="crawler boards">
+        
+    </nav>
+    <section aria-label="crawler recommended posts">
+        
+    </section>
+</section>
+<div id="app"></div>
+<script src="/js/security-request.js"></script>
+<script src="/webjars/react/18.2.0/umd/react.production.min.js"></script>
+<script src="/webjars/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="/js/app-react.js"></script>
+<script src="/js/address.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+/* A shared, opt-out interaction layer. Layout and application transforms stay intact. */
+:root {
+  --chaos-pink: #fa1687;
+  --chaos-cyan: #00cde0;
+  --chaos-ink: #33215b;
+  --chaos-spring: cubic-bezier(.2, 1.6, .4, 1);
+}
+
+html[data-irisen-fx="on"] :where(button, a[href], summary, [role="button"], input, select, textarea, [contenteditable="true"]) {
+  transition: box-shadow 180ms ease, text-shadow 180ms ease, outline-color 180ms ease,
+    translate 250ms var(--chaos-spring), rotate 250ms var(--chaos-spring), scale 250ms var(--chaos-spring);
+}
+
+html[data-irisen-fx="on"] :where(button, a[href], summary, [role="button"]):not(:disabled):not([aria-disabled="true"]):focus-visible {
+  outline: 3px dashed var(--chaos-ink);
+  outline-offset: 5px;
+  box-shadow: -4px 3px 0 var(--chaos-cyan), 4px -3px 0 var(--chaos-pink);
+  text-shadow: -1px 0 var(--chaos-cyan), 1px 0 var(--chaos-pink);
+}
+
+html[data-irisen-fx="on"] :where(input:not([type="checkbox"]):not([type="radio"]), textarea, select, [contenteditable="true"]):focus {
+  outline: 2px solid var(--chaos-ink);
+  outline-offset: 3px;
+  box-shadow: -5px 0 0 #00cde044, 5px 0 0 #fa168744, 0 8px 22px #fa16871c;
+}
+
+html[data-irisen-fx="on"] :where(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--chaos-pink);
+}
+
+html[data-irisen-fx="on"] :where(input[type="checkbox"], input[type="radio"]):checked {
+  box-shadow: 0 0 0 3px #00cde044, 0 0 0 6px #fa168722;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html[data-irisen-fx="on"] :where(button, a[href], summary, [role="button"]):not(:disabled):not([aria-disabled="true"]):not(.chaos-switch):hover {
+    text-shadow: -1.5px 0 var(--chaos-cyan), 1.5px 0 var(--chaos-pink);
+    box-shadow: -3px 3px 0 #00cde088, 3px -3px 0 #fa168777;
+    outline: 1px solid #fa168744;
+    outline-offset: 3px;
+  }
+
+  html[data-irisen-fx="on"] :where(button, summary, [role="button"], .btn, .m-btn):not(:disabled):not([aria-disabled="true"]):not(.chaos-switch):hover {
+    translate: 0 -3px;
+    rotate: -1.5deg;
+    scale: 1.035;
+  }
+
+  html[data-irisen-fx="on"] :where(.feed-card, .quick-card, .board-card, .mini-link-card, .m-compact-post, .board-directory-entry):hover {
+    box-shadow: -5px 5px 0 #00cde066, 5px -5px 0 #fa168755, 0 14px 28px #33215b18;
+  }
+}
+
+html[data-irisen-fx="on"] :where(button, summary, [role="button"], .btn, .m-btn):not(:disabled):not([aria-disabled="true"]):active {
+  scale: .93 1.08;
+}
+
+.chaos-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.chaos-layer *, .chaos-layer *::before, .chaos-layer *::after {
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.chaos-particle {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--particle-color, var(--chaos-pink));
+  box-shadow: 2px 2px 0 var(--chaos-ink);
+}
+
+.chaos-particle:nth-child(3n) {
+  width: 5px;
+  height: 17px;
+}
+
+.chaos-ring {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  margin: -21px;
+  border: 2px solid var(--chaos-pink);
+  border-radius: 50%;
+  box-shadow: 4px 0 0 var(--chaos-cyan), -4px 0 0 #ffe659;
+}
+
+.chaos-comet {
+  position: absolute;
+  width: 18px;
+  height: 3px;
+  background: var(--chaos-cyan);
+  box-shadow: 0 4px 0 var(--chaos-pink);
+}
+
+.chaos-route-streak {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 42vw;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--chaos-cyan), #ffe659, var(--chaos-pink));
+  box-shadow: 0 5px 0 #fa168744;
+}
+
+.chaos-switch {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 13px;
+  border: 1px solid #fff9;
+  border-radius: 4px;
+  background: #251838;
+  color: #fff;
+  font: 700 11px/1.4 "Consolas", "Malgun Gothic", monospace;
+  letter-spacing: .06em;
+  cursor: pointer;
+  box-shadow: -3px 3px 0 var(--chaos-cyan), 3px -3px 0 var(--chaos-pink);
+}
+
+.chaos-switch::before {
+  content: "✦";
+  color: #ffe659;
+  font-size: 16px;
+}
+
+.chaos-switch[aria-pressed="false"] {
+  box-shadow: none;
+  opacity: .85;
+}
+
+.chaos-switch:focus-visible {
+  outline: 3px solid #00cde0;
+  outline-offset: 5px;
+}
+
+html:not([data-irisen-fx="on"]) .chaos-layer {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .chaos-switch {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(78px + env(safe-area-inset-bottom));
+    padding: 7px 10px;
+    min-height: 36px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chaos-layer { display: none; }
+  html[data-irisen-fx] :where(button, a[href], summary, [role="button"], input, select, textarea, [contenteditable="true"]) {
+    transition: none;
+  }
+}
+
+@media print {
+  .chaos-layer, .chaos-switch { display: none !important; }
+}

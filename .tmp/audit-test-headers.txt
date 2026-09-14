@@ -1,0 +1,19 @@
+HTTP/1.1 401 
+Server: nginx
+Date: Mon, 14 Sep 2026 00:48:52 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 0
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Resource-Policy: same-origin
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+Content-Security-Policy: default-src 'self'; connect-src 'self'; img-src 'self' data: https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'nonce-kZ7mzmeFmxt7XuveBF9d0L7V'; frame-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'
+Set-Cookie: JSESSIONID=AD3D59E8AAFF17FE3DB5DEDC1DAB85EB; Path=/; Secure; HttpOnly; SameSite=Strict
+
